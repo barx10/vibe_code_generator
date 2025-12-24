@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="no">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VibeCoding Idea Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <div class="brand">
+                <div class="logo-title">
+                    <div class="logo-icon">✨</div>
+                    <h1>Vibe Code Builder</h1>
+                </div>
+                <p id="subTitle">Fra idé til startklar kode på sekunder</p>
+            </div>
+            <div class="topbar">
+                <span class="pill" id="langPill">
+                    <span class="mono">NO</span>
+                    <button id="toggleLang" type="button">Bytt</button>
+                </span>
+                <span class="pill">
+                    <span class="mono">API</span>
+                    <span id="apiState" class="status-badge error">ikke konfigurert</span>
+                </span>
+            </div>
+        </header>
+
+        <div class="tabs" role="tablist">
+            <button class="tab" id="tabGen" role="tab" aria-selected="true" aria-controls="panelGen">Generator</button>
+            <button class="tab" id="tabHelp" role="tab" aria-selected="false" aria-controls="panelHelp">Hjelp</button>
+        </div>
+
+        <section id="panelGen" role="tabpanel" aria-labelledby="tabGen">
+            <div class="grid">
+
+                <div class="card">
+                    <h2 id="tForm">Prosjekt</h2>
+
+                    <div class="row">
+                        <div>
+                            <label id="lType" for="appType">Type</label>
+                            <select id="appType">
+                                <option value="webapp">Webapp</option>
+                                <option value="pwa">PWA</option>
+                                <option value="api">API</option>
+                                <option value="cli">CLI</option>
+                                <option value="extension">Browser extension</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label id="lLevel" for="complexity">Kompleksitet</label>
+                            <select id="complexity">
+                                <option value="simple">Enkel</option>
+                                <option value="medium">Middels</option>
+                                <option value="large">Stor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <label id="lName" for="projectName">Prosjektnavn</label>
+                    <input id="projectName" placeholder="f.eks. leselogg, secscan mini, timeplan" />
+
+                    <label id="lGoal" for="goal">Hva skal den gjøre</label>
+                    <textarea id="goal" placeholder="Beskriv funksjoner og brukerflyt. Skriv konkret."></textarea>
+
+                    <div class="row">
+                        <div>
+                            <label id="lUsers" for="users">Målgruppe</label>
+                            <input id="users" placeholder="f.eks. lærere, elever, privatbruk" />
+                        </div>
+                        <div>
+                            <label id="lData" for="data">Data og lagring</label>
+                            <input id="data" placeholder="f.eks. kun localStorage, ingen persondata" />
+                        </div>
+                    </div>
+
+                    <label id="lConstraints" for="constraints">Begrensninger</label>
+                    <input id="constraints" placeholder="f.eks. ingen backend, offline first, ingen innlogging" />
+
+                    <label id="lStack" for="stack">Teknologi du vil bruke</label>
+                    <input id="stack" placeholder="f.eks. ren HTML, React, Vite, Python FastAPI" />
+
+                    <div class="row">
+                        <div>
+                            <label id="lLang" for="outputLang">Output språk</label>
+                            <select id="outputLang">
+                                <option value="no">Norsk</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label id="lFiles" for="fileMode">Output type</label>
+                            <select id="fileMode">
+                                <option value="single">Kun index.html</option>
+                                <option value="multi">Flere filer</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr style="border:none;border-top:1px solid var(--line);margin:14px 0" />
+
+                    <h2 id="tApi">Modell</h2>
+
+                    <div class="row">
+                        <div>
+                            <label id="lEndpoint" for="endpoint">API endpoint</label>
+                            <input id="endpoint" value="https://api.openai.com/v1/chat/completions" />
+                            <div class="hint" id="hEndpoint">Du kan endre til annen leverandør hvis du vil</div>
+                        </div>
+                        <div>
+                            <label id="lModel" for="model">Modellnavn</label>
+                            <input id="model" value="gpt-4o-mini" />
+                        </div>
+                    </div>
+
+                    <label id="lKey" for="apiKey">API key</label>
+                    <input id="apiKey" type="password" placeholder="Lagres ikke i output" />
+
+                    <div class="row">
+                        <div>
+                            <label id="lRemember">Lagring</label>
+                            <select id="rememberKey">
+                                <option value="no">Ikke lagre</option>
+                                <option value="local">Lagre lokalt i nettleser</option>
+                            </select>
+                            <div class="hint" id="hRemember">Lagring skjer i localStorage på denne maskinen</div>
+                        </div>
+                        <div>
+                            <label id="lTemp" for="temperature">Temperatur</label>
+                            <select id="temperature">
+                                <option value="0.2">0.2</option>
+                                <option value="0.5" selected>0.5</option>
+                                <option value="0.8">0.8</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="btns">
+                        <button class="primary" id="btnGenerate" type="button">Generer</button>
+                        <button id="btnCopy" type="button" disabled>Kopier output</button>
+                        <button id="btnDownload" type="button" disabled>Last ned index.html</button>
+                        <button class="danger" id="btnClear" type="button">Nullstill</button>
+                    </div>
+
+                    <div class="status" id="statusLine">
+                        <span class="dot" id="statusDot"></span>
+                        <span id="statusText">klar</span>
+                    </div>
+
+                    <div class="footerNote" id="noteKey">Tips: legg aldri API key i generert kode</div>
+                </div>
+
+                <div class="card">
+                    <div class="split">
+                        <h2 id="tOut">Output</h2>
+                        <span class="tag" id="outMeta">ingen</span>
+                    </div>
+                    <pre class="mono" id="output" aria-label="output"></pre>
+                    <div class="btns" style="margin-top:12px">
+                        <button id="btnPreview" type="button" disabled>Preview</button>
+                        <button id="btnShowFiles" type="button" disabled>Vis filforslag</button>
+                    </div>
+                    <div class="hint" id="hOut">Appen prøver å parse JSON, ellers vises rå tekst</div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="panelHelp" role="tabpanel" aria-labelledby="tabHelp" class="hidden">
+            <div class="card">
+                <h2>Oppsett</h2>
+                <div class="kvs">
+                    <div class="small">1. Lag mappe</div>
+                    <div class="mono">mkdir prosjekt && cd prosjekt</div>
+                    <div class="small">2. Lim inn output</div>
+                    <div>Lag <span class="mono">index.html</span> og lim inn generert innhold</div>
+                    <div class="small">3. Kjør lokalt</div>
+                    <div>Åpne <span class="mono">index.html</span> i nettleser, eller bruk en enkel server</div>
+                    <div class="small">4. Git init</div>
+                    <div class="mono">git init && git add . && git commit -m "init"</div>
+                    <div class="small">5. GitHub repo</div>
+                    <div>Opprett repo på GitHub, legg til remote, push</div>
+                    <div class="small">6. Deploy statisk</div>
+                    <div>GitHub Pages, Netlify eller Vercel for statiske prosjekter</div>
+                </div>
+
+                <h2 style="margin-top:18px">VS Code</h2>
+                <ul style="margin:8px 0 0;color:var(--muted)">
+                    <li>Installer Live Server extension for enkel preview</li>
+                    <li>Bruk Prettier for formattering</li>
+                    <li>Legg til <span class="mono">.env.example</span> hvis du trenger miljøvariabler</li>
+                </ul>
+
+                <h2 style="margin-top:18px">GitHub Actions forslag</h2>
+                <p class="small">For statiske prosjekter: lint + deploy Pages. For andre: test og deploy til valgt
+                    plattform.</p>
+
+                <h2 style="margin-top:18px">Sikkerhet</h2>
+                <ul style="margin:8px 0 0;color:var(--muted)">
+                    <li>Aldri commit nøkler</li>
+                    <li>Legg til <span class="mono">.env</span> i <span class="mono">.gitignore</span></li>
+                    <li>Bruk secret scanning</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
