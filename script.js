@@ -21,14 +21,16 @@ const endpoints = {
 };
 
 const modelConfig = {
-    // OpenAI Futuristic (Fallback to OpenRouter or hypothetical standard)
+    // OpenAI Models
+    'gpt-4o': 'https://api.openai.com/v1/chat/completions',
+    'o1-preview': 'https://api.openai.com/v1/chat/completions',
+    'o1-mini': 'https://api.openai.com/v1/chat/completions',
     'gpt-5': 'https://openrouter.ai/api/v1/chat/completions',
     'gpt-5-mini': 'https://openrouter.ai/api/v1/chat/completions',
     'gpt-5.1-codex-max': 'https://openrouter.ai/api/v1/chat/completions',
     'gpt-4.1': 'https://openrouter.ai/api/v1/chat/completions',
-    'gpt-4o': 'https://api.openai.com/v1/chat/completions',
 
-    // Anthropic Futuristic
+    // Anthropic Models
     'claude-sonnet-4.5': 'https://openrouter.ai/api/v1/chat/completions',
     'claude-opus-4.5': 'https://openrouter.ai/api/v1/chat/completions',
 
@@ -48,6 +50,7 @@ const modelConfig = {
     'grok-code-fast-1': 'https://openrouter.ai/api/v1/chat/completions',
     'raptor-mini-preview': 'https://openrouter.ai/api/v1/chat/completions',
 
+    // Local
     'local-model': 'http://localhost:1234/v1/chat/completions'
 };
 
@@ -395,17 +398,42 @@ async function callModel() {
     const apiKey = $('apiKey').value.trim();
     const temp = Number($('temperature').value);
 
+    // Provider‑key validation – give a clear warning before sending request
+    if (apiKey) {
+        let expectedPrefix = '';
+        if (endpoint.includes('openai.com')) {
+            expectedPrefix = 'sk-';
+        } else if (endpoint.includes('openrouter.ai')) {
+            expectedPrefix = 'or-';
+        } else if (endpoint.includes('generativelanguage.googleapis.com')) {
+            expectedPrefix = 'AIza';
+        }
+        if (expectedPrefix && !apiKey.startsWith(expectedPrefix)) {
+            const warnMsg = state.uiLang === 'no'
+                ? `API‑nøkkel ser ikke ut til å passe til valgt leverandør (forventet prefiks ${expectedPrefix}).`
+                : `API key does not appear to match the selected provider (expected prefix ${expectedPrefix}).`;
+            setStatus('warn', warnMsg);
+            $('apiKey').focus();
+            return;
+        }
+        // Update hint with expected prefix (if any)
+        if (expectedPrefix) {
+            $('keyHint').textContent = `Expected prefix: ${expectedPrefix}`;
+        } else {
+            $('keyHint').textContent = '';
+        }
+    }
+
     if (!apiKey) {
         setStatus('warn', t.statusNeedKey);
         $('apiKey').focus();
         return;
     }
+    enableOutputActions(false);
 
-    const { sys, user } = buildPrompt();
-
+    // Show calling status and disable generate button
     setStatus('', t.statusCalling);
     $('btnGenerate').disabled = true;
-    enableOutputActions(false);
 
     try {
         const res = await fetch(endpoint, {
@@ -440,7 +468,16 @@ async function callModel() {
             } else if (res.status === 404) {
                 msg = state.uiLang === 'no' ? 'Modell ikke funnet (sjekk navn)' : 'Model not found (check name)';
             } else if (res.status === 401) {
-                msg = state.uiLang === 'no' ? 'Ugyldig API key' : 'Invalid API key';
+                // Provider‑specific guidance for invalid key
+                if (endpoint.includes('openai.com')) {
+                    msg = state.uiLang === 'no' ? 'Ugyldig OpenAI‑API‑key – sjekk at du bruker en gyldig OpenAI‑nøkkel.' : 'Invalid OpenAI API key – verify you are using a valid OpenAI key.';
+                } else if (endpoint.includes('openrouter.ai')) {
+                    msg = state.uiLang === 'no' ? 'Ugyldig OpenRouter‑API‑key – sjekk at du bruker en gyldig OpenRouter‑nøkkel.' : 'Invalid OpenRouter API key – verify you are using a valid OpenRouter key.';
+                } else if (endpoint.includes('generativelanguage.googleapis.com')) {
+                    msg = state.uiLang === 'no' ? 'Ugyldig Google‑API‑key – sjekk at du bruker en gyldig Google‑nøkkel.' : 'Invalid Google API key – verify you are using a valid Google key.';
+                } else {
+                    msg = state.uiLang === 'no' ? 'Ugyldig API‑key' : 'Invalid API key';
+                }
             } else if (res.status === 503 || res.status === 500) {
                 msg = state.uiLang === 'no' ? 'Serverfeil (prøv igjen)' : 'Server error (try again)';
             }
