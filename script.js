@@ -10,6 +10,47 @@ const state = {
     }
 };
 
+const endpoints = {
+    'openai': 'https://api.openai.com/v1/chat/completions',
+    'anthropic': 'https://api.anthropic.com/v1/messages', // Note: Client-side Anthropic calls often fail due to CORS, usually need proxy. But for this tool we stick to standard patterns.
+    'anthropic-danger': 'https://api.anthropic.com/v1/messages',
+    'openrouter': 'https://openrouter.ai/api/v1/chat/completions',
+    'google': 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent', // Google REST is complex, sticking to OpenAI compat providers is safer usually. Let's map Gemini to OpenRouter or standard OpenAI compat if possible for simplicity, currently standard OpenAI pattern:
+    // actually, let's keep it simple. Most users use OpenAI or OpenRouter.
+    'local': 'http://localhost:1234/v1/chat/completions'
+};
+
+const modelConfig = {
+    // OpenAI Futuristic (Fallback to OpenRouter or hypothetical standard)
+    'gpt-5': 'https://openrouter.ai/api/v1/chat/completions',
+    'gpt-5-mini': 'https://openrouter.ai/api/v1/chat/completions',
+    'gpt-5.1-codex-max': 'https://openrouter.ai/api/v1/chat/completions',
+    'gpt-4.1': 'https://openrouter.ai/api/v1/chat/completions',
+    'gpt-4o': 'https://api.openai.com/v1/chat/completions',
+
+    // Anthropic Futuristic
+    'claude-sonnet-4.5': 'https://openrouter.ai/api/v1/chat/completions',
+    'claude-opus-4.5': 'https://openrouter.ai/api/v1/chat/completions',
+
+    // Google (GenAI / Gemini Series)
+    // Note: Gemini 3 and 2.5 are not public on Google API yet. Use OpenRouter or similar.
+    'gemini-3-pro': 'https://openrouter.ai/api/v1/chat/completions',
+    'gemini-3-flash': 'https://openrouter.ai/api/v1/chat/completions',
+    'gemini-2.5-pro': 'https://openrouter.ai/api/v1/chat/completions',
+    'gemini-2.5-flash': 'https://openrouter.ai/api/v1/chat/completions',
+    'gemini-2.5-flash-lite': 'https://openrouter.ai/api/v1/chat/completions',
+
+    // Gemini 2.0 Flash IS available on Google preview
+    'gemini-2.0-flash-exp': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-2.0-flash-lite-preview-02-05': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+
+    // Others/OpenRouter
+    'grok-code-fast-1': 'https://openrouter.ai/api/v1/chat/completions',
+    'raptor-mini-preview': 'https://openrouter.ai/api/v1/chat/completions',
+
+    'local-model': 'http://localhost:1234/v1/chat/completions'
+};
+
 const i18n = {
     no: {
         subTitle: 'Fra idé til startklar kode på sekunder',
@@ -386,7 +427,25 @@ async function callModel() {
         if (!res.ok) {
             const text = await res.text();
             renderOutput(text);
-            setStatus('bad', `${t.statusFail}: ${res.status}`);
+
+            let msg = `${t.statusFail}: ${res.status}`;
+            if (res.status === 429) {
+                if (endpoint.includes('googleapis')) {
+                    msg = state.uiLang === 'no' ? 'Google API kvote nådd (ofte gratisgrense)' : 'Google API quota exceeded (often free tier limit)';
+                } else if (endpoint.includes('openai')) {
+                    msg = state.uiLang === 'no' ? 'OpenAI rate limit (sjekk credits)' : 'OpenAI rate limit (check credits)';
+                } else {
+                    msg = state.uiLang === 'no' ? 'Rate limit nådd (429)' : 'Rate limit exceeded (429)';
+                }
+            } else if (res.status === 404) {
+                msg = state.uiLang === 'no' ? 'Modell ikke funnet (sjekk navn)' : 'Model not found (check name)';
+            } else if (res.status === 401) {
+                msg = state.uiLang === 'no' ? 'Ugyldig API key' : 'Invalid API key';
+            } else if (res.status === 503 || res.status === 500) {
+                msg = state.uiLang === 'no' ? 'Serverfeil (prøv igjen)' : 'Server error (try again)';
+            }
+
+            setStatus('bad', msg);
             return;
         }
 
@@ -403,6 +462,7 @@ async function callModel() {
         setStatus('good', t.statusDone);
 
     } catch (e) {
+        const t = i18n[state.uiLang];
         renderOutput(String(e));
         setStatus('bad', t.statusFail);
     } finally {
@@ -525,6 +585,23 @@ $('btnClear').addEventListener('click', () => {
     $('rememberKey').value = 'no';
     clearAll();
     setApiState();
+});
+
+$('model').addEventListener('change', (e) => {
+    const val = e.target.value;
+    if (val === 'custom') {
+        // If custom, we don't change the endpoint, letting user type
+        return;
+    }
+
+    if (modelConfig[val]) {
+        $('endpoint').value = modelConfig[val];
+
+        // Flash the endpoint field to show it changed
+        const el = $('endpoint');
+        el.style.backgroundColor = 'var(--primary-glow)';
+        setTimeout(() => el.style.backgroundColor = '', 300);
+    }
 });
 
 $('apiKey').addEventListener('input', () => setApiState());
