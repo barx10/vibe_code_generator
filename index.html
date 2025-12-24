@@ -124,10 +124,6 @@
                             <label id="lUsers" for="users">Målgruppe</label>
                             <input id="users" placeholder="f.eks. lærere, elever, privatbruk" />
                         </div>
-                        <div>
-                            <label id="lData" for="data">Data og lagring</label>
-                            <input id="data" placeholder="f.eks. kun localStorage, ingen persondata" />
-                        </div>
                     </div>
 
                     <label id="lConstraints">⚙️ Krav til appen</label>
@@ -231,6 +227,15 @@
                     <label id="lKey" for="apiKey">API key</label>
                     <input id="apiKey" type="password" placeholder="Lagres ikke i output" />
                     <div id="keyHint" class="hint"></div>
+                    
+                    <!-- Security info box -->
+                    <div class="security-box" id="securityBox">
+                        <span class="security-icon">🔒</span>
+                        <div class="security-text">
+                            <strong id="securityTitle">Din nøkkel er trygg</strong>
+                            <p id="securityDesc">API-nøkkelen sendes direkte fra din nettleser til valgt leverandør. Den lagres aldri på våre servere – alt skjer lokalt hos deg.</p>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div>
@@ -408,19 +413,60 @@
 
                 <div class="help-section help-advanced">
                     <h3 id="helpAdvancedTitle">🔧 For viderekomne</h3>
-                    <p id="helpAdvancedDesc">Vil du lære mer? Her er noen tips:</p>
-                    <ul>
-                        <li><span id="advTip1">Installer</span> <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> <span id="advTip1b">for bedre kodeeditoring</span></li>
-                        <li><span id="advTip2">Bruk "Flere filer" output for større prosjekter</span></li>
-                        <li><span id="advTip3">Prøv</span> <a href="https://react.dev/" target="_blank">React</a>, <a href="https://vuejs.org/" target="_blank">Vue</a> <span id="advTip3b">eller</span> <a href="https://svelte.dev/" target="_blank">Svelte</a> <span id="advTip3c">når du er klar</span></li>
-                        <li><span id="advTip4">Lær</span> <a href="https://docs.github.com/en/get-started/start-your-journey/hello-world" target="_blank">Git & GitHub</a> <span id="advTip4b">for å lagre versjoner</span></li>
-                        <li><span id="advTip5">Deploy gratis med</span> <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>, <a href="https://vercel.com/" target="_blank">Vercel</a> <span id="advTip5b">eller</span> <a href="https://www.netlify.com/" target="_blank">Netlify</a></li>
-                        <li><span id="advTip6">Lær grunnleggende</span> <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML" target="_blank">HTML</a>, <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS" target="_blank">CSS</a> <span id="advTip6b">og</span> <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript" target="_blank">JavaScript</a></li>
-                    </ul>
+                    <p id="helpAdvancedDesc">Vil du lære mer? Klikk på verktøyene for å lese mer:</p>
+                    <div class="tool-grid">
+                        <button class="tool-card" data-tool="vscode">
+                            <span class="tool-icon">💻</span>
+                            <span class="tool-name">VS Code</span>
+                            <span class="tool-desc">Kodeeditor</span>
+                        </button>
+                        <button class="tool-card" data-tool="react">
+                            <span class="tool-icon">⚛️</span>
+                            <span class="tool-name">React</span>
+                            <span class="tool-desc">UI-rammeverk</span>
+                        </button>
+                        <button class="tool-card" data-tool="vue">
+                            <span class="tool-icon">💚</span>
+                            <span class="tool-name">Vue</span>
+                            <span class="tool-desc">Progressivt rammeverk</span>
+                        </button>
+                        <button class="tool-card" data-tool="git">
+                            <span class="tool-icon">📦</span>
+                            <span class="tool-name">Git & GitHub</span>
+                            <span class="tool-desc">Versjonskontroll</span>
+                        </button>
+                        <button class="tool-card" data-tool="deploy">
+                            <span class="tool-icon">🚀</span>
+                            <span class="tool-name">Deploy</span>
+                            <span class="tool-desc">Publiser gratis</span>
+                        </button>
+                        <button class="tool-card" data-tool="basics">
+                            <span class="tool-icon">📚</span>
+                            <span class="tool-name">Grunnleggende</span>
+                            <span class="tool-desc">HTML/CSS/JS</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
 
+    </div>
+    
+    <!-- Tool Info Modal -->
+    <div class="tool-modal-overlay hidden" id="toolModal">
+        <div class="tool-modal">
+            <div class="tool-modal-header">
+                <span class="tool-modal-icon" id="toolModalIcon">💻</span>
+                <h3 id="toolModalTitle">VS Code</h3>
+                <button class="preview-btn preview-close" id="toolModalClose">✕</button>
+            </div>
+            <div class="tool-modal-body" id="toolModalBody">
+                <!-- Content injected by JS -->
+            </div>
+            <div class="tool-modal-footer">
+                <a href="#" target="_blank" class="tool-modal-link" id="toolModalLink">Gå til nettside →</a>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

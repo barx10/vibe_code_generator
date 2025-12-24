@@ -93,6 +93,8 @@ const i18n = {
         preview: '👁️ Preview',
         showFiles: '📂 Vis alle filer',
         noteKey: 'Tips: legg aldri API key i generert kode',
+        securityTitle: 'Din nøkkel er trygg',
+        securityDesc: 'API-nøkkelen sendes direkte fra din nettleser til valgt leverandør. Den lagres aldri på våre servere – alt skjer lokalt hos deg.',
         statusReady: 'klar',
         statusNeedKey: 'mangler API key',
         statusCalling: 'kaller modell',
@@ -219,6 +221,8 @@ const i18n = {
         preview: '👁️ Preview',
         showFiles: '📂 Show all files',
         noteKey: 'Tip: never put API keys in generated code',
+        securityTitle: 'Your key is safe',
+        securityDesc: 'Your API key is sent directly from your browser to the selected provider. It is never stored on our servers – everything happens locally on your device.',
         statusReady: 'ready',
         statusNeedKey: 'missing API key',
         statusCalling: 'calling model',
@@ -355,7 +359,6 @@ function applyLang() {
     $('lName').textContent = t.lName;
     $('lGoal').textContent = t.lGoal;
     $('lUsers').textContent = t.lUsers;
-    $('lData').textContent = t.lData;
     $('lConstraints').textContent = t.lConstraints;
     $('lStack').textContent = t.lStack;
     $('lLang').textContent = t.lLang;
@@ -378,6 +381,8 @@ function applyLang() {
     $('btnPreview').textContent = t.preview;
     $('btnShowFiles').textContent = t.showFiles;
     $('noteKey').textContent = t.noteKey;
+    $('securityTitle').textContent = t.securityTitle;
+    $('securityDesc').textContent = t.securityDesc;
     $('langPill').querySelector('.mono').textContent = state.uiLang.toUpperCase();
 
     // Dropdown options
@@ -445,7 +450,6 @@ function applyLang() {
     $('projectName').placeholder = t.phName;
     $('goal').placeholder = t.phGoal;
     $('users').placeholder = t.phUsers;
-    $('data').placeholder = t.phData;
     $('apiKey').placeholder = t.phKey;
 
     // Update help page
@@ -622,7 +626,6 @@ function buildPrompt() {
         project_name: $('projectName').value.trim(),
         goal: $('goal').value.trim(),
         users: $('users').value.trim(),
-        data: $('data').value.trim(),
         constraints: constraints,
         stack: stackValue,
         output_language: outLang,
@@ -1118,7 +1121,6 @@ function clearAll() {
     $('projectName').value = '';
     $('goal').value = '';
     $('users').value = '';
-    $('data').value = '';
     // Uncheck all constraint checkboxes
     document.querySelectorAll('input[name="constraint"]').forEach(cb => cb.checked = false);
     $('stack').value = 'html-css-js';
@@ -1184,6 +1186,277 @@ $('stack').addEventListener('change', (e) => {
         $('stackCustom').focus();
     } else {
         $('stackCustom').classList.add('hidden');
+    }
+});
+
+// Tool info modal data
+const toolInfo = {
+    no: {
+        vscode: {
+            icon: '💻',
+            title: 'VS Code',
+            body: `<p><strong>Visual Studio Code</strong> er en gratis, kraftig kodeeditor fra Microsoft. Den er perfekt for nybegynnere og proffer.</p>
+                   <p><strong>Hvorfor bruke VS Code?</strong></p>
+                   <ul>
+                       <li>🎨 Syntax highlighting gjør koden lettere å lese</li>
+                       <li>🔍 IntelliSense gir deg forslag mens du skriver</li>
+                       <li>🐛 Innebygd debugger for å finne feil</li>
+                       <li>📦 Tusenvis av extensions for ekstra funksjonalitet</li>
+                       <li>🆓 Helt gratis!</li>
+                   </ul>
+                   <p><strong>Kom i gang:</strong> Last ned, åpne mappen med koden din, og begynn å redigere!</p>`,
+            link: 'https://code.visualstudio.com/',
+            linkText: 'Last ned VS Code →'
+        },
+        react: {
+            icon: '⚛️',
+            title: 'React',
+            body: `<p><strong>React</strong> er et JavaScript-bibliotek fra Meta (Facebook) for å bygge brukergrensesnitt.</p>
+                   <p><strong>Når bør du lære React?</strong></p>
+                   <ul>
+                       <li>✅ Når du er komfortabel med HTML, CSS og JavaScript</li>
+                       <li>✅ Når du vil bygge større, mer komplekse apper</li>
+                       <li>✅ Når du trenger gjenbrukbare komponenter</li>
+                   </ul>
+                   <p><strong>Fordeler:</strong></p>
+                   <ul>
+                       <li>🧩 Komponenter gjør koden organisert</li>
+                       <li>⚡ Rask oppdatering av UI</li>
+                       <li>🌍 Enorm community og mange jobber</li>
+                   </ul>`,
+            link: 'https://react.dev/learn',
+            linkText: 'Lær React →'
+        },
+        vue: {
+            icon: '💚',
+            title: 'Vue',
+            body: `<p><strong>Vue</strong> er et progressivt JavaScript-rammeverk som er kjent for å være lett å lære.</p>
+                   <p><strong>Hvorfor Vue?</strong></p>
+                   <ul>
+                       <li>📖 Veldig god dokumentasjon</li>
+                       <li>🎓 Lettere læringskurve enn React</li>
+                       <li>🔧 Kan brukes gradvis – start enkelt, utvid etter behov</li>
+                       <li>📝 Single File Components holder alt samlet</li>
+                   </ul>
+                   <p><strong>Perfekt for:</strong> De som vil ha et mildt steg opp fra vanilla JavaScript.</p>`,
+            link: 'https://vuejs.org/guide/introduction.html',
+            linkText: 'Lær Vue →'
+        },
+        git: {
+            icon: '📦',
+            title: 'Git & GitHub',
+            body: `<p><strong>Git</strong> er et versjonskontrollsystem. <strong>GitHub</strong> er en plattform for å lagre og dele kode.</p>
+                   <p><strong>Hvorfor lære Git?</strong></p>
+                   <ul>
+                       <li>💾 Lagre alle versjoner av koden din</li>
+                       <li>↩️ Gå tilbake til tidligere versjoner hvis noe går galt</li>
+                       <li>👥 Samarbeid med andre utviklere</li>
+                       <li>📁 Backup av all koden din i skyen</li>
+                   </ul>
+                   <p><strong>Grunnleggende kommandoer:</strong></p>
+                   <ul>
+                       <li><code>git init</code> - Start et nytt prosjekt</li>
+                       <li><code>git add .</code> - Legg til endringer</li>
+                       <li><code>git commit -m "melding"</code> - Lagre endringer</li>
+                       <li><code>git push</code> - Last opp til GitHub</li>
+                   </ul>`,
+            link: 'https://docs.github.com/en/get-started',
+            linkText: 'Kom i gang med GitHub →'
+        },
+        deploy: {
+            icon: '🚀',
+            title: 'Deploy / Publisering',
+            body: `<p>Gjør appen din tilgjengelig på internett – helt <strong>gratis</strong>!</p>
+                   <p><strong>Populære alternativer:</strong></p>
+                   <ul>
+                       <li><strong>GitHub Pages</strong> – Perfekt for enkle HTML-sider. Gratis med GitHub-konto.</li>
+                       <li><strong>Vercel</strong> – Best for React, Next.js, Vue. Automatisk deploy fra GitHub.</li>
+                       <li><strong>Netlify</strong> – Veldig brukervennlig, dra-og-slipp støtte.</li>
+                   </ul>
+                   <p><strong>Enkleste metode:</strong></p>
+                   <ol>
+                       <li>Last opp koden til GitHub</li>
+                       <li>Gå til Settings → Pages</li>
+                       <li>Velg "main" branch og lagre</li>
+                       <li>Vent 1-2 minutter – ferdig! 🎉</li>
+                   </ol>`,
+            link: 'https://pages.github.com/',
+            linkText: 'Prøv GitHub Pages →'
+        },
+        basics: {
+            icon: '📚',
+            title: 'HTML, CSS & JavaScript',
+            body: `<p>Grunnmuren i all webutvikling. <strong>Lær disse først!</strong></p>
+                   <p><strong>HTML</strong> – Strukturen</p>
+                   <ul>
+                       <li>Tekst, bilder, lenker, knapper</li>
+                       <li>Som skjelettet til en nettside</li>
+                   </ul>
+                   <p><strong>CSS</strong> – Utseendet</p>
+                   <ul>
+                       <li>Farger, fonter, layout, animasjoner</li>
+                       <li>Gjør siden pen og responsiv</li>
+                   </ul>
+                   <p><strong>JavaScript</strong> – Funksjonaliteten</p>
+                   <ul>
+                       <li>Interaktivitet, logikk, API-kall</li>
+                       <li>Gjør siden "levende"</li>
+                   </ul>
+                   <p><strong>MDN Web Docs</strong> er den beste ressursen – gratis og grundig!</p>`,
+            link: 'https://developer.mozilla.org/en-US/docs/Learn',
+            linkText: 'Start å lære på MDN →'
+        }
+    },
+    en: {
+        vscode: {
+            icon: '💻',
+            title: 'VS Code',
+            body: `<p><strong>Visual Studio Code</strong> is a free, powerful code editor from Microsoft. Perfect for beginners and pros alike.</p>
+                   <p><strong>Why use VS Code?</strong></p>
+                   <ul>
+                       <li>🎨 Syntax highlighting makes code easier to read</li>
+                       <li>🔍 IntelliSense gives you suggestions as you type</li>
+                       <li>🐛 Built-in debugger to find errors</li>
+                       <li>📦 Thousands of extensions for extra functionality</li>
+                       <li>🆓 Completely free!</li>
+                   </ul>
+                   <p><strong>Get started:</strong> Download, open your code folder, and start editing!</p>`,
+            link: 'https://code.visualstudio.com/',
+            linkText: 'Download VS Code →'
+        },
+        react: {
+            icon: '⚛️',
+            title: 'React',
+            body: `<p><strong>React</strong> is a JavaScript library from Meta (Facebook) for building user interfaces.</p>
+                   <p><strong>When should you learn React?</strong></p>
+                   <ul>
+                       <li>✅ When you're comfortable with HTML, CSS and JavaScript</li>
+                       <li>✅ When you want to build larger, more complex apps</li>
+                       <li>✅ When you need reusable components</li>
+                   </ul>
+                   <p><strong>Benefits:</strong></p>
+                   <ul>
+                       <li>🧩 Components keep code organized</li>
+                       <li>⚡ Fast UI updates</li>
+                       <li>🌍 Huge community and many job opportunities</li>
+                   </ul>`,
+            link: 'https://react.dev/learn',
+            linkText: 'Learn React →'
+        },
+        vue: {
+            icon: '💚',
+            title: 'Vue',
+            body: `<p><strong>Vue</strong> is a progressive JavaScript framework known for being easy to learn.</p>
+                   <p><strong>Why Vue?</strong></p>
+                   <ul>
+                       <li>📖 Excellent documentation</li>
+                       <li>🎓 Gentler learning curve than React</li>
+                       <li>🔧 Can be adopted incrementally</li>
+                       <li>📝 Single File Components keep everything together</li>
+                   </ul>
+                   <p><strong>Perfect for:</strong> Those who want a gentle step up from vanilla JavaScript.</p>`,
+            link: 'https://vuejs.org/guide/introduction.html',
+            linkText: 'Learn Vue →'
+        },
+        git: {
+            icon: '📦',
+            title: 'Git & GitHub',
+            body: `<p><strong>Git</strong> is a version control system. <strong>GitHub</strong> is a platform for storing and sharing code.</p>
+                   <p><strong>Why learn Git?</strong></p>
+                   <ul>
+                       <li>💾 Save all versions of your code</li>
+                       <li>↩️ Go back to previous versions if something breaks</li>
+                       <li>👥 Collaborate with other developers</li>
+                       <li>📁 Backup all your code in the cloud</li>
+                   </ul>
+                   <p><strong>Basic commands:</strong></p>
+                   <ul>
+                       <li><code>git init</code> - Start a new project</li>
+                       <li><code>git add .</code> - Add changes</li>
+                       <li><code>git commit -m "message"</code> - Save changes</li>
+                       <li><code>git push</code> - Upload to GitHub</li>
+                   </ul>`,
+            link: 'https://docs.github.com/en/get-started',
+            linkText: 'Get started with GitHub →'
+        },
+        deploy: {
+            icon: '🚀',
+            title: 'Deploy / Publishing',
+            body: `<p>Make your app available on the internet – completely <strong>free</strong>!</p>
+                   <p><strong>Popular options:</strong></p>
+                   <ul>
+                       <li><strong>GitHub Pages</strong> – Perfect for simple HTML pages. Free with GitHub account.</li>
+                       <li><strong>Vercel</strong> – Best for React, Next.js, Vue. Auto-deploy from GitHub.</li>
+                       <li><strong>Netlify</strong> – Very user-friendly, drag-and-drop support.</li>
+                   </ul>
+                   <p><strong>Easiest method:</strong></p>
+                   <ol>
+                       <li>Upload code to GitHub</li>
+                       <li>Go to Settings → Pages</li>
+                       <li>Select "main" branch and save</li>
+                       <li>Wait 1-2 minutes – done! 🎉</li>
+                   </ol>`,
+            link: 'https://pages.github.com/',
+            linkText: 'Try GitHub Pages →'
+        },
+        basics: {
+            icon: '📚',
+            title: 'HTML, CSS & JavaScript',
+            body: `<p>The foundation of all web development. <strong>Learn these first!</strong></p>
+                   <p><strong>HTML</strong> – The Structure</p>
+                   <ul>
+                       <li>Text, images, links, buttons</li>
+                       <li>Like the skeleton of a webpage</li>
+                   </ul>
+                   <p><strong>CSS</strong> – The Appearance</p>
+                   <ul>
+                       <li>Colors, fonts, layout, animations</li>
+                       <li>Makes the page look beautiful and responsive</li>
+                   </ul>
+                   <p><strong>JavaScript</strong> – The Functionality</p>
+                   <ul>
+                       <li>Interactivity, logic, API calls</li>
+                       <li>Makes the page "come alive"</li>
+                   </ul>
+                   <p><strong>MDN Web Docs</strong> is the best resource – free and comprehensive!</p>`,
+            link: 'https://developer.mozilla.org/en-US/docs/Learn',
+            linkText: 'Start learning at MDN →'
+        }
+    }
+};
+
+function openToolModal(tool) {
+    const info = toolInfo[state.uiLang][tool];
+    if (!info) return;
+    
+    $('toolModalIcon').textContent = info.icon;
+    $('toolModalTitle').textContent = info.title;
+    $('toolModalBody').innerHTML = info.body;
+    $('toolModalLink').href = info.link;
+    $('toolModalLink').textContent = info.linkText;
+    
+    $('toolModal').classList.remove('hidden');
+}
+
+function closeToolModal() {
+    $('toolModal').classList.add('hidden');
+}
+
+// Tool card click handlers
+document.querySelectorAll('.tool-card').forEach(card => {
+    card.addEventListener('click', () => {
+        openToolModal(card.dataset.tool);
+    });
+});
+
+// Close modal handlers
+$('toolModalClose').addEventListener('click', closeToolModal);
+$('toolModal').addEventListener('click', (e) => {
+    if (e.target === $('toolModal')) closeToolModal();
+});
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !$('toolModal').classList.contains('hidden')) {
+        closeToolModal();
     }
 });
 
