@@ -14,16 +14,62 @@
 </head>
 
 <body>
+    <!-- Animated background orbs -->
+    <div class="bg-orbs">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="bg-orb bg-orb-3"></div>
+        <div class="bg-orb bg-orb-4"></div>
+    </div>
+
     <div class="wrap">
-        <header>
-            <div class="brand">
-                <div class="logo-title">
-                    <div class="logo-icon">✨</div>
-                    <h1>Vibe Code Builder</h1>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-glow"></div>
+            <div class="hero-content">
+                <div class="hero-badge" id="heroBadge">✨ AI-drevet kodegenerator</div>
+                <h1 class="hero-title" id="heroTitle">Bygg apper<br><span class="gradient-text">uten å kode</span></h1>
+                <p class="hero-subtitle" id="heroSubtitle">Beskriv idéen din, velg teknologi, og få startklar kode på sekunder. Perfekt for nybegynnere og raske prototyper.</p>
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <span class="feature-icon">⚡</span>
+                        <span id="heroFeature1">Klar på sekunder</span>
+                    </div>
+                    <div class="hero-feature">
+                        <span class="feature-icon">🎯</span>
+                        <span id="heroFeature2">Én fil, fungerer overalt</span>
+                    </div>
+                    <div class="hero-feature">
+                        <span class="feature-icon">🔒</span>
+                        <span id="heroFeature3">Din nøkkel, ditt innhold</span>
+                    </div>
                 </div>
-                <p id="subTitle">Fra idé til startklar kode på sekunder</p>
             </div>
-            <div class="topbar">
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="code-header">
+                        <span class="code-dot red"></span>
+                        <span class="code-dot yellow"></span>
+                        <span class="code-dot green"></span>
+                        <span class="code-title">index.html</span>
+                    </div>
+                    <div class="code-body">
+                        <code><span class="code-tag">&lt;!DOCTYPE html&gt;</span>
+<span class="code-tag">&lt;html&gt;</span>
+  <span class="code-tag">&lt;head&gt;</span>
+    <span class="code-tag">&lt;title&gt;</span><span class="code-string">Min App</span><span class="code-tag">&lt;/title&gt;</span>
+  <span class="code-tag">&lt;/head&gt;</span>
+  <span class="code-tag">&lt;body&gt;</span>
+    <span class="code-comment">&lt;!-- Din kode her ✨ --&gt;</span>
+  <span class="code-tag">&lt;/body&gt;</span>
+<span class="code-tag">&lt;/html&gt;</span></code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <header>
+            <div class="topbar-main">
                 <span class="pill" id="langPill">
                     <span class="mono">NO</span>
                     <button id="toggleLang" type="button">Bytt</button>
@@ -84,11 +130,39 @@
                         </div>
                     </div>
 
-                    <label id="lConstraints" for="constraints">Begrensninger</label>
-                    <input id="constraints" placeholder="f.eks. ingen backend, offline first, ingen innlogging" />
+                    <label id="lConstraints">⚙️ Krav til appen</label>
+                    <div class="hint" id="hConstraints">Velg egenskaper appen skal ha (valgfritt)</div>
+                    <div class="checkbox-group" id="constraintsGroup">
+                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="no-backend"> <span data-i18n="optNoBackend">🚫 Kun frontend (ingen server)</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="offline-first"> <span data-i18n="optOffline">📴 Fungerer offline</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="no-login"> <span data-i18n="optNoLogin">🔓 Åpen (ingen innlogging)</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="mobile-friendly"> <span data-i18n="optMobile">📱 Mobilvennlig</span></label>
+                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="no-database"> <span data-i18n="optNoDb">💾 Kun lokal lagring</span></label>
+                    </div>
 
-                    <label id="lStack" for="stack">Teknologi du vil bruke</label>
-                    <input id="stack" placeholder="f.eks. ren HTML, React, Vite, Python FastAPI" />
+                    <label id="lStack" for="stack">Teknologi</label>
+                    <div class="hint" id="hStack">Velg rammeverk – ren HTML anbefales for nybegynnere</div>
+                    <select id="stack">
+                        <optgroup label="Nybegynnervennlig">
+                            <option value="html-css-js" selected>Ren HTML/CSS/JS (anbefalt)</option>
+                            <option value="html-tailwind">HTML + Tailwind CSS</option>
+                        </optgroup>
+                        <optgroup label="JavaScript-rammeverk">
+                            <option value="react">React</option>
+                            <option value="vue">Vue</option>
+                            <option value="svelte">Svelte</option>
+                            <option value="nextjs">Next.js</option>
+                        </optgroup>
+                        <optgroup label="Backend">
+                            <option value="python-flask">Python + Flask</option>
+                            <option value="python-fastapi">Python + FastAPI</option>
+                            <option value="nodejs-express">Node.js + Express</option>
+                        </optgroup>
+                        <optgroup label="Annet">
+                            <option value="custom">Egendefinert...</option>
+                        </optgroup>
+                    </select>
+                    <input id="stackCustom" class="hidden" placeholder="Skriv inn teknologi..." />
 
                     <div class="row">
                         <div>
@@ -181,7 +255,19 @@
                         <button class="primary" id="btnGenerate" type="button">Generer</button>
                         <button id="btnCopy" type="button" disabled>Kopier output</button>
                         <button id="btnDownload" type="button" disabled>Last ned index.html</button>
+                        <button id="btnDownloadAll" type="button" disabled class="hidden">📦 Last ned alle filer (.zip)</button>
                         <button class="danger" id="btnClear" type="button">Nullstill</button>
+                    </div>
+
+                    <!-- Progress bar for generation -->
+                    <div class="progress-container hidden" id="progressContainer">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <div class="progress-status">
+                            <span class="progress-icon" id="progressIcon">⚡</span>
+                            <span class="progress-text" id="progressText">Starter...</span>
+                        </div>
                     </div>
 
                     <div class="status" id="statusLine">
@@ -199,8 +285,8 @@
                     </div>
                     <pre class="mono" id="output" aria-label="output"></pre>
                     <div class="btns" style="margin-top:12px">
-                        <button id="btnPreview" type="button" disabled>Preview</button>
-                        <button id="btnShowFiles" type="button" disabled>Vis filforslag</button>
+                        <button id="btnPreview" type="button" disabled>👁️ Preview</button>
+                        <button id="btnShowFiles" type="button" disabled class="hidden">📂 Vis alle filer</button>
                     </div>
                     <div class="hint" id="hOut">Appen prøver å parse JSON, ellers vises rå tekst</div>
                 </div>
@@ -209,40 +295,129 @@
         </section>
 
         <section id="panelHelp" role="tabpanel" aria-labelledby="tabHelp" class="hidden">
-            <div class="card">
-                <h2>Oppsett</h2>
-                <div class="kvs">
-                    <div class="small">1. Lag mappe</div>
-                    <div class="mono">mkdir prosjekt && cd prosjekt</div>
-                    <div class="small">2. Lim inn output</div>
-                    <div>Lag <span class="mono">index.html</span> og lim inn generert innhold</div>
-                    <div class="small">3. Kjør lokalt</div>
-                    <div>Åpne <span class="mono">index.html</span> i nettleser, eller bruk en enkel server</div>
-                    <div class="small">4. Git init</div>
-                    <div class="mono">git init && git add . && git commit -m "init"</div>
-                    <div class="small">5. GitHub repo</div>
-                    <div>Opprett repo på GitHub, legg til remote, push</div>
-                    <div class="small">6. Deploy statisk</div>
-                    <div>GitHub Pages, Netlify eller Vercel for statiske prosjekter</div>
+            <div class="card help-card">
+                <h2 id="helpTitle">🚀 Kom i gang på 5 minutter</h2>
+                
+                <div class="help-section">
+                    <h3 id="helpStep1Title">📋 Steg 1: Få en API-nøkkel (gratis)</h3>
+                    <p id="helpStep1Desc">Du trenger en nøkkel for å bruke AI-modellen. Velg én av disse leverandørene:</p>
+                    <div class="help-options">
+                        <div class="help-option">
+                            <strong>Google Gemini</strong>
+                            <ol>
+                                <li>Gå til <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></li>
+                                <li>Logg inn med Google-kontoen din</li>
+                                <li>Klikk "Create API Key"</li>
+                                <li>Kopier nøkkelen (starter med AIza...)</li>
+                            </ol>
+                        </div>
+                        <div class="help-option">
+                            <strong>OpenAI (ChatGPT)</strong>
+                            <ol>
+                                <li>Gå til <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a></li>
+                                <li>Opprett konto eller logg inn</li>
+                                <li>Klikk "Create new secret key"</li>
+                                <li>Kopier nøkkelen (starter med sk-...)</li>
+                            </ol>
+                        </div>
+                        <div class="help-option">
+                            <strong>OpenRouter (mange modeller)</strong>
+                            <ol>
+                                <li>Gå til <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a></li>
+                                <li>Opprett konto eller logg inn</li>
+                                <li>Klikk "Create Key"</li>
+                                <li>Kopier nøkkelen (starter med or-...)</li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
 
-                <h2 style="margin-top:18px">VS Code</h2>
-                <ul style="margin:8px 0 0;color:var(--muted)">
-                    <li>Installer Live Server extension for enkel preview</li>
-                    <li>Bruk Prettier for formattering</li>
-                    <li>Legg til <span class="mono">.env.example</span> hvis du trenger miljøvariabler</li>
-                </ul>
+                <div class="help-section">
+                    <h3 id="helpStep2Title">✏️ Steg 2: Fyll ut skjemaet</h3>
+                    <div class="help-tips">
+                        <div class="help-tip">
+                            <span class="tip-icon">💡</span>
+                            <div>
+                                <strong id="tipNameTitle">Prosjektnavn</strong>
+                                <p id="tipNameDesc">Gi prosjektet et kort navn, f.eks. "todo-app" eller "quiz-spill"</p>
+                            </div>
+                        </div>
+                        <div class="help-tip">
+                            <span class="tip-icon">💡</span>
+                            <div>
+                                <strong id="tipGoalTitle">Hva skal den gjøre</strong>
+                                <p id="tipGoalDesc">Beskriv hva appen skal gjøre. Jo mer detaljert, jo bedre resultat. Eksempel: "En huskeliste-app der jeg kan legge til oppgaver, markere dem som ferdig, og slette dem"</p>
+                            </div>
+                        </div>
+                        <div class="help-tip">
+                            <span class="tip-icon">💡</span>
+                            <div>
+                                <strong id="tipTechTitle">Teknologi</strong>
+                                <p id="tipTechDesc">Velg "Ren HTML/CSS/JS" hvis du er nybegynner. Dette gir deg én fil som fungerer rett i nettleseren!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <h2 style="margin-top:18px">GitHub Actions forslag</h2>
-                <p class="small">For statiske prosjekter: lint + deploy Pages. For andre: test og deploy til valgt
-                    plattform.</p>
+                <div class="help-section">
+                    <h3 id="helpStep3Title">🎉 Steg 3: Bruk koden</h3>
+                    <div class="help-steps-visual">
+                        <div class="visual-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <strong id="useStep1Title">Klikk "Generer"</strong>
+                                <p id="useStep1Desc">Vent noen sekunder mens AI-en lager koden</p>
+                            </div>
+                        </div>
+                        <div class="visual-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <strong id="useStep2Title">Last ned filen</strong>
+                                <p id="useStep2Desc">Klikk "Last ned index.html" for å lagre filen</p>
+                            </div>
+                        </div>
+                        <div class="visual-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <strong id="useStep3Title">Åpne i nettleser</strong>
+                                <p id="useStep3Desc">Dobbeltklikk på filen for å åpne den. Ferdig! 🎊</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <h2 style="margin-top:18px">Sikkerhet</h2>
-                <ul style="margin:8px 0 0;color:var(--muted)">
-                    <li>Aldri commit nøkler</li>
-                    <li>Legg til <span class="mono">.env</span> i <span class="mono">.gitignore</span></li>
-                    <li>Bruk secret scanning</li>
-                </ul>
+                <div class="help-section">
+                    <h3 id="helpFaqTitle">❓ Ofte stilte spørsmål</h3>
+                    <details class="faq-item">
+                        <summary id="faq1Q">Hva er en API-nøkkel?</summary>
+                        <p id="faq1A">En API-nøkkel er som et passord som lar denne appen snakke med AI-tjenesten. Den er gratis å få, men hold den hemmelig!</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="faq2Q">Koster det penger?</summary>
+                        <p id="faq2A">De fleste AI-leverandører har en gratis kvote. For hobbyprosjekter vil du vanligvis aldri betale noe.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="faq3Q">Jeg får feilmelding - hva gjør jeg?</summary>
+                        <p id="faq3A">Sjekk at: 1) API-nøkkelen er riktig kopiert, 2) Du har valgt en modell som passer til din leverandør, 3) Prøv å trykke Generer på nytt.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="faq4Q">Kan jeg redigere koden etterpå?</summary>
+                        <p id="faq4A">Ja! Åpne filen i et program som VS Code, Notepad++, eller til og med vanlig Notepad. Du kan endre tekst, farger og mer.</p>
+                    </details>
+                </div>
+
+                <div class="help-section help-advanced">
+                    <h3 id="helpAdvancedTitle">🔧 For viderekomne</h3>
+                    <p id="helpAdvancedDesc">Vil du lære mer? Her er noen tips:</p>
+                    <ul>
+                        <li><span id="advTip1">Installer</span> <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> <span id="advTip1b">for bedre kodeeditoring</span></li>
+                        <li><span id="advTip2">Bruk "Flere filer" output for større prosjekter</span></li>
+                        <li><span id="advTip3">Prøv</span> <a href="https://react.dev/" target="_blank">React</a>, <a href="https://vuejs.org/" target="_blank">Vue</a> <span id="advTip3b">eller</span> <a href="https://svelte.dev/" target="_blank">Svelte</a> <span id="advTip3c">når du er klar</span></li>
+                        <li><span id="advTip4">Lær</span> <a href="https://docs.github.com/en/get-started/start-your-journey/hello-world" target="_blank">Git & GitHub</a> <span id="advTip4b">for å lagre versjoner</span></li>
+                        <li><span id="advTip5">Deploy gratis med</span> <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>, <a href="https://vercel.com/" target="_blank">Vercel</a> <span id="advTip5b">eller</span> <a href="https://www.netlify.com/" target="_blank">Netlify</a></li>
+                        <li><span id="advTip6">Lær grunnleggende</span> <a href="https://developer.mozilla.org/en-US/docs/Learn/HTML" target="_blank">HTML</a>, <a href="https://developer.mozilla.org/en-US/docs/Learn/CSS" target="_blank">CSS</a> <span id="advTip6b">og</span> <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript" target="_blank">JavaScript</a></li>
+                    </ul>
+                </div>
             </div>
         </section>
 
