@@ -63,6 +63,19 @@ const i18n = {
         toggle: 'Bytt',
         generator: 'Generator',
         help: 'Hjelp',
+        about: 'Om',
+        aboutBrand: 'Lærerliv',
+        aboutTagline: 'Verktøy for fremtidens lærere',
+        aboutAppTitle: 'Om VibeCoding Idea Builder',
+        aboutAppDesc: 'VibeCoding Idea Builder er et gratis verktøy som lar deg bruke AI til å generere startklare webprosjekter. Perfekt for lærere, studenter og alle som vil lære webutvikling på en praktisk måte.',
+        aboutMissionTitle: 'Vår visjon',
+        aboutMissionDesc: 'Vi tror at koding skal være tilgjengelig for alle. Ved å kombinere moderne AI-teknologi med pedagogisk design, gjør vi det enklere å ta de første stegene inn i programmeringens verden.',
+        aboutContactTitle: 'Kontakt',
+        aboutEmailLabel: 'E-post',
+        aboutWebLabel: 'Nettside',
+        aboutOpenSourceTitle: 'Åpen kildekode',
+        aboutOpenSourceDesc: 'Dette prosjektet er åpen kildekode. Du kan se, kopiere og bidra til koden på GitHub.',
+        aboutMadeWith: 'Laget med ❤️ for lærere og elever',
         tForm: 'Prosjekt',
         lType: 'Type',
         lLevel: 'Kompleksitet',
@@ -191,6 +204,19 @@ const i18n = {
         toggle: 'Switch',
         generator: 'Generator',
         help: 'Help',
+        about: 'About',
+        aboutBrand: 'Lærerliv',
+        aboutTagline: 'Tools for tomorrow\'s teachers',
+        aboutAppTitle: 'About VibeCoding Idea Builder',
+        aboutAppDesc: 'VibeCoding Idea Builder is a free tool that lets you use AI to generate ready-to-run web projects. Perfect for teachers, students, and anyone who wants to learn web development in a practical way.',
+        aboutMissionTitle: 'Our Vision',
+        aboutMissionDesc: 'We believe coding should be accessible to everyone. By combining modern AI technology with pedagogical design, we make it easier to take the first steps into the world of programming.',
+        aboutContactTitle: 'Contact',
+        aboutEmailLabel: 'Email',
+        aboutWebLabel: 'Website',
+        aboutOpenSourceTitle: 'Open Source',
+        aboutOpenSourceDesc: 'This project is open source. You can view, copy, and contribute to the code on GitHub.',
+        aboutMadeWith: 'Made with ❤️ for teachers and students',
         tForm: 'Project',
         lType: 'Type',
         lLevel: 'Complexity',
@@ -353,6 +379,22 @@ function applyLang() {
     $('toggleLang').textContent = t.toggle;
     $('tabGen').textContent = t.generator;
     $('tabHelp').textContent = t.help;
+    $('tabAbout').textContent = t.about;
+    
+    // About page
+    $('aboutBrand').textContent = t.aboutBrand;
+    $('aboutTagline').textContent = t.aboutTagline;
+    $('aboutAppTitle').textContent = t.aboutAppTitle;
+    $('aboutAppDesc').textContent = t.aboutAppDesc;
+    $('aboutMissionTitle').textContent = t.aboutMissionTitle;
+    $('aboutMissionDesc').textContent = t.aboutMissionDesc;
+    $('aboutContactTitle').textContent = t.aboutContactTitle;
+    $('aboutEmailLabel').textContent = t.aboutEmailLabel;
+    $('aboutWebLabel').textContent = t.aboutWebLabel;
+    $('aboutOpenSourceTitle').textContent = t.aboutOpenSourceTitle;
+    $('aboutOpenSourceDesc').textContent = t.aboutOpenSourceDesc;
+    $('aboutMadeWith').textContent = t.aboutMadeWith;
+    
     $('tForm').textContent = t.tForm;
     $('lType').textContent = t.lType;
     $('lLevel').textContent = t.lLevel;
@@ -498,11 +540,12 @@ function applyLang() {
 }
 
 function tabTo(which) {
-    const isGen = which === 'gen';
-    $('tabGen').setAttribute('aria-selected', String(isGen));
-    $('tabHelp').setAttribute('aria-selected', String(!isGen));
-    $('panelGen').classList.toggle('hidden', !isGen);
-    $('panelHelp').classList.toggle('hidden', isGen);
+    const tabs = ['gen', 'help', 'about'];
+    tabs.forEach(tab => {
+        const isActive = tab === which;
+        $('tab' + tab.charAt(0).toUpperCase() + tab.slice(1)).setAttribute('aria-selected', String(isActive));
+        $('panel' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.toggle('hidden', !isActive);
+    });
 }
 
 function safeJsonParse(text) {
@@ -1140,6 +1183,7 @@ $('toggleLang').addEventListener('click', () => {
 
 $('tabGen').addEventListener('click', () => tabTo('gen'));
 $('tabHelp').addEventListener('click', () => tabTo('help'));
+$('tabAbout').addEventListener('click', () => tabTo('about'));
 
 $('btnGenerate').addEventListener('click', async () => {
     rememberKeyMaybe();

@@ -84,6 +84,7 @@
         <div class="tabs" role="tablist">
             <button class="tab" id="tabGen" role="tab" aria-selected="true" aria-controls="panelGen">Generator</button>
             <button class="tab" id="tabHelp" role="tab" aria-selected="false" aria-controls="panelHelp">Hjelp</button>
+            <button class="tab" id="tabAbout" role="tab" aria-selected="false" aria-controls="panelAbout">Om</button>
         </div>
 
         <section id="panelGen" role="tabpanel" aria-labelledby="tabGen">
@@ -451,6 +452,66 @@
         </section>
 
     </div>
+
+    <!-- About Section -->
+    <section id="panelAbout" role="tabpanel" aria-labelledby="tabAbout" class="hidden">
+        <div class="card about-card">
+            <div class="about-header">
+                <div class="about-logo">
+                    <img src="laererliv-logo.png" alt="Lærerliv logo" class="logo-image">
+                </div>
+                <div class="about-brand">
+                    <h1 id="aboutBrand">Lærerliv</h1>
+                    <p class="about-tagline" id="aboutTagline">Verktøy for fremtidens lærere</p>
+                </div>
+            </div>
+
+            <div class="about-content">
+                <div class="about-section">
+                    <h3 id="aboutAppTitle">Om VibeCoding Idea Builder</h3>
+                    <p id="aboutAppDesc">VibeCoding Idea Builder er et gratis verktøy som lar deg bruke AI til å generere startklare webprosjekter. Perfekt for lærere, studenter og alle som vil lære webutvikling på en praktisk måte.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3 id="aboutMissionTitle">Visjonen</h3>
+                    <p id="aboutMissionDesc">Koding bør være tilgjengelig for alle. Ved å kombinere moderne AI-teknologi med pedagogisk design, gjør appen det enklere å ta de første stegene inn i programmeringens verden.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3 id="aboutContactTitle">Kontakt</h3>
+                    <div class="contact-grid">
+                        <div class="contact-item">
+                            <span class="contact-icon">✉️</span>
+                            <div>
+                                <strong id="aboutEmailLabel">E-post</strong>
+                                <a href="mailto:kenneth@laererliv.no" id="aboutEmail">kenneth@laererliv.no</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">🌐</span>
+                            <div>
+                                <strong id="aboutWebLabel">Nettside</strong>
+                                <a href="https://laererliv.no" target="_blank" id="aboutWeb">laererliv.no</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3 id="aboutOpenSourceTitle">Åpen kildekode</h3>
+                    <p id="aboutOpenSourceDesc">Dette prosjektet er åpen kildekode. Du kan se, kopiere og bidra til koden på GitHub.</p>
+                    <a href="https://github.com/barx10/vibe_code_generator" target="_blank" class="github-link">
+                        <span>📦</span> Se koden på GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="about-footer">
+                <p class="copyright">© 2025 Lærerliv. Alle rettigheter reservert.</p>
+                <p class="made-with" id="aboutMadeWith">Laget med ❤️ for lærere og elever</p>
+            </div>
+        </div>
+    </section>
     
     <!-- Tool Info Modal -->
     <div class="tool-modal-overlay hidden" id="toolModal">

@@ -1533,3 +1533,191 @@ pre {
     transform: scale(1.05);
     box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
 }
+
+/* ===================== ABOUT PAGE ===================== */
+.about-card {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.about-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 32px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--panel-border);
+}
+
+.about-logo {
+    flex-shrink: 0;
+}
+
+.logo-image {
+    height: 70px;
+    width: auto;
+    max-width: 280px;
+    border-radius: 12px;
+    object-fit: contain;
+    box-shadow: 
+        0 8px 32px rgba(56, 189, 248, 0.2),
+        0 0 0 2px rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px 16px;
+}
+
+.logo-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 
+        0 8px 32px rgba(56, 189, 248, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.logo-circle::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: logoShine 3s ease-in-out infinite;
+}
+
+@keyframes logoShine {
+    0%, 100% { transform: translateX(-100%) rotate(45deg); }
+    50% { transform: translateX(100%) rotate(45deg); }
+}
+
+.logo-icon {
+    font-size: 3rem;
+    z-index: 1;
+}
+
+.about-brand h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.about-tagline {
+    margin: 8px 0 0 0;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.about-section h3 {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.about-section p {
+    margin: 0;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-sm);
+}
+
+.contact-icon {
+    font-size: 1.5rem;
+}
+
+.contact-item strong {
+    display: block;
+    color: var(--text);
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.contact-item a {
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.github-link:hover {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.about-footer {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--panel-border);
+    text-align: center;
+}
+
+.copyright {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.made-with {
+    margin: 8px 0 0 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    .about-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .about-brand h1 {
+        font-size: 2rem;
+    }
+}
