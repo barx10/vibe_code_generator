@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  
+  <!-- Decorative orbs -->
+  <circle cx="200" cy="150" r="120" fill="rgba(255,255,255,0.1)"/>
+  <circle cx="1000" cy="480" r="150" fill="rgba(255,255,255,0.08)"/>
+  
+  <!-- Code brackets -->
+  <path d="M350 220 L400 315 L350 410" stroke="white" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <path d="M850 220 L800 315 L850 410" stroke="white" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  
+  <!-- Text -->
+  <text x="600" y="280" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle">VibeCoding</text>
+  <text x="600" y="350" font-family="Arial, sans-serif" font-size="48" fill="rgba(255,255,255,0.95)" text-anchor="middle">Idea Builder</text>
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="32" fill="rgba(255,255,255,0.85)" text-anchor="middle">AI-drevet kodegenerator</text>
+</svg>
