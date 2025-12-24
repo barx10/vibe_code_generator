@@ -34,17 +34,14 @@ const modelConfig = {
     'claude-sonnet-4.5': 'https://openrouter.ai/api/v1/chat/completions',
     'claude-opus-4.5': 'https://openrouter.ai/api/v1/chat/completions',
 
-    // Google (GenAI / Gemini Series)
-    // Note: Gemini 3 and 2.5 are not public on Google API yet. Use OpenRouter or similar.
-    'gemini-3-pro': 'https://openrouter.ai/api/v1/chat/completions',
-    'gemini-3-flash': 'https://openrouter.ai/api/v1/chat/completions',
-    'gemini-2.5-pro': 'https://openrouter.ai/api/v1/chat/completions',
-    'gemini-2.5-flash': 'https://openrouter.ai/api/v1/chat/completions',
-    'gemini-2.5-flash-lite': 'https://openrouter.ai/api/v1/chat/completions',
-
-    // Gemini 2.0 Flash IS available on Google preview
-    'gemini-2.0-flash-exp': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-2.0-flash-lite-preview-02-05': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    // Google (GenAI / Gemini Series) - Using correct API model names
+    'gemini-3-pro-preview': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-3-flash-preview': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-2.5-pro-preview-06-05': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-2.5-flash-preview-05-20': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-2.5-flash-lite-preview-06-17': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-2.0-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-2.0-flash-lite': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
 
     // Others/OpenRouter
     'grok-code-fast-1': 'https://openrouter.ai/api/v1/chat/completions',
@@ -430,6 +427,9 @@ async function callModel() {
         return;
     }
     enableOutputActions(false);
+
+    // Build prompt before calling API
+    const { sys, user } = buildPrompt();
 
     // Show calling status and disable generate button
     setStatus('', t.statusCalling);
