@@ -112,85 +112,35 @@
             <div class="grid">
 
                 <div class="card">
-                    <h2 id="tForm">Prosjekt</h2>
-
-                    <div class="row">
-                        <div>
-                            <label id="lType" for="appType">Type</label>
-                            <select id="appType">
-                                <option value="webapp">Webapp</option>
-                                <option value="pwa">PWA</option>
-                                <option value="api">API</option>
-                                <option value="cli">CLI</option>
-                                <option value="extension">Browser extension</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label id="lLevel" for="complexity">Kompleksitet</label>
-                            <select id="complexity">
-                                <option value="simple">Enkel</option>
-                                <option value="medium">Middels</option>
-                                <option value="large">Stor</option>
-                            </select>
-                        </div>
+                    <h2 id="tForm">Velg template</h2>
+                    <div class="hint" id="hTemplates">Klikk på en template for å komme i gang raskt</div>
+                    
+                    <div class="template-grid" id="templateGrid">
+                        <!-- Templates injected by JS -->
                     </div>
+
+                    <h2 id="tDetails" style="margin-top:24px">Tilpass prosjektet</h2>
 
                     <label id="lName" for="projectName">Prosjektnavn</label>
-                    <input id="projectName" placeholder="f.eks. leselogg, secscan mini, timeplan" />
+                    <input id="projectName" placeholder="f.eks. quiz-spill, memory-game" />
 
-                    <label id="lGoal" for="goal">Hva skal den gjøre</label>
-                    <textarea id="goal" placeholder="Beskriv funksjoner og brukerflyt. Skriv konkret."></textarea>
+                    <label id="lGoal" for="goal">Beskrivelse</label>
+                    <textarea id="goal" rows="8" placeholder="Beskriv hva appen skal gjøre. Klikk på en template over for eksempler!"></textarea>
 
-                    <div class="row">
-                        <div>
-                            <label id="lUsers" for="users">Målgruppe</label>
-                            <input id="users" placeholder="f.eks. lærere, elever, privatbruk" />
-                        </div>
-                    </div>
-
-                    <label id="lConstraints">⚙️ Krav til appen</label>
-                    <div class="hint" id="hConstraints">Velg egenskaper appen skal ha (valgfritt)</div>
-                    <div class="checkbox-group" id="constraintsGroup">
-                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="no-backend"> <span data-i18n="optNoBackend">🚫 Kun frontend (ingen server)</span></label>
-                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="offline-first"> <span data-i18n="optOffline">📴 Fungerer offline</span></label>
-                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="no-login"> <span data-i18n="optNoLogin">🔓 Åpen (ingen innlogging)</span></label>
-                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="mobile-friendly"> <span data-i18n="optMobile">📱 Mobilvennlig</span></label>
-                        <label class="checkbox-label"><input type="checkbox" name="constraint" value="no-database"> <span data-i18n="optNoDb">💾 Kun lokal lagring</span></label>
-                    </div>
-
-                    <label id="lStack" for="stack">Teknologi</label>
-                    <div class="hint" id="hStack">Velg rammeverk – ren HTML anbefales for nybegynnere</div>
-                    <select id="stack">
-                        <optgroup label="Nybegynnervennlig">
-                            <option value="html-css-js" selected>Ren HTML/CSS/JS (anbefalt)</option>
-                            <option value="html-tailwind">HTML + Tailwind CSS</option>
-                        </optgroup>
-                        <optgroup label="Avansert">
-                            <option value="react">React (ESM - ingen npm)</option>
-                            <option value="pwa">PWA (Progressive Web App)</option>
-                        </optgroup>
-                        <optgroup label="Annet">
-                            <option value="custom">Egendefinert...</option>
-                        </optgroup>
-                    </select>
-                    <input id="stackCustom" class="hidden" placeholder="Skriv inn teknologi..." />
-
-                    <div class="row">
-                        <div>
-                            <label id="lLang" for="outputLang">Output språk</label>
-                            <select id="outputLang">
-                                <option value="no">Norsk</option>
-                                <option value="en">English</option>
+                    <details style="margin:16px 0">
+                        <summary style="cursor:pointer;color:var(--text2);font-size:14px">⚙️ Avanserte innstillinger (valgfritt)</summary>
+                        <div style="margin-top:12px">
+                            <label id="lStack" for="stack">Teknologi</label>
+                            <div class="hint" id="hStack">Ren HTML anbefales for nybegynnere</div>
+                            <select id="stack">
+                                <option value="html-css-js" selected>Ren HTML/CSS/JS (anbefalt)</option>
+                                <option value="html-tailwind">HTML + Tailwind CSS</option>
+                                <option value="react">React (ESM - ingen npm)</option>
+                                <option value="custom">Egendefinert...</option>
                             </select>
+                            <input id="stackCustom" class="hidden" placeholder="Skriv inn teknologi..." />
                         </div>
-                        <div>
-                            <label id="lFiles" for="fileMode">Output type</label>
-                            <select id="fileMode">
-                                <option value="single">Kun index.html</option>
-                                <option value="multi">Flere filer</option>
-                            </select>
-                        </div>
-                    </div>
+                    </details>
 
                     <hr style="border:none;border-top:1px solid var(--line);margin:14px 0" />
 
@@ -260,14 +210,6 @@
                                 <option value="local">Lagre lokalt i nettleser</option>
                             </select>
                             <div class="hint" id="hRemember">Lagring skjer i localStorage på denne maskinen</div>
-                        </div>
-                        <div>
-                            <label id="lTemp" for="temperature">Temperatur</label>
-                            <select id="temperature">
-                                <option value="0.2">0.2</option>
-                                <option value="0.5" selected>0.5</option>
-                                <option value="0.8">0.8</option>
-                            </select>
                         </div>
                     </div>
 

@@ -76,7 +76,9 @@ const i18n = {
         aboutOpenSourceTitle: 'Åpen kildekode',
         aboutOpenSourceDesc: 'Dette prosjektet er åpen kildekode. Du kan se, kopiere og bidra til koden på GitHub.',
         aboutMadeWith: 'Laget med ❤️ for læring',
-        tForm: 'Prosjekt',
+        tForm: 'Velg template',
+        hTemplates: 'Klikk på en template for å komme raskt i gang',
+        tDetails: 'Tilpass prosjektet',
         lType: 'Type',
         lLevel: 'Kompleksitet',
         lName: 'Prosjektnavn',
@@ -213,7 +215,9 @@ const i18n = {
         aboutOpenSourceTitle: 'Open Source',
         aboutOpenSourceDesc: 'This project is open source. You can view, copy, and contribute to the code on GitHub.',
         aboutMadeWith: 'Made with ❤️ for learning',
-        tForm: 'Project',
+        tForm: 'Choose template',
+        hTemplates: 'Click a template to get started quickly',
+        tDetails: 'Customize project',
         lType: 'Type',
         lLevel: 'Complexity',
         lName: 'Project name',
@@ -328,6 +332,214 @@ const i18n = {
     }
 };
 
+// App templates
+const templates = {
+    no: [
+        {
+            id: 'quiz',
+            icon: '🎯',
+            name: 'Quiz / Kahoot',
+            desc: 'Interaktivt quiz-spill med poeng',
+            projectName: 'quiz-spill',
+            goal: `En quiz-app hvor:
+- 10 multiple choice spørsmål vises ett av gangen
+- Bruker velger svar og får umiddelbar tilbakemelding (riktig/galt)
+- Poeng telles opp (1 poeng per riktig)
+- Sluttskjerm viser totalt poeng og prosent
+- Mulighet for å starte på nytt
+- Animasjoner ved riktig/galt svar
+- Responsiv design for mobil`
+        },
+        {
+            id: 'memory',
+            icon: '🧠',
+            name: 'Memory-spill',
+            desc: 'Finn par med kort',
+            projectName: 'memory-game',
+            goal: `Et memory-spill hvor:
+- 16 kort (8 par) legges ut i rutenett
+- Kort viser emoji/symboler
+- Klikk for å snu kort
+- Finn matchende par
+- Tell antall forsøk
+- Timer som teller ned/opp
+- Konfetti-animasjon ved seier
+- Start på nytt-knapp`
+        },
+        {
+            id: 'meme',
+            icon: '😂',
+            name: 'Meme-generator',
+            desc: 'Lag memes med tekst',
+            projectName: 'meme-maker',
+            goal: `En meme-generator hvor:
+- Velg fra 6-8 populære meme-templates
+- Legg til topptek st og bunntekst
+- Forhåndsvisning i sanntid
+- Juster tekststørrelse og posisjon
+- Last ned meme som bilde (canvas)
+- Del-knapper (copy image)
+- Responsivt design`
+        },
+        {
+            id: 'pomodoro',
+            icon: '🍅',
+            name: 'Pomodoro Timer',
+            desc: 'Fokus-timer med pauser',
+            projectName: 'pomodoro',
+            goal: `En Pomodoro-timer med:
+- 25 min fokus-økter
+- 5 min korte pauser
+- 15 min lange pauser (etter 4 økter)
+- Start, pause, reset funksjonalitet
+- Visuell sirkulær countdown
+- Teller antall fullførte økter i dag
+- Lyd-varsling ved slutt av økt (valgfritt)
+- Stor, visuell timer med gradient`
+        },
+        {
+            id: 'password',
+            icon: '🔐',
+            name: 'Passordgenerator',
+            desc: 'Lag sterke passord',
+            projectName: 'password-gen',
+            goal: `En passordgenerator hvor:
+- Velg lengde (8-32 tegn)
+- Toggle: store bokstaver, sm å, tall, symboler
+- Generer tilfeldig passord
+- Vis passordstyrke (svak/middels/sterk)
+- Copy to clipboard-knapp
+- Generer flere alternativ samtidig
+- Minimalistisk, moderne design`
+        },
+        {
+            id: 'colors',
+            icon: '🎨',
+            name: 'Fargepalett',
+            desc: 'Generer fargepaletter',
+            projectName: 'color-palette',
+            goal: `En fargepalett-generator hvor:
+- Generer 5 tilfeldige farger som matcher
+- Vis hex-koder for hver farge
+- Klikk på farge for å kopiere hex-kode
+- Generer ny palett-knapp
+- Lås enkelte farger (regenerer resten)
+- Eksporter som CSS/Tailwind kode
+- Store fargebokser med smooth transitions`
+        },
+        {
+            id: 'scratch',
+            icon: '✨',
+            name: 'Start fra scratch',
+            desc: 'Skriv din egen beskrivelse',
+            projectName: '',
+            goal: ''
+        }
+    ],
+    en: [
+        {
+            id: 'quiz',
+            icon: '🎯',
+            name: 'Quiz / Kahoot',
+            desc: 'Interactive quiz game with points',
+            projectName: 'quiz-game',
+            goal: `A quiz app where:
+- 10 multiple choice questions shown one at a time
+- User selects answer and gets immediate feedback (correct/wrong)
+- Points counted (1 point per correct)
+- End screen shows total points and percentage
+- Option to restart
+- Animations for correct/wrong answers
+- Responsive mobile design`
+        },
+        {
+            id: 'memory',
+            icon: '🧠',
+            name: 'Memory Game',
+            desc: 'Find matching card pairs',
+            projectName: 'memory-game',
+            goal: `A memory game where:
+- 16 cards (8 pairs) laid out in grid
+- Cards show emoji/symbols
+- Click to flip cards
+- Find matching pairs
+- Count attempts
+- Timer counting down/up
+- Confetti animation on win
+- Restart button`
+        },
+        {
+            id: 'meme',
+            icon: '😂',
+            name: 'Meme Generator',
+            desc: 'Create memes with text',
+            projectName: 'meme-maker',
+            goal: `A meme generator where:
+- Choose from 6-8 popular meme templates
+- Add top and bottom text
+- Real-time preview
+- Adjust text size and position
+- Download meme as image (canvas)
+- Share buttons (copy image)
+- Responsive design`
+        },
+        {
+            id: 'pomodoro',
+            icon: '🍅',
+            name: 'Pomodoro Timer',
+            desc: 'Focus timer with breaks',
+            projectName: 'pomodoro',
+            goal: `A Pomodoro timer with:
+- 25 min focus sessions
+- 5 min short breaks
+- 15 min long breaks (after 4 sessions)
+- Start, pause, reset functionality
+- Visual circular countdown
+- Count completed sessions today
+- Sound notification at end (optional)
+- Large, visual timer with gradient`
+        },
+        {
+            id: 'password',
+            icon: '🔐',
+            name: 'Password Generator',
+            desc: 'Create strong passwords',
+            projectName: 'password-gen',
+            goal: `A password generator where:
+- Select length (8-32 characters)
+- Toggle: uppercase, lowercase, numbers, symbols
+- Generate random password
+- Show password strength (weak/medium/strong)
+- Copy to clipboard button
+- Generate multiple options at once
+- Minimalist, modern design`
+        },
+        {
+            id: 'colors',
+            icon: '🎨',
+            name: 'Color Palette',
+            desc: 'Generate color palettes',
+            projectName: 'color-palette',
+            goal: `A color palette generator where:
+- Generate 5 random matching colors
+- Show hex codes for each color
+- Click color to copy hex code
+- Generate new palette button
+- Lock individual colors (regenerate rest)
+- Export as CSS/Tailwind code
+- Large color boxes with smooth transitions`
+        },
+        {
+            id: 'scratch',
+            icon: '✨',
+            name: 'Start from scratch',
+            desc: 'Write your own description',
+            projectName: '',
+            goal: ''
+        }
+    ]
+};
+
 function setStatus(kind, text) {
     const dot = $('statusDot');
     dot.className = 'dot' + (kind ? ' ' + kind : '');
@@ -360,6 +572,10 @@ function setApiState() {
 
 function applyLang() {
     const t = i18n[state.uiLang];
+    
+    // Re-render templates when language changes
+    renderTemplates();
+    
     // Hero section
     $('heroBadge').textContent = t.heroBadge;
     $('heroTitle').innerHTML = t.heroTitle;
@@ -388,15 +604,12 @@ function applyLang() {
     $('aboutMadeWith').textContent = t.aboutMadeWith;
     
     $('tForm').textContent = t.tForm;
-    $('lType').textContent = t.lType;
-    $('lLevel').textContent = t.lLevel;
+    $('hTemplates').textContent = t.hTemplates;
+    $('tDetails').textContent = t.tDetails;
     $('lName').textContent = t.lName;
     $('lGoal').textContent = t.lGoal;
-    $('lUsers').textContent = t.lUsers;
-    $('lConstraints').textContent = t.lConstraints;
     $('lStack').textContent = t.lStack;
-    $('lLang').textContent = t.lLang;
-    $('lFiles').textContent = t.lFiles;
+    $('hStack').textContent = t.hStack;
     $('tApi').textContent = t.tApi;
     $('lEndpoint').textContent = t.lEndpoint;
     $('hEndpoint').textContent = t.hEndpoint;
@@ -636,12 +849,8 @@ function updateMetaDisplay() {
 }
 
 function buildPrompt() {
-    const outLang = $('outputLang').value;
-    const wantsMulti = $('fileMode').value === 'multi';
-
-    // Collect constraints from checkboxes
-    const constraintCheckboxes = document.querySelectorAll('input[name="constraint"]:checked');
-    const constraints = Array.from(constraintCheckboxes).map(cb => cb.value).join(', ');
+    const outLang = 'no'; // Always Norwegian for now
+    const wantsMulti = false; // Always single file for simplicity
 
     // Get stack value (handle custom option)
     let stackValue = $('stack').value;
@@ -650,15 +859,11 @@ function buildPrompt() {
     }
 
     const spec = {
-        app_type: $('appType').value,
-        complexity: $('complexity').value,
         project_name: $('projectName').value.trim(),
         goal: $('goal').value.trim(),
-        users: $('users').value.trim(),
-        constraints: constraints,
         stack: stackValue,
         output_language: outLang,
-        output_mode: wantsMulti ? 'multi' : 'single'
+        output_mode: 'single'
     };
 
     const currentYear = new Date().getFullYear();
@@ -825,7 +1030,7 @@ async function callModel() {
     const endpoint = $('endpoint').value.trim();
     const model = $('model').value.trim();
     const apiKey = $('apiKey').value.trim();
-    const temp = Number($('temperature').value);
+    const temp = 0.7; // Fixed temperature for consistency
 
     // Provider‑key validation – give a clear warning before sending request
     if (apiKey) {
@@ -1250,15 +1455,8 @@ ${needsNodeSetup ? `
 
 Done! App runs directly in browser.
 `}
-2. Alternative: Right-click → Open with → Choose browser
 
-**For PWA/Service Workers:** Use a local web server:
-- VS Code: Install "Live Server" extension, right-click index.html → "Open with Live Server"
-- Python: Run \`python -m http.server 8000\` and open http://localhost:8000
-- Node: Run \`npx serve\` and follow instructions
-`}
-
-### Step 3: Edit the code
+### Trinn 3: Rediger koden
 - Open files in a code editor like VS Code (https://code.visualstudio.com)
 - Make changes and save - browser updates automatically (if using Live Server)
 
@@ -1732,6 +1930,52 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// Template rendering and selection
+function renderTemplates() {
+    const grid = $('templateGrid');
+    const currentTemplates = templates[state.uiLang];
+    
+    grid.innerHTML = currentTemplates.map(t => `
+        <button class="template-card" data-template-id="${t.id}">
+            <span class="template-icon">${t.icon}</span>
+            <div class="template-content">
+                <div class="template-name">${t.name}</div>
+                <div class="template-desc">${t.desc}</div>
+            </div>
+        </button>
+    `).join('');
+    
+    // Add click handlers
+    grid.querySelectorAll('.template-card').forEach(card => {
+        card.addEventListener('click', () => {
+            selectTemplate(card.dataset.templateId);
+        });
+    });
+}
+
+function selectTemplate(templateId) {
+    const currentTemplates = templates[state.uiLang];
+    const template = currentTemplates.find(t => t.id === templateId);
+    if (!template) return;
+    
+    // Remove active state from all cards
+    document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+    
+    // Add active state to selected card
+    const selectedCard = document.querySelector(`[data-template-id="${templateId}"]`);
+    if (selectedCard) selectedCard.classList.add('active');
+    
+    // Fill form fields
+    $('projectName').value = template.projectName;
+    $('goal').value = template.goal;
+    
+    // Focus on goal textarea if it's the scratch template
+    if (templateId === 'scratch') {
+        $('goal').focus();
+    }
+}
+
+renderTemplates();
 loadRememberedKey();
 applyLang();
 clearAll();

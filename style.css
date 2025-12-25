@@ -548,6 +548,62 @@ header::after {
     box-shadow: 0 0 15px rgba(56, 189, 248, 0.1);
 }
 
+/* Template Grid */
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.template-card {
+    background: var(--card-gradient);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s var(--ease-squish);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.template-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.15);
+}
+
+.template-card.active {
+    border-color: var(--primary);
+    background: linear-gradient(180deg, rgba(56, 189, 248, 0.1) 0%, rgba(31, 41, 55, 0.4) 100%);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+}
+
+.template-icon {
+    font-size: 36px;
+    line-height: 1;
+    display: block;
+}
+
+.template-content {
+    flex: 1;
+}
+
+.template-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.template-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
 /* Grid Layout */
 .grid {
     display: grid;
