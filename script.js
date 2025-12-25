@@ -76,8 +76,8 @@ const i18n = {
         aboutOpenSourceTitle: 'Åpen kildekode',
         aboutOpenSourceDesc: 'Dette prosjektet er åpen kildekode. Du kan se, kopiere og bidra til koden på GitHub.',
         aboutMadeWith: 'Laget med ❤️ for læring',
-        tForm: 'Velg template',
-        hTemplates: 'Klikk på en template for å komme raskt i gang',
+        tForm: 'Beskriv appen din',
+        hTemplates: 'Bruk ✨ Prompt-hjelperen for å få hjelp til å beskrive appen din i detalj og få en premium app med alle finesser!',
         tDetails: 'Tilpass prosjektet',
         lType: 'Type',
         lLevel: 'Kompleksitet',
@@ -104,6 +104,27 @@ const i18n = {
         dl: 'Last ned index.html',
         dlAll: '📦 Last ned ZIP',  
         reset: 'Nullstill',
+        promptHelper: '✨ Prompt-hjelper',
+        promptHelperTitle: '🚀 Lag en Premium App',
+        promptHelperDesc: 'Svar på spørsmålene under, så generer vi en detaljert prompt som sikrer at du får en moderne, profesjonell app med alle finesser!',
+        promptQ1: '1. Hva slags app vil du lage?',
+        promptQ1Placeholder: 'F.eks. quiz-spill, todo-liste, kalkulator, portfolio, chatbot...',
+        promptQ2: '2. Hvem er målgruppen?',
+        promptQ2Placeholder: 'F.eks. elever i ungdomsskolen, bedrifter, meg selv, gamere...',
+        promptQ3: '3. Beskriv hovedfunksjonen i detalj',
+        promptQ3Placeholder: 'Skriv hva brukeren skal kunne gjøre, hva som skal skje når de klikker, hvilke resultater de skal se osv.',
+        promptQ3Hint: '💡 Tips: Beskriv steg-for-steg hva brukeren skal kunne gjøre. Hva skal skje når de klikker? Hva skal de se? Vær så detaljert som mulig!',
+        promptQ4: '4. Hvilke data skal lagres/vises?',
+        promptQ4Placeholder: 'F.eks. brukerpoeng, historikk, favoritter, innstillinger...',
+        promptQ5: '5. Interaksjoner - hva skal skje når brukeren klikker/skriver?',
+        promptQ5Placeholder: 'F.eks. animasjoner, lydeffekter, visuell feedback, hover-effekter...',
+        promptQ6: '6. Hvilket design/stemning?',
+        promptQ6Options: ['💎 Moderne & Glassmorphic', '🎮 Gamer/Neon/Cyberpunk', '🎨 Fargerik & Leken', '💼 Profesjonell & Minimalistisk', '🌙 Dark Mode Premium', '🌈 Gradient & 3D-effekter', '📱 iOS-inspirert', '🔮 Futuristisk'],
+        promptQ7: '7. Spesielle ønsker?',
+        promptQ7Placeholder: 'F.eks. dark mode toggle, mobilvennlig, tilgjengelighet, spesifikke farger...',
+        promptGenerate: '🚀 Generer Premium Prompt',
+        promptInsert: 'Bruk denne prompten',
+        promptCancel: 'Avbryt',
         out: 'Output',
         outNone: 'ingen',
         hOut: 'Appen prøver å parse JSON, ellers vises rå tekst',
@@ -157,6 +178,8 @@ const i18n = {
         helpStep3Title: '🎉 Steg 3: Bruk koden',
         tipNameTitle: 'Prosjektnavn',
         tipNameDesc: 'Gi prosjektet et kort navn, f.eks. "todo-app" eller "quiz-spill"',
+        tipPromptHelperTitle: 'Bruk Prompt-hjelperen!',
+        tipPromptHelperDesc: 'Klikk på "✨ Prompt-hjelper" knappen for å få veiledning til å lage en detaljert beskrivelse. Den hjelper deg steg-for-steg med å beskrive appen din, og sikrer at du får en profesjonell app med alle finesser!',
         tipGoalTitle: 'Hva skal den gjøre',
         tipGoalDesc: 'Beskriv hva appen skal gjøre. Jo mer detaljert, jo bedre resultat. Eksempel: "En huskeliste-app der jeg kan legge til oppgaver, markere dem som ferdig, og slette dem"',
         tipTechTitle: 'Teknologi',
@@ -215,8 +238,8 @@ const i18n = {
         aboutOpenSourceTitle: 'Open Source',
         aboutOpenSourceDesc: 'This project is open source. You can view, copy, and contribute to the code on GitHub.',
         aboutMadeWith: 'Made with ❤️ for learning',
-        tForm: 'Choose template',
-        hTemplates: 'Click a template to get started quickly',
+        tForm: 'Describe your app',
+        hTemplates: 'Use the ✨ Prompt Helper to get help describing your app in detail and get a premium app with all the bells and whistles!',
         tDetails: 'Customize project',
         lType: 'Type',
         lLevel: 'Complexity',
@@ -243,6 +266,27 @@ const i18n = {
         dl: 'Download index.html',
         dlAll: '📦 Download ZIP',
         reset: 'Reset',
+        promptHelper: '✨ Prompt Helper',
+        promptHelperTitle: '🚀 Create a Premium App',
+        promptHelperDesc: 'Answer the questions below, and we\'ll generate a detailed prompt that ensures you get a modern, professional app with all the bells and whistles!',
+        promptQ1: '1. What kind of app do you want to create?',
+        promptQ1Placeholder: 'E.g. quiz game, todo list, calculator, portfolio, chatbot...',
+        promptQ2: '2. Who is the target audience?',
+        promptQ2Placeholder: 'E.g. middle school students, businesses, myself, gamers...',
+        promptQ3: '3. Describe the main function in detail',
+        promptQ3Placeholder: 'Write what the user should be able to do, what happens when they click, what results they should see etc.',
+        promptQ3Hint: '💡 Tip: Describe step-by-step what the user should be able to do. What happens when they click? What should they see? Be as detailed as possible!',
+        promptQ4: '4. What data should be stored/displayed?',
+        promptQ4Placeholder: 'E.g. user score, history, favorites, settings...',
+        promptQ5: '5. Interactions - what should happen when user clicks/types?',
+        promptQ5Placeholder: 'E.g. animations, sound effects, visual feedback, hover effects...',
+        promptQ6: '6. What design/mood?',
+        promptQ6Options: ['💎 Modern & Glassmorphic', '🎮 Gamer/Neon/Cyberpunk', '🎨 Colorful & Playful', '💼 Professional & Minimalist', '🌙 Dark Mode Premium', '🌈 Gradient & 3D effects', '📱 iOS-inspired', '🔮 Futuristic'],
+        promptQ7: '7. Special requests?',
+        promptQ7Placeholder: 'E.g. dark mode toggle, mobile-friendly, accessibility, specific colors...',
+        promptGenerate: '🚀 Generate Premium Prompt',
+        promptInsert: 'Use this prompt',
+        promptCancel: 'Cancel',
         out: 'Output',
         outNone: 'none',
         hOut: 'App tries JSON parse, otherwise raw text is shown',
@@ -296,6 +340,8 @@ const i18n = {
         helpStep3Title: '🎉 Step 3: Use the code',
         tipNameTitle: 'Project name',
         tipNameDesc: 'Give the project a short name, e.g. "todo-app" or "quiz-game"',
+        tipPromptHelperTitle: 'Use the Prompt Helper!',
+        tipPromptHelperDesc: 'Click the "✨ Prompt Helper" button to get guidance on creating a detailed description. It helps you step-by-step to describe your app, and ensures you get a professional app with all the bells and whistles!',
         tipGoalTitle: 'What it should do',
         tipGoalDesc: 'Describe what the app should do. The more detailed, the better the result. Example: "A todo list app where I can add tasks, mark them as done, and delete them"',
         tipTechTitle: 'Technology',
@@ -992,9 +1038,6 @@ function setApiState() {
 function applyLang() {
     const t = i18n[state.uiLang];
     
-    // Re-render templates when language changes
-    renderTemplates();
-    
     // Hero section
     $('heroBadge').textContent = t.heroBadge;
     $('heroTitle').innerHTML = t.heroTitle;
@@ -1042,6 +1085,7 @@ function applyLang() {
     $('btnDownload').textContent = t.dl;
     $('btnDownloadAll').textContent = t.dlAll;
     $('btnClear').textContent = t.reset;
+    $('btnPromptHelper').textContent = t.promptHelper;
     $('tOut').textContent = t.out;
     $('hOut').textContent = t.hOut;
     $('btnPreview').textContent = t.preview;
@@ -1118,6 +1162,8 @@ function applyLang() {
     $('helpStep1Desc').textContent = t.helpStep1Desc;
     $('helpStep2Title').textContent = t.helpStep2Title;
     $('helpStep3Title').textContent = t.helpStep3Title;
+    $('tipPromptHelperTitle').textContent = t.tipPromptHelperTitle;
+    $('tipPromptHelperDesc').textContent = t.tipPromptHelperDesc;
     $('tipNameTitle').textContent = t.tipNameTitle;
     $('tipNameDesc').textContent = t.tipNameDesc;
     $('tipGoalTitle').textContent = t.tipGoalTitle;
@@ -2064,6 +2110,259 @@ $('btnGenerate').addEventListener('click', async () => {
     await callModel();
 });
 
+// Prompt Helper Modal
+function showPromptHelper() {
+    const t = i18n[state.uiLang];
+    
+    const overlay = document.createElement('div');
+    overlay.className = 'preview-overlay';
+    overlay.style.zIndex = '10000';
+    
+    overlay.innerHTML = `
+        <div class="preview-modal" style="max-width:700px;max-height:90vh;overflow-y:auto">
+            <div class="preview-header">
+                <h2 class="preview-title">${t.promptHelperTitle}</h2>
+                <button class="preview-close" id="promptClose">✕</button>
+            </div>
+            <div style="padding:24px">
+                <p style="margin-bottom:24px;color:var(--text2)">${t.promptHelperDesc}</p>
+                
+                <div class="prompt-wizard">
+                    <div class="form-group" style="margin-bottom:20px">
+                        <label style="display:block;margin-bottom:8px;font-weight:500">${t.promptQ1}</label>
+                        <input type="text" id="promptAppType" placeholder="${t.promptQ1Placeholder}" 
+                               style="width:100%;padding:10px;border:1px solid var(--panel-border);border-radius:8px;background:var(--panel);color:var(--text)">
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom:20px">
+                        <label style="display:block;margin-bottom:8px;font-weight:500">${t.promptQ2}</label>
+                        <input type="text" id="promptAudience" placeholder="${t.promptQ2Placeholder}"
+                               style="width:100%;padding:10px;border:1px solid var(--panel-border);border-radius:8px;background:var(--panel);color:var(--text)">
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom:20px">
+                        <label style="display:block;margin-bottom:8px;font-weight:500">${t.promptQ3}</label>
+                        <textarea id="promptMainFeature" rows="3" placeholder="${t.promptQ3Placeholder}"
+                                  style="width:100%;padding:10px;border:1px solid var(--panel-border);border-radius:8px;background:var(--panel);color:var(--text);resize:vertical"></textarea>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom:20px">
+                        <label style="display:block;margin-bottom:8px;font-weight:500">${t.promptQ4}</label>
+                        <textarea id="promptData" rows="2" placeholder="${t.promptQ4Placeholder}"
+                                  style="width:100%;padding:10px;border:1px solid var(--panel-border);border-radius:8px;background:var(--panel);color:var(--text);resize:vertical"></textarea>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom:20px">
+                        <label style="display:block;margin-bottom:8px;font-weight:500">${t.promptQ5}</label>
+                        <textarea id="promptInteractions" rows="2" placeholder="${t.promptQ5Placeholder}"
+                                  style="width:100%;padding:10px;border:1px solid var(--panel-border);border-radius:8px;background:var(--panel);color:var(--text);resize:vertical"></textarea>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom:20px">
+                        <label style="display:block;margin-bottom:8px;font-weight:500">${t.promptQ6}</label>
+                        <select id="promptStyle" style="width:100%;padding:10px;border:1px solid var(--panel-border);border-radius:8px;background:var(--panel);color:var(--text)">
+                            ${t.promptQ6Options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom:20px">
+                        <label style="display:block;margin-bottom:8px;font-weight:500">${t.promptQ7}</label>
+                        <textarea id="promptOther" rows="2" placeholder="${t.promptQ7Placeholder}"
+                                  style="width:100%;padding:10px;border:1px solid var(--panel-border);border-radius:8px;background:var(--panel);color:var(--text);resize:vertical"></textarea>
+                    </div>
+                </div>
+                
+                <div style="display:flex;gap:12px;margin-top:24px">
+                    <button class="primary" id="promptGenerateBtn" style="flex:1">${t.promptGenerate}</button>
+                    <button class="secondary" id="promptCancelBtn">${t.promptCancel}</button>
+                </div>
+                
+                <div id="promptResult" class="hidden" style="margin-top:24px;padding:16px;background:var(--panel);border:1px solid var(--panel-border);border-radius:12px">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+                        <strong style="color:var(--primary)">✨ ${state.uiLang === 'no' ? 'Din Premium Prompt' : 'Your Premium Prompt'}:</strong>
+                        <button class="primary" id="promptInsertBtn" style="padding:6px 16px;font-size:13px">${t.promptInsert}</button>
+                    </div>
+                    <pre id="promptText" style="white-space:pre-wrap;color:var(--text2);font-size:14px;line-height:1.6;max-height:400px;overflow-y:auto"></pre>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Event handlers
+    const generateBtn = overlay.querySelector('#promptGenerateBtn');
+    const insertBtn = overlay.querySelector('#promptInsertBtn');
+    const cancelBtn = overlay.querySelector('#promptCancelBtn');
+    const closeBtn = overlay.querySelector('#promptClose');
+    const resultDiv = overlay.querySelector('#promptResult');
+    const promptText = overlay.querySelector('#promptText');
+    
+    generateBtn.addEventListener('click', () => {
+        const appType = overlay.querySelector('#promptAppType').value.trim();
+        const audience = overlay.querySelector('#promptAudience').value.trim();
+        const mainFeature = overlay.querySelector('#promptMainFeature').value.trim();
+        const data = overlay.querySelector('#promptData').value.trim();
+        const interactions = overlay.querySelector('#promptInteractions').value.trim();
+        const style = overlay.querySelector('#promptStyle').value;
+        const other = overlay.querySelector('#promptOther').value.trim();
+        
+        if (!appType || !mainFeature) {
+            alert(state.uiLang === 'no' ? 'Fyll ut minst spørsmål 1 og 3' : 'Fill out at least questions 1 and 3');
+            return;
+        }
+        
+        // Build PREMIUM structured prompt with ALL bells and whistles
+        let prompt = state.uiLang === 'no' 
+            ? `Lag en PREMIUM ${appType}` 
+            : `Create a PREMIUM ${appType}`;
+        
+        if (audience) prompt += ` for ${audience}`;
+        prompt += state.uiLang === 'no' 
+            ? ' med ALL BELLS & WHISTLES!\n\n'
+            : ' with ALL BELLS & WHISTLES!\n\n';
+        
+        prompt += state.uiLang === 'no' ? '🎯 HOVEDFUNKSJON:\n' : '🎯 MAIN FUNCTION:\n';
+        prompt += mainFeature + '\n\n';
+        
+        if (data) {
+            prompt += state.uiLang === 'no' ? '💾 DATA & LAGRING:\n' : '💾 DATA & STORAGE:\n';
+            prompt += data + '\n';
+            prompt += state.uiLang === 'no' 
+                ? '- Bruk localStorage for å lagre data persistent\n'
+                : '- Use localStorage to store data persistently\n';
+            prompt += state.uiLang === 'no'
+                ? '- Legg til eksport/import funksjonalitet (JSON)\n\n'
+                : '- Add export/import functionality (JSON)\n\n';
+        }
+        
+        if (interactions) {
+            prompt += state.uiLang === 'no' ? '⚡ INTERAKSJONER:\n' : '⚡ INTERACTIONS:\n';
+            prompt += interactions + '\n\n';
+        }
+        
+        prompt += state.uiLang === 'no' ? '🎨 DESIGN & UI/UX:\n' : '🎨 DESIGN & UI/UX:\n';
+        prompt += `${style}\n`;
+        prompt += state.uiLang === 'no'
+            ? `- Glassmorphism effekter med backdrop-filter blur
+- Gradient borders og shadows
+- Smooth animasjoner (fade-in, slide, scale, etc)
+- Hover effekter på alle interaktive elementer
+- Micro-interactions (button press, loading states)
+- Animated gradient backgrounds
+- Card-based layout med shadows og hover lift
+- Smooth transitions mellom states (0.3s ease)
+- Loading skeletons/spinners
+- Progress bars/indicators
+- Toast notifications for feedback
+- Emoji/ikoner for visuell appeal
+
+`
+            : `- Glassmorphism effects with backdrop-filter blur
+- Gradient borders and shadows
+- Smooth animations (fade-in, slide, scale, etc)
+- Hover effects on all interactive elements
+- Micro-interactions (button press, loading states)
+- Animated gradient backgrounds
+- Card-based layout with shadows and hover lift
+- Smooth transitions between states (0.3s ease)
+- Loading skeletons/spinners
+- Progress bars/indicators
+- Toast notifications for feedback
+- Emoji/icons for visual appeal
+
+`;
+        
+        prompt += state.uiLang === 'no' ? '✨ PREMIUM FUNKSJONER:\n' : '✨ PREMIUM FEATURES:\n';
+        prompt += state.uiLang === 'no'
+            ? `- Dark/Light mode toggle med smooth transition
+- Responsive design (mobil, tablet, desktop)
+- Keyboard shortcuts
+- Drag & drop funksjonalitet (hvis relevant)
+- Search/filter funksjonalitet
+- Sort funksjonalitet
+- Undo/Redo (hvis relevant)
+- Auto-save funksjonalitet
+- Konfetti/celebration animasjoner ved suksess
+- Sound effects (synthesized med Web Audio API)
+- Particle effects
+- Error handling med user-friendly meldinger
+
+`
+            : `- Dark/Light mode toggle with smooth transition
+- Responsive design (mobile, tablet, desktop)
+- Keyboard shortcuts
+- Drag & drop functionality (if relevant)
+- Search/filter functionality
+- Sort functionality
+- Undo/Redo (if relevant)
+- Auto-save functionality
+- Confetti/celebration animations on success
+- Sound effects (synthesized with Web Audio API)
+- Particle effects
+- Error handling with user-friendly messages
+
+`;
+        
+        if (other) {
+            prompt += state.uiLang === 'no' ? '🔧 ANDRE KRAV:\n' : '🔧 OTHER REQUIREMENTS:\n';
+            prompt += other + '\n\n';
+        }
+        
+        prompt += state.uiLang === 'no' ? '📋 TEKNISKE KRAV:\n' : '📋 TECHNICAL REQUIREMENTS:\n';
+        prompt += state.uiLang === 'no'
+            ? `- Semantisk HTML5
+- Mobilvennlig responsive design (mobile-first)
+- Tilgjengelighet (ARIA labels, keyboard navigation, god kontrast)
+- Performance (optimaliserte animasjoner, lazy loading)
+- Ren, organisert CSS (CSS Variables for farger/spacing)
+- Vanilla JavaScript (ingen dependencies)
+- Kommentarer for kompleks logikk
+- All funksjonalitet uten backend (client-side only)
+- localStorage for persistent data
+- Error boundaries og graceful degradation
+
+🚀 GÅ ALL IN! Lag noe som ser ut som det koster 10 000 kr i design!`
+            : `- Semantic HTML5
+- Mobile-friendly responsive design (mobile-first)
+- Accessibility (ARIA labels, keyboard navigation, good contrast)
+- Performance (optimized animations, lazy loading)
+- Clean, organized CSS (CSS Variables for colors/spacing)
+- Vanilla JavaScript (no dependencies)
+- Comments for complex logic
+- All functionality without backend (client-side only)
+- localStorage for persistent data
+- Error boundaries and graceful degradation
+
+🚀 GO ALL IN! Make something that looks like it cost $10,000 in design!`;
+        
+        promptText.textContent = prompt;
+        resultDiv.classList.remove('hidden');
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    
+    insertBtn.addEventListener('click', () => {
+        const prompt = promptText.textContent;
+        $('goal').value = prompt;
+        overlay.remove();
+    });
+    
+    const closeModal = () => overlay.remove();
+    cancelBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+    });
+    document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+            document.removeEventListener('keydown', escHandler);
+        }
+    });
+}
+
+$('btnPromptHelper').addEventListener('click', showPromptHelper);
+
 $('btnCopy').addEventListener('click', copyOutput);
 $('btnDownload').addEventListener('click', downloadIndex);
 $('btnDownloadAll').addEventListener('click', downloadAllFiles);
@@ -2388,51 +2687,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Template rendering and selection
-function renderTemplates() {
-    const grid = $('templateGrid');
-    const currentTemplates = templates[state.uiLang];
-    
-    grid.innerHTML = currentTemplates.map(t => `
-        <button class="template-card" data-template-id="${t.id}">
-            <span class="template-icon">${t.icon}</span>
-            <div class="template-content">
-                <div class="template-name">${t.name}</div>
-                <div class="template-desc">${t.desc}</div>
-            </div>
-        </button>
-    `).join('');
-    
-    // Add click handlers
-    grid.querySelectorAll('.template-card').forEach(card => {
-        card.addEventListener('click', () => {
-            selectTemplate(card.dataset.templateId);
-        });
-    });
-}
-
-function selectTemplate(templateId) {
-    const currentTemplates = templates[state.uiLang];
-    const template = currentTemplates.find(t => t.id === templateId);
-    if (!template) return;
-    
-    // Remove active state from all cards
-    document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
-    
-    // Add active state to selected card
-    const selectedCard = document.querySelector(`[data-template-id="${templateId}"]`);
-    if (selectedCard) selectedCard.classList.add('active');
-    
-    // Fill form fields
-    $('projectName').value = template.projectName;
-    $('goal').value = template.goal;
-    
-    // Focus on goal textarea if it's the scratch template
-    if (templateId === 'scratch') {
-        $('goal').focus();
-    }
-}
-
+// Initialize app
 loadRememberedKey();
 applyLang();
 clearAll();

@@ -112,20 +112,19 @@
             <div class="grid">
 
                 <div class="card">
-                    <h2 id="tForm">Velg template</h2>
-                    <div class="hint" id="hTemplates">Klikk på en template for å komme i gang raskt</div>
-                    
-                    <div class="template-grid" id="templateGrid">
-                        <!-- Templates injected by JS -->
-                    </div>
-
-                    <h2 id="tDetails" style="margin-top:24px">Tilpass prosjektet</h2>
+                    <h2 id="tDetails">Beskriv appen din</h2>
+                    <div class="hint" id="hTemplates">Bruk Prompt-hjelperen for å lage en detaljert beskrivelse som gir deg en premium app! ✨</div>
 
                     <label id="lName" for="projectName">Prosjektnavn</label>
                     <input id="projectName" placeholder="f.eks. quiz-spill, memory-game" />
 
-                    <label id="lGoal" for="goal">Beskrivelse</label>
-                    <textarea id="goal" rows="8" placeholder="Beskriv hva appen skal gjøre. Klikk på en template over for eksempler!"></textarea>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px">
+                        <label id="lGoal" for="goal">Beskrivelse</label>
+                        <button type="button" id="btnPromptHelper" class="secondary" style="font-size:12px;padding:6px 12px">
+                            ✨ Prompt-hjelper
+                        </button>
+                    </div>
+                    <textarea id="goal" rows="8" placeholder="Beskriv hva appen skal gjøre... Bruk Prompt-hjelperen for å få hjelp!"></textarea>
 
                     <details style="margin:16px 0">
                         <summary style="cursor:pointer;color:var(--text2);font-size:14px">⚙️ Avanserte innstillinger (valgfritt)</summary>
@@ -297,6 +296,13 @@
                 <div class="help-section">
                     <h3 id="helpStep2Title">✏️ Steg 2: Fyll ut skjemaet</h3>
                     <div class="help-tips">
+                        <div class="help-tip">
+                            <span class="tip-icon">✨</span>
+                            <div>
+                                <strong id="tipPromptHelperTitle">Bruk Prompt-hjelperen!</strong>
+                                <p id="tipPromptHelperDesc">Klikk på "✨ Prompt-hjelper" knappen for å få veiledning til å lage en detaljert beskrivelse. Den hjelper deg steg-for-steg med å beskrive appen din, og sikrer at du får en profesjonell app med alle finesser!</p>
+                            </div>
+                        </div>
                         <div class="help-tip">
                             <span class="tip-icon">💡</span>
                             <div>
