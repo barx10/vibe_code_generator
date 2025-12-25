@@ -681,35 +681,92 @@ function buildPrompt() {
 
     const currentYear = new Date().getFullYear();
     
+    // Stack-specific instructions
+    const stackGuide = {
+        'react': outLang === 'no' 
+            ? `\n**REACT-SPESIFIKT:**
+- Bruk React 18+ med ESM imports fra esm.sh (f.eks. import React from 'https://esm.sh/react@18')
+- Inkluder createRoot fra react-dom/client
+- Bruk hooks (useState, useEffect, etc.)
+- Koden MÅ kjøre direkte i nettleseren uten npm/build - bruk bare ESM imports
+- IKKE generer package.json eller npm-skript - det skal kjøre direkte
+- Strukturer komponenter logisk med god state management`
+            : `\n**REACT-SPECIFIC:**
+- Use React 18+ with ESM imports from esm.sh (e.g. import React from 'https://esm.sh/react@18')
+- Include createRoot from react-dom/client
+- Use hooks (useState, useEffect, etc.)
+- Code MUST run directly in browser without npm/build - use ESM imports only
+- DO NOT generate package.json or npm scripts - it should run directly
+- Structure components logically with good state management`,
+        'vue': outLang === 'no'
+            ? `\n**VUE-SPESIFIKT:**
+- Bruk Vue 3 CDN eller ESM import
+- Kan bruke petite-vue for enklere oppsett
+- Koden MÅ kjøre direkte i nettleseren`
+            : `\n**VUE-SPECIFIC:**
+- Use Vue 3 CDN or ESM import
+- Can use petite-vue for simpler setup
+- Code MUST run directly in browser`,
+        'pwa': outLang === 'no'
+            ? `\n**PWA-SPESIFIKT:**
+- Inkluder manifest.json med korrekte properties (name, short_name, start_url, display, icons)
+- Lag en funksjonell service worker (sw.js) med offline cache
+- Registrer service worker i index.html
+- Inkluder meta-tags for mobile (theme-color, apple-mobile-web-app-capable)
+- Bruk localStorage/IndexedDB for data
+- Test at offline-funksjonalitet faktisk virker`
+            : `\n**PWA-SPECIFIC:**
+- Include manifest.json with correct properties (name, short_name, start_url, display, icons)
+- Create functional service worker (sw.js) with offline cache
+- Register service worker in index.html
+- Include meta tags for mobile (theme-color, apple-mobile-web-app-capable)
+- Use localStorage/IndexedDB for data
+- Ensure offline functionality actually works`
+    };
+    
+    const stackInstructions = stackGuide[stackValue] || stackGuide[spec.app_type] || '';
+    
     const sys = outLang === 'no'
-        ? `Du er en ekspert frontend-utvikler som lager visuelt imponerende, startklare prosjekter. Du leverer alltid konkret, kjørbar kode med moderne design. Ingen forklaringer utenom en kort README hvis multi er valgt.
+        ? `Du er en ekspert fullstack-utvikler som lager FUNGERENDE, startklare prosjekter. Koden må faktisk kjøre - ikke teoretiske eksempler.
 
-DESIGN-KRAV (VIKTIG):
-- Bruk en mørk, moderne fargeprofil (dark mode) som standard
-- Legg til subtile gradienter, shadows og hover-effekter
-- Inkluder smooth CSS-animasjoner og transitions
-- Bruk Google Fonts (Inter, Outfit, eller lignende moderne fonter)
-- Lag responsivt design med CSS Grid eller Flexbox
-- Legg til en visuelt tiltalende header/hero-seksjon
-- Bruk ikoner (emoji eller Unicode) for visuell interesse
-- Inkluder loading states og micro-interactions
-- IKKE inkluder footer med "laget i" eller årstall - la det være opp til brukeren
-- Bruk CSS custom properties (variabler) for farger
-- Bruk moderne ${currentYear} designtrender`
-        : `You are an expert frontend developer creating visually stunning, ready-to-run projects. Always output concrete, runnable code with modern design. No explanations except a short README if multi is selected.
+KRITISKE REGLER:
+1. **FUNKSJONALITET FØRST:** Koden MÅ kjøre uten feil
+2. **KOMPLETT IMPLEMENTASJON:** Alle features i goal må være implementert, ikke bare placeholder
+3. **INGEN EKSTERNE AVHENGIGHETER SOM KREVER BUILD:** Bruk CDN eller ESM imports hvis nødvendig
+4. **REALISTISKE EKSEMPELDATA:** Inkluder faktiske eksempler som demonstrerer funksjonaliteten
+5. **FEILHÅNDTERING:** Legg til try/catch og brukervenlige feilmeldinger${stackInstructions}
 
-DESIGN REQUIREMENTS (IMPORTANT):
-- Use a dark, modern color scheme (dark mode) as default
-- Add subtle gradients, shadows and hover effects
-- Include smooth CSS animations and transitions
-- Use Google Fonts (Inter, Outfit, or similar modern fonts)
-- Create responsive design with CSS Grid or Flexbox
-- Add a visually appealing header/hero section
-- Use icons (emoji or Unicode) for visual interest
-- Include loading states and micro-interactions
-- Do NOT include a footer with "made in" or any year - leave that to the user
-- Use CSS custom properties (variables) for colors
-- Use modern ${currentYear} design trends`;
+DESIGN-KRAV:
+- Mørk, moderne fargeprofil (dark mode) som standard
+- Subtile gradienter, shadows og hover-effekter
+- Smooth CSS-animasjoner og transitions
+- Google Fonts (Inter, Outfit, eller lignende)
+- Responsivt design (CSS Grid/Flexbox)
+- Visuelt tiltalende header/hero-seksjon
+- Ikoner (emoji eller Unicode)
+- Loading states og micro-interactions
+- CSS custom properties (variabler)
+- IKKE inkluder footer med "laget i" eller årstall`
+        : `You are an expert fullstack developer creating WORKING, ready-to-run projects. Code must actually execute - not theoretical examples.
+
+CRITICAL RULES:
+1. **FUNCTIONALITY FIRST:** Code MUST run without errors
+2. **COMPLETE IMPLEMENTATION:** All features in goal must be implemented, not just placeholders
+3. **NO EXTERNAL DEPENDENCIES REQUIRING BUILD:** Use CDN or ESM imports if needed
+4. **REALISTIC SAMPLE DATA:** Include actual examples demonstrating functionality
+5. **ERROR HANDLING:** Add try/catch and user-friendly error messages${stackInstructions}
+
+DESIGN REQUIREMENTS:
+- Dark, modern color scheme (dark mode) as default
+- Subtle gradients, shadows and hover effects
+- Smooth CSS animations and transitions
+- Google Fonts (Inter, Outfit, or similar)
+- Responsive design (CSS Grid/Flexbox)
+- Visually appealing header/hero section
+- Icons (emoji or Unicode)
+- Loading states and micro-interactions
+- CSS custom properties (variables)
+- Do NOT include footer with "made in" or year`;
 
     const format = outLang === 'no'
         ? `Svar kun som JSON. Schema:
@@ -718,60 +775,74 @@ DESIGN REQUIREMENTS (IMPORTANT):
   "files": [
     {"path":"style.css","content":"..."},
     {"path":"app.js","content":"..."},
+    {"path":"manifest.json","content":"..."},
+    {"path":"sw.js","content":"..."},
     {"path":"README.md","content":"..."},
-    {"path":".gitignore","content":"..."},
-    {"path":".env.example","content":"..."}
+    {"path":".gitignore","content":"..."}
   ],
   "notes": "kort, valgfritt"
 }
 
-Regler:
-1) index_html må være komplett HTML med inline eller eksterne referanser avhengig av output_mode.
-2) Ingen API keys i kode.
-3) Bruk tydelig struktur og eksempeldata der det trengs.
-4) Hvis output_mode er single: legg all CSS og JS inline i index_html, og sett files til tom liste.
-5) Hvis output_mode er multi: index_html refererer til style.css og app.js og files inkluderer minst de filene, README, gitignore, env.example.
+VIKTIGE REGLER:
+1) **index_html må være komplett og KJØRBAR** - test at alle referanser er korrekte
+2) **Ingen API keys eller hemmeligheter i kode**
+3) **Bruk faktiske, fungerende eksempeldata** - ikke "TODO" eller placeholder
+4) **Single mode:** Legg ALL CSS og JS inline i index_html. files skal være tom liste []
+5) **Multi mode:** index_html refererer til eksterne filer (style.css, app.js). files MÅ inneholde:
+   - style.css (all CSS-kode)
+   - app.js (all JavaScript-kode)
+   - README.md (installasjon og bruk)
+   - .gitignore (node_modules, .DS_Store, .env)
+   - manifest.json (hvis PWA)
+   - sw.js (hvis PWA eller offline-first)
 
 STIL-REGLER:
-- Bakgrunn: mørk (#0a0a0f eller lignende)
-- Primærfarge: en livlig accent (cyan, lilla, eller lignende)
-- Tekst: lys på mørk bakgrunn
-- Kort/paneler: semi-transparente med border og subtle shadow
-- Knapper: gradient eller solid med hover-glow effekt
-- Inputs: mørk bakgrunn med subtil border
-- Animasjoner: fadeIn, subtle hover transforms, smooth transitions`
+- Bakgrunn: mørk (#0a0a0f eller #0f172a)
+- Primærfarge: livlig accent (#38bdf8, #8b5cf6, eller lignende)
+- Tekst: #f1f5f9 på mørk bakgrunn
+- Kort/paneler: rgba(30, 41, 59, 0.6) med border og subtle shadow
+- Knapper: solid farge eller gradient med hover-glow
+- Inputs: rgba(15, 23, 42, 0.6) med subtle border
+- Animasjoner: fadeIn (0.5s), subtle hover transforms (translateY(-2px)), smooth transitions (0.2s)`
         : `Return JSON only. Schema:
 {
   "index_html": "...",
   "files": [
     {"path":"style.css","content":"..."},
     {"path":"app.js","content":"..."},
+    {"path":"manifest.json","content":"..."},
+    {"path":"sw.js","content":"..."},
     {"path":"README.md","content":"..."},
-    {"path":".gitignore","content":"..."},
-    {"path":".env.example","content":"..."}
+    {"path":".gitignore","content":"..."}
   ],
   "notes": "short, optional"
 }
 
-Rules:
-1) index_html must be complete HTML with inline or external references depending on output_mode.
-2) Never include API keys in code.
-3) Use clear structure and sample data if needed.
-4) If output_mode is single: inline all CSS and JS in index_html and set files to empty.
-5) If output_mode is multi: index_html references style.css and app.js and files includes at least those, README, gitignore, env.example.
+IMPORTANT RULES:
+1) **index_html must be complete and RUNNABLE** - verify all references are correct
+2) **No API keys or secrets in code**
+3) **Use actual, working sample data** - no "TODO" or placeholders
+4) **Single mode:** Inline ALL CSS and JS in index_html. files should be empty list []
+5) **Multi mode:** index_html references external files (style.css, app.js). files MUST contain:
+   - style.css (all CSS code)
+   - app.js (all JavaScript code)
+   - README.md (installation and usage)
+   - .gitignore (node_modules, .DS_Store, .env)
+   - manifest.json (if PWA)
+   - sw.js (if PWA or offline-first)
 
 STYLE RULES:
-- Background: dark (#0a0a0f or similar)
-- Primary color: a vibrant accent (cyan, purple, or similar)
-- Text: light on dark background
-- Cards/panels: semi-transparent with border and subtle shadow
-- Buttons: gradient or solid with hover-glow effect
-- Inputs: dark background with subtle border
-- Animations: fadeIn, subtle hover transforms, smooth transitions`;
+- Background: dark (#0a0a0f or #0f172a)
+- Primary color: vibrant accent (#38bdf8, #8b5cf6, or similar)
+- Text: #f1f5f9 on dark background
+- Cards/panels: rgba(30, 41, 59, 0.6) with border and subtle shadow
+- Buttons: solid color or gradient with hover-glow
+- Inputs: rgba(15, 23, 42, 0.6) with subtle border
+- Animations: fadeIn (0.5s), subtle hover transforms (translateY(-2px)), smooth transitions (0.2s)`;
 
     const user = (outLang === 'no'
-        ? `Spesifikasjon:\n${JSON.stringify(spec, null, 2)}\n\n${format}\n\nLag et visuelt imponerende prosjekt som matcher dette. Designet skal se profesjonelt og moderne ut med én gang - dette er viktig for førsteinntrykket! Prioriter at det faktisk kjører uten ekstra avhengigheter.`
-        : `Spec:\n${JSON.stringify(spec, null, 2)}\n\n${format}\n\nCreate a visually stunning project matching this. The design should look professional and modern immediately - this is important for first impressions! Prioritize runnable output without extra dependencies.`);
+        ? `Spesifikasjon:\n${JSON.stringify(spec, null, 2)}\n\n${format}\n\nLag et FUNGERENDE prosjekt som matcher dette. KRITISK: Koden må faktisk kjøre når brukeren åpner den - test alle referanser og funksjoner. Prioriter at brukeren får en fungerende app, ikke bare pen kode som ikke virker.`
+        : `Spec:\n${JSON.stringify(spec, null, 2)}\n\n${format}\n\nCreate a WORKING project matching this. CRITICAL: Code must actually run when user opens it - verify all references and functions. Prioritize giving user a working app, not just pretty code that doesn't work.`);
 
     return { sys, user };
 }
