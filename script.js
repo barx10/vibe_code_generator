@@ -85,6 +85,8 @@ const i18n = {
         lData: 'Data og lagring',
         lConstraints: '⚙️ Krav til appen',
         lStack: 'Teknologi du vil bruke',
+        hStack: 'Velg rammeverk – ren HTML anbefales for nybegynnere',
+        stackComplexWarning: '⚠️ Krever Node.js/Python installasjon. Ikke anbefalt for nybegynnere - velg "Ren HTML/CSS/JS" for enklest oppsett!',
         lLang: 'Output språk',
         lFiles: 'Output type',
         tApi: 'Modell',
@@ -98,7 +100,7 @@ const i18n = {
         gen: 'Generer',
         copy: 'Kopier output',
         dl: 'Last ned index.html',
-        dlAll: '📦 Last ned alle filer',
+        dlAll: '📦 Last ned ZIP',  
         reset: 'Nullstill',
         out: 'Output',
         outNone: 'ingen',
@@ -226,6 +228,8 @@ const i18n = {
         lData: 'Data and storage',
         lConstraints: '⚙️ App requirements',
         lStack: 'Tech you want',
+        hStack: 'Choose framework – plain HTML recommended for beginners',
+        stackComplexWarning: '⚠️ Requires Node.js/Python installation. Not recommended for beginners - choose "Plain HTML/CSS/JS" for easiest setup!',
         lLang: 'Output language',
         lFiles: 'Output mode',
         tApi: 'Model',
@@ -239,7 +243,7 @@ const i18n = {
         gen: 'Generate',
         copy: 'Copy output',
         dl: 'Download index.html',
-        dlAll: '📦 Download all files',
+        dlAll: '📦 Download ZIP',
         reset: 'Reset',
         out: 'Output',
         outNone: 'none',
@@ -1007,12 +1011,13 @@ function openPreview() {
     document.addEventListener('keydown', escHandler);
 }
 
-function downloadAllFiles() {
+async function downloadAllFiles() {
     const parsed = state.last.parsed;
     if (!parsed) return;
     
-    // Create a simple HTML page with all files that user can copy
     const outLang = $('outputLang').value;
+    const stack = $('stack').value;
+    const projectName = $('projectName').value || 'prosjekt';
     
     // Collect all files
     const allFiles = [];
@@ -1023,73 +1028,153 @@ function downloadAllFiles() {
         allFiles.push(...parsed.files);
     }
     
-    // Create a single file with all content clearly separated
-    let combined = `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>${outLang === 'no' ? 'Alle filer' : 'All Files'}</title>
-    <style>
-        body { font-family: system-ui, sans-serif; background: #1a1a2e; color: #eee; padding: 40px; max-width: 1000px; margin: 0 auto; }
-        h1 { color: #38bdf8; }
-        .file { background: #0f0f23; border: 1px solid #333; border-radius: 8px; margin: 20px 0; overflow: hidden; }
-        .file-header { background: #252545; padding: 12px 16px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
-        .file-header span { color: #38bdf8; }
-        .file-content { padding: 16px; white-space: pre-wrap; font-family: 'Fira Code', monospace; font-size: 13px; overflow-x: auto; margin: 0; }
-        .copy-btn { background: #38bdf8; color: #000; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
-        .copy-btn:hover { background: #7dd3fc; }
-        .instructions { background: #252545; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
-        .instructions ol { margin: 10px 0; padding-left: 20px; }
-    </style>
-</head>
-<body>
-    <h1>📦 ${outLang === 'no' ? 'Dine genererte filer' : 'Your Generated Files'}</h1>
-    <div class="instructions">
-        <strong>${outLang === 'no' ? 'Slik bruker du filene:' : 'How to use these files:'}</strong>
-        <ol>
-            <li>${outLang === 'no' ? 'Lag en ny mappe på datamaskinen din' : 'Create a new folder on your computer'}</li>
-            <li>${outLang === 'no' ? 'Kopier innholdet fra hver fil nedenfor' : 'Copy the content from each file below'}</li>
-            <li>${outLang === 'no' ? 'Lagre hver fil med riktig filnavn i mappen' : 'Save each file with the correct filename in the folder'}</li>
-            <li>${outLang === 'no' ? 'Åpne index.html i nettleseren' : 'Open index.html in your browser'}</li>
-        </ol>
-    </div>
+    // Add comprehensive README with setup instructions
+    const needsNodeSetup = ['react', 'vue', 'svelte', 'nextjs'].includes(stack);
+    const needsServer = needsNodeSetup || stack.includes('python') || stack.includes('nodejs');
+    
+    let readmeContent = outLang === 'no' ? 
+`# ${projectName}
+
+## 🚀 Kom i gang
+
+### Trinn 1: Pakk ut filene
+Denne ZIP-filen inneholder alle filene du trenger. Pakk ut til en mappe på datamaskinen din.
+
+### Trinn 2: ${needsServer ? 'Installer avhengigheter og start server' : 'Åpne i nettleser'}
+${needsNodeSetup ? `
+⚠️ **Dette prosjektet krever Node.js**
+
+1. Installer Node.js fra https://nodejs.org (velg LTS-versjonen)
+2. Åpne Terminal/Command Prompt i prosjektmappen
+3. Kjør: \`npm install\` (første gang)
+4. Kjør: \`npm run dev\` eller \`npm start\`
+5. Åpne nettleseren på den URL-en som vises (vanligvis http://localhost:3000)
+
+**Merk:** Disse filene vil IKKE fungere ved å bare åpne index.html!
+` : stack.includes('python') ? `
+⚠️ **Dette prosjektet krever Python**
+
+1. Installer Python fra https://python.org
+2. Åpne Terminal i prosjektmappen
+3. Kjør: \`pip install -r requirements.txt\` (hvis requirements.txt finnes)
+4. Kjør: \`python app.py\` eller \`python main.py\`
+5. Åpne nettleseren på http://localhost:5000
+` : `
+✅ **Enkelt oppsett - ingen installasjon nødvendig!**
+
+1. Dobbel-klikk på \`index.html\` for å åpne i nettleseren
+2. Alternativt: Høyreklikk → Åpne med → Velg nettleser
+
+**For PWA/Service Workers:** Bruk en lokal webserver:
+- VS Code: Installer "Live Server" extension, høyreklikk index.html → "Open with Live Server"
+- Python: Kjør \`python -m http.server 8000\` og åpne http://localhost:8000
+- Node: Kjør \`npx serve\` og følg instruksjonene
+`}
+
+### Trinn 3: Rediger koden
+- Åpne filene i en kodeeditor som VS Code (https://code.visualstudio.com)
+- Gjør endringer og lagre - nettleseren oppdaterer automatisk (hvis du bruker Live Server)
+
+## 📁 Filstruktur
+${allFiles.map(f => `- \`${f.path}\` - ${f.path.endsWith('.html') ? 'Hovedfil' : f.path.endsWith('.css') ? 'Styling' : f.path.endsWith('.js') ? 'Logikk' : 'Fil'}`).join('\n')}
+
+## 🛠 Nyttige verktøy
+- **VS Code**: Gratis kodeeditor med god støtte for HTML/CSS/JS
+- **Live Server**: VS Code extension for automatisk oppdatering
+- **Chrome DevTools**: F12 i Chrome/Edge for feilsøking
+
+## 📚 Lær mer
+- HTML: https://developer.mozilla.org/docs/Web/HTML
+- CSS: https://developer.mozilla.org/docs/Web/CSS
+- JavaScript: https://developer.mozilla.org/docs/Web/JavaScript
+${needsNodeSetup ? `- ${stack === 'react' ? 'React' : stack === 'vue' ? 'Vue' : stack === 'svelte' ? 'Svelte' : 'Next.js'}: https://${stack === 'react' ? 'react.dev' : stack === 'vue' ? 'vuejs.org' : stack === 'svelte' ? 'svelte.dev' : 'nextjs.org'}` : ''}
+
+---
+Generert med VibeCoding Idea Builder - https://barx10.github.io/vibe_code_generator/
+` : 
+`# ${projectName}
+
+## 🚀 Getting Started
+
+### Step 1: Extract Files
+This ZIP contains all the files you need. Extract to a folder on your computer.
+
+### Step 2: ${needsServer ? 'Install dependencies and start server' : 'Open in browser'}
+${needsNodeSetup ? `
+⚠️ **This project requires Node.js**
+
+1. Install Node.js from https://nodejs.org (choose LTS version)
+2. Open Terminal/Command Prompt in the project folder
+3. Run: \`npm install\` (first time only)
+4. Run: \`npm run dev\` or \`npm start\`
+5. Open browser at the URL shown (usually http://localhost:3000)
+
+**Note:** These files will NOT work by just opening index.html!
+` : stack.includes('python') ? `
+⚠️ **This project requires Python**
+
+1. Install Python from https://python.org
+2. Open Terminal in the project folder
+3. Run: \`pip install -r requirements.txt\` (if requirements.txt exists)
+4. Run: \`python app.py\` or \`python main.py\`
+5. Open browser at http://localhost:5000
+` : `
+✅ **Simple setup - no installation needed!**
+
+1. Double-click \`index.html\` to open in browser
+2. Alternative: Right-click → Open with → Choose browser
+
+**For PWA/Service Workers:** Use a local web server:
+- VS Code: Install "Live Server" extension, right-click index.html → "Open with Live Server"
+- Python: Run \`python -m http.server 8000\` and open http://localhost:8000
+- Node: Run \`npx serve\` and follow instructions
+`}
+
+### Step 3: Edit the code
+- Open files in a code editor like VS Code (https://code.visualstudio.com)
+- Make changes and save - browser updates automatically (if using Live Server)
+
+## 📁 File Structure
+${allFiles.map(f => `- \`${f.path}\` - ${f.path.endsWith('.html') ? 'Main file' : f.path.endsWith('.css') ? 'Styling' : f.path.endsWith('.js') ? 'Logic' : 'File'}`).join('\n')}
+
+## 🛠 Useful Tools
+- **VS Code**: Free code editor with great HTML/CSS/JS support
+- **Live Server**: VS Code extension for auto-reload
+- **Chrome DevTools**: Press F12 in Chrome/Edge for debugging
+
+## 📚 Learn More
+- HTML: https://developer.mozilla.org/docs/Web/HTML
+- CSS: https://developer.mozilla.org/docs/Web/CSS
+- JavaScript: https://developer.mozilla.org/docs/Web/JavaScript
+${needsNodeSetup ? `- ${stack === 'react' ? 'React' : stack === 'vue' ? 'Vue' : stack === 'svelte' ? 'Svelte' : 'Next.js'}: https://${stack === 'react' ? 'react.dev' : stack === 'vue' ? 'vuejs.org' : stack === 'svelte' ? 'svelte.dev' : 'nextjs.org'}` : ''}
+
+---
+Generated with VibeCoding Idea Builder - https://barx10.github.io/vibe_code_generator/
 `;
     
-    allFiles.forEach((f, i) => {
-        const escapedContent = f.content
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-        combined += `
-    <div class="file">
-        <div class="file-header">
-            <span>📄 ${f.path}</span>
-            <button class="copy-btn" onclick="copyFile(${i})">${outLang === 'no' ? 'Kopier' : 'Copy'}</button>
-        </div>
-        <pre class="file-content" id="file-${i}">${escapedContent}</pre>
-    </div>
-`;
+    allFiles.push({ path: 'README.md', content: readmeContent });
+    
+    // Use JSZip library (we'll load it dynamically)
+    if (!window.JSZip) {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        await new Promise((resolve, reject) => {
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+    
+    const zip = new JSZip();
+    allFiles.forEach(f => {
+        zip.file(f.path, f.content);
     });
     
-    combined += `
-    <script>
-        const fileContents = ${JSON.stringify(allFiles.map(f => f.content))};
-        function copyFile(idx) {
-            navigator.clipboard.writeText(fileContents[idx]).then(() => {
-                event.target.textContent = '✓ ${outLang === 'no' ? 'Kopiert!' : 'Copied!'}';
-                setTimeout(() => event.target.textContent = '${outLang === 'no' ? 'Kopier' : 'Copy'}', 2000);
-            });
-        }
-    <\/script>
-</body>
-</html>`;
-    
-    // Download as HTML file
-    const blob = new Blob([combined], { type: 'text/html;charset=utf-8' });
+    const blob = await zip.generateAsync({ type: 'blob' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'prosjekt-filer.html';
+    a.download = `${projectName.replace(/\s+/g, '-')}.zip`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -1225,11 +1310,25 @@ $('apiKey').addEventListener('input', () => setApiState());
 
 // Show/hide custom stack input
 $('stack').addEventListener('change', (e) => {
-    if (e.target.value === 'custom') {
+    const val = e.target.value;
+    if (val === 'custom') {
         $('stackCustom').classList.remove('hidden');
         $('stackCustom').focus();
     } else {
         $('stackCustom').classList.add('hidden');
+    }
+    
+    // Show warning for complex stacks
+    const complexStacks = ['react', 'vue', 'svelte', 'nextjs', 'python-flask', 'python-fastapi', 'nodejs-express'];
+    const hintEl = $('hStack');
+    const t = i18n[state.lang];
+    
+    if (complexStacks.includes(val)) {
+        hintEl.innerHTML = t.stackComplexWarning || '⚠️ Krever Node.js/Python installasjon. Ikke anbefalt for nybegynnere - velg "Ren HTML/CSS/JS" for enklest oppsett!';
+        hintEl.style.color = '#f59e0b';
+    } else {
+        hintEl.textContent = t.hStack;
+        hintEl.style.color = '';
     }
 });
 
