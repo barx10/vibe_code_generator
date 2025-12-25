@@ -338,103 +338,303 @@ const templates = {
         {
             id: 'crm',
             icon: '📇',
-            name: 'Mikro CRM',
-            desc: 'Kontakt/kunde-database for din nisje',
-            projectName: 'mikro-crm',
-            goal: `En enkel CRM-app for din nisje (bandøving, foredrag, elever, kunder, hobbyprosjekter):
-- Legg til kontakter med navn, info, notater
-- Tags/kategorier (elev, kunde, prosjekt, etc.)
-- Tidslinje med aktiviteter og historikk
-- Påminnelser og oppfølging
-- Søk og filtrer kontakter
-- Eksporter til JSON/CSV
-- Alt lagres lokalt i localStorage
-- Responsivt design med liste- og kortvisning`
+            name: 'Mikro CRM Pro',
+            desc: '✨ Glassmorphic kontakt-dashboard',
+            projectName: 'mikro-crm-pro',
+            goal: `En ULTRA moderne CRM med all bells & whistles:
+
+🎨 VISUELT:
+- Glassmorphism UI med blur effects og gradienter
+- Smooth scroll-animasjoner og fade-ins
+- Particle background som reagerer på mus
+- Neon-glow på hover over kort
+- Micro-interactions på alle knapper
+- 3D card flips ved klikk
+- Animated gradient borders
+
+⚡ FEATURES:
+- Drag & drop kontakter mellom statuser (kanban-style)
+- Real-time søk med highlighting
+- Avansert filtering (multi-select tags, daterange)
+- Interaktiv tidslinje med scroll-triggered animasjoner
+- Smart påminnelser med countdown-timer
+- Bulk-edit med checkbox-selection
+- Quick-actions på hover (kall, mail, slett)
+- Keyboard shortcuts (/, Ctrl+K for search)
+
+📊 DASHBOARD:
+- Animated statistics cards med count-up
+- Mini-grafer for aktivitet (Chart.js eller Canvas)
+- Heatmap for kontaktfrekvens
+- Tag-cloud med størrelse basert på bruk
+
+💾 DATA:
+- Auto-save med "saved"-indicator
+- Eksporter til JSON/CSV/vCard
+- Import fra CSV med drag-drop
+- Undo/Redo funksjonalitet
+- localStorage med compression`
         },
         {
             id: 'price-tracker',
             icon: '🏷️',
-            name: 'Pris og tilbud tracker',
-            desc: 'Følg priser uten konto',
-            projectName: 'pris-tracker',
-            goal: `En pris-tracker hvor du:
-- Legger inn varer med navn og pris
-- Limer inn kvitteringstekst som parses automatisk
-- Får historikk med dato og butikk
-- Ser "billigste butikk sist" per vare
-- Graf over prisutvikling
-- Søk og filtrer varer
-- Sammenlign priser på tvers av butikker
-- Lokal lagring (localStorage)
-- Eksporter data til CSV`
+            name: 'Smart Price Tracker',
+            desc: '📊 AI-powered pris-analyse',
+            projectName: 'smart-price-tracker',
+            goal: `En AVANSERT pris-tracker med AI-vibes:
+
+🤖 SMART PARSING:
+- Lim inn kvitteringstekst → auto-detect varer, priser, butikk, dato
+- Regex-magi som gjenkjenner norske formater
+- Fuzzy matching for lignende varer
+- Animert "scanning"-effekt ved parsing
+- Progress bar med steps visualization
+
+📈 INSANE GRAFER:
+- Interactive line charts med zoom og pan
+- Color-coded butikker (hver butikk = egen farge)
+- Hover for exact values med tooltip
+- Animated transitions mellom views
+- Sparklines i hver vare-card
+- Price trend indicators (↗️↘️➡️)
+
+🎯 SMARTE ALERTS:
+- Sett målpris → få visuell notifikasjon
+- "Best deal"-badge på billigste butikk
+- Animated confetti når ny lågpris
+- Price drop percentage med color coding
+
+✨ UI CANDY:
+- Masonry grid layout for vare-kort
+- Skeleton loading states
+- Pull-to-refresh gesture
+- Swipe-to-delete på mobil
+- Filter chips med animation
+- Search med autocomplete
+- Export-knapp med loading spinner
+
+📊 DASHBOARD:
+- Totalt spart over tid (animated counter)
+- Mest besøkte butikker (donut chart)
+- Dyreste/billigste varer (top 5 lists)
+- Månedlig sammenligning (bar chart)`
         },
         {
             id: 'meeting-assistant',
             icon: '📝',
-            name: 'Møte/klasse assistent',
-            desc: 'Strukturerte referater',
-            projectName: 'mote-assistent',
-            goal: `En møte/klasse assistent som lager struktur, ikke prosa:
-- Malstyrt referat (agenda, deltakere, beslutninger)
-- Tiltak-liste med ansvar og frister
-- Timer for møtets lengde
-- Lagre møter med dato og tittel
-- Søk i tidligere møter
-- Eksporter til Markdown
-- Generer kalenderfil (.ics) for frister
-- Lokal lagring med eksport-muligheter`
+            name: 'AI Meeting Assistant',
+            desc: '🎙️ Live transcription & smart notes',
+            projectName: 'ai-meeting-assistant',
+            goal: `En NEXT-LEVEL møte-assistent:
+
+🎙️ LIVE SIMULATION:
+- "Recording"-indikator med pulserende rød dot
+- Live "transcription" feed (simulate typing effect)
+- Waveform visualization som animerer
+- Speaker diarization (forskjellige farger per person)
+- Timestamps for hvert innlegg
+
+🤖 "AI" FEATURES:
+- Auto-detect action items fra tekst (regex for "må", "skal", frister)
+- Sentiment analysis visualization (emojis basert på tone)
+- Keyword extraction med tag-cloud
+- Auto-generate meeting title fra innhold
+- Smart suggestions for neste møte
+
+⚡ KILLER UI:
+- Split-screen: Live notes | Action items
+- Floating timer med circular progress
+- Kanban board for tiltak (Todo/Doing/Done)
+- Drag-drop for re-prioritering
+- Color-coded priority (Høy=rød, Medium=gul, Lav=grønn)
+- Assignee avatars (generer initials i sirkel)
+- Due date picker med kalender-popup
+
+📊 MEETING INSIGHTS:
+- Snakketid per person (bar chart)
+- Antal action items vs completed
+- Average meeting length
+- Most productive time of day (hvis flere møter)
+
+💾 EXPORT MAGIC:
+- Markdown med proper formatting
+- .ics kalender-fil med reminders
+- PDF med styling (simulate browser print)
+- Email-friendly HTML template
+- Slack/Teams webhook simulation`
         },
         {
             id: 'learning-game',
             icon: '🎮',
-            name: 'Læringsspill generator',
-            desc: 'Lag minispill for ett fagtema',
-            projectName: 'laringsspill-gen',
-            goal: `En generator for læringsspill på ett tema:
-- Velg tema (matte, språk, historie, etc.)
-- Definer oppgaver med spørsmål og svar
-- Nivåer med økende vanskelighet
-- Hint-system
-- Poeng og highscore
-- Timer per oppgave
-- Spillbar på én side
-- Lagre spill lokalt
-- Eksporter spill-data til deling
-- Fargerikt, engasjerende design`
+            name: 'GameDev Learning Studio',
+            desc: '🕹️ Full game engine for læring',
+            projectName: 'gamedev-learning',
+            goal: `Et KOMPLETT game-engine for educational games:
+
+🎮 GAME MECHANICS:
+- Multiple game modes: Quiz, Memory, Typing Race, Math Blaster
+- Power-ups system (2x points, slow time, skip, hint)
+- Combo multipliers ved streak av riktige svar
+- Boss battles hvert 5. nivå
+- Unlockable achievements med notifikasjoner
+- XP system med level-up animations
+- Virtual currency for å kjøpe hints/power-ups
+
+✨ INSANE VISUALS:
+- Particle explosions ved riktig svar
+- Screen shake ved feil
+- Confetti cannon ved level complete
+- Health bar med pulse-animation
+- Score counter med flying numbers (+100!)
+- Combo meter med color gradient
+- Starfield background med parallax
+- Character avatars som reagerer (happy/sad/thinking)
+
+🎨 CUSTOMIZATION:
+- Velg avatar (8+ characters med emoji/SVG)
+- Farge-themes (Neon, Retro, Nature, Space)
+- Difficulty slider (Easy/Medium/Hard/Insane)
+- Sound effects toggle (synthesized bleeps)
+- Animation speed control
+
+📊 STATS & PROGRESS:
+- Real-time leaderboard (top 10 highscores)
+- Detailed stats (accuracy%, avg time, best streak)
+- Progress ring chart per kategori
+- Heatmap calendar for practice days
+- Skill radar chart (different topic strengths)
+
+🎯 CREATOR MODE:
+- Visual question builder med preview
+- Bulk import via CSV/JSON
+- Randomize question order
+- Add images til spørsmål (URL eller emoji)
+- Set time limits per question
+- Tag questions by difficulty/category
+- Export game as shareable JSON link`
         },
         {
             id: 'economy-tracker',
             icon: '💰',
-            name: 'Økonomi & kvitteringsarkiv',
-            desc: 'Lokal-først økonomistyring',
-            projectName: 'okonomi-tracker',
-            goal: `Et økonomiverktøy uten konto:
-- Lim inn kvitteringstekst (auto-parse beløp/dato)
-- Tagg og kategoriser utgifter
-- Søk i historikk
-- Månedlig graf over inntekt/utgifter
-- Dashboard med statistikk
-- Budsjett-tracking
-- Eksporter til CSV/PDF
-- Alt lagres lokalt i localStorage
-- Dark mode med grafer og visualisering`
+            name: 'Finance Dashboard Pro',
+            desc: '📸 Receipt scanner & AI insights',
+            projectName: 'finance-dashboard-pro',
+            goal: `Et PREMIUM økonomiverktøy:
+
+📸 RECEIPT MAGIC:
+- "Scan receipt"-button med camera simulation
+- Upload image → show processing animation
+- Extract text med regex (beløp, dato, butikk, varer)
+- Animated "scanning" overlay på bilde
+- Confidence score for hver ekstrahert verdi
+- Manual edit med inline validation
+
+📊 INSANE DASHBOARD:
+- Hero cards med animated counters (total spent, avg/day, etc.)
+- Donut chart for kategorier med hover details
+- Line chart for spending over time (multi-line for categories)
+- Bar chart for top expenses
+- Calendar heatmap for spending days
+- Progress rings for budgets med color coding
+- Trend indicators (↗️ spending up 12%)
+
+💳 BUDGET SYSTEM:
+- Set monthly budgets per kategori
+- Visual progress bars med warning colors
+- Notifications når over 80% av budget
+- Predictive "if you continue" calculator
+- Savings goal tracker med celebration animation
+- Recurring expense detection
+
+🎯 SMART INSIGHTS:
+- "Your biggest expense this month: ☕ Coffee (450kr)"
+- "You spent 30% less on transport vs last month!"
+- Suggested budget adjustments
+- Find patterns ("You always spend more on fridays")
+- Waste detector (duplicate entries, small purchases that add up)
+
+✨ PREMIUM UI:
+- Glassmorphic cards på dark gradient background
+- Smooth page transitions
+- Skeleton loaders for charts
+- Filter drawer that slides in from right
+- Tag pills med quick-filter
+- Batch actions (select multiple → bulk categorize)
+- Swipe gestures på mobil
+- Export-wizard med format selection
+
+🔐 DATA:
+- AES-like "encryption" simulation
+- Backup/restore funksjonalitet
+- Auto-save med visual feedback
+- Data compression for localStorage`
         },
         {
             id: 'task-planner',
             icon: '📋',
-            name: 'Oppgave & ukeplan generator',
-            desc: 'Mal-basert planlegging',
-            projectName: 'ukeplan-gen',
-            goal: `En oppgave og ukeplan generator:
-- Definer maler for oppgaver (lekser, møter, prosjekter)
-- Kriterier (fag, prioritet, estimert tid)
-- Generer ferdige ukeplaner basert på maler
-- Sjekklister med avkryssingsfunksjon
-- Lagre planer lokalt
-- Eksporter til Markdown, DOCX og PDF
-- Drag & drop for omorganisering
-- Kalendervisning (uke/måned)
-- Print-vennlig layout`
+            name: 'AI Task Planner Ultra',
+            desc: '🤖 Notion-style productivity suite',
+            projectName: 'ai-task-planner-ultra',
+            goal: `Et NOTION-LIKE productivity powerhouse:
+
+🎯 VIEWS:
+- Kanban board med smooth drag & drop
+- Calendar view (month/week/day) med event cards
+- Table view med inline editing
+- Timeline/Gantt chart for prosjekter
+- List view med grouping og filtering
+- Switch views med animated transition
+
+🤖 AI SCHEDULER:
+- "Auto-schedule week"-knapp
+- Intelligently fordel tasks basert på priority/deadline
+- Suggest optimal times basert på task type
+- Conflict detection (overlapping tasks)
+- Buffer time between tasks
+- "Focus time" blocks automatisk
+
+✨ NEXT-LEVEL TASKS:
+- Rich text editor (bold, italic, links, code)
+- Sub-tasks med indentation
+- Dependencies ("blocked by" relationships)
+- Time tracking med start/stop timer
+- Pomodoro integration (25/5 min cycles)
+- Tags med auto-complete
+- Custom properties (dropdown, number, date, person)
+- Templates for recurring tasks
+- Quick-add med natural language ("møte onsdag kl 14")
+
+📊 DASHBOARDS:
+- Personal dashboard med today's tasks
+- Week overview med workload distribution
+- Habit tracker med streak counter
+- Time spent per project (pie chart)
+- Productivity score med trend
+- Burndown chart for sprints
+
+🎨 CUSTOMIZATION:
+- Multiple workspaces (Work, Personal, School)
+- Custom themes med color pickers
+- Icon library for projects (emoji + icons)
+- Cover images for project pages
+- Sidebar favorites med drag-reorder
+
+⚡ POWER FEATURES:
+- Keyboard shortcuts (/, ⌘K for quick actions)
+- Slash commands for formatting
+- @mentions for assignees
+- Due date reminders med browser notifications
+- Recurring tasks (daily, weekly, custom)
+- Archive completed tasks
+- Batch operations (multi-select)
+- Global search med fuzzy matching
+
+💾 EXPORT:
+- PDF med custom styling
+- Markdown med checkboxes
+- CSV/Excel for data analysis
+- iCal for calendar sync
+- JSON for backup`
         },
         {
             id: 'scratch',
@@ -449,103 +649,303 @@ const templates = {
         {
             id: 'crm',
             icon: '📇',
-            name: 'Micro CRM',
-            desc: 'Contact/customer database for your niche',
-            projectName: 'micro-crm',
-            goal: `A simple CRM app for your niche (band practice, lectures, students, clients, hobby projects):
-- Add contacts with name, info, notes
-- Tags/categories (student, customer, project, etc.)
-- Timeline with activities and history
-- Reminders and follow-ups
-- Search and filter contacts
-- Export to JSON/CSV
-- All stored locally in localStorage
-- Responsive design with list and card views`
+            name: 'Micro CRM Pro',
+            desc: '✨ Glassmorphic contact dashboard',
+            projectName: 'micro-crm-pro',
+            goal: `An ULTRA modern CRM with all bells & whistles:
+
+🎨 VISUALS:
+- Glassmorphism UI with blur effects and gradients
+- Smooth scroll animations and fade-ins
+- Particle background that reacts to mouse
+- Neon-glow on card hover
+- Micro-interactions on all buttons
+- 3D card flips on click
+- Animated gradient borders
+
+⚡ FEATURES:
+- Drag & drop contacts between statuses (kanban-style)
+- Real-time search with highlighting
+- Advanced filtering (multi-select tags, daterange)
+- Interactive timeline with scroll-triggered animations
+- Smart reminders with countdown timer
+- Bulk-edit with checkbox selection
+- Quick-actions on hover (call, email, delete)
+- Keyboard shortcuts (/, Ctrl+K for search)
+
+📊 DASHBOARD:
+- Animated statistics cards with count-up
+- Mini-graphs for activity (Chart.js or Canvas)
+- Heatmap for contact frequency
+- Tag-cloud with size based on usage
+
+💾 DATA:
+- Auto-save with "saved" indicator
+- Export to JSON/CSV/vCard
+- Import from CSV with drag-drop
+- Undo/Redo functionality
+- localStorage with compression`
         },
         {
             id: 'price-tracker',
             icon: '🏷️',
-            name: 'Price & Deal Tracker',
-            desc: 'Track prices without an account',
-            projectName: 'price-tracker',
-            goal: `A price tracker where you:
-- Add items with name and price
-- Paste receipt text for automatic parsing
-- Get history with date and store
-- See "cheapest store recently" per item
-- Graph of price trends
-- Search and filter items
-- Compare prices across stores
-- Local storage (localStorage)
-- Export data to CSV`
+            name: 'Smart Price Tracker',
+            desc: '📊 AI-powered price analysis',
+            projectName: 'smart-price-tracker',
+            goal: `An ADVANCED price tracker with AI vibes:
+
+🤖 SMART PARSING:
+- Paste receipt text → auto-detect items, prices, store, date
+- Regex magic for format recognition
+- Fuzzy matching for similar items
+- Animated "scanning" effect during parsing
+- Progress bar with steps visualization
+
+📈 INSANE CHARTS:
+- Interactive line charts with zoom and pan
+- Color-coded stores (each store = unique color)
+- Hover for exact values with tooltip
+- Animated transitions between views
+- Sparklines in each item card
+- Price trend indicators (↗️↘️➡️)
+
+🎯 SMART ALERTS:
+- Set target price → get visual notification
+- "Best deal" badge on cheapest store
+- Animated confetti on new low price
+- Price drop percentage with color coding
+
+✨ UI CANDY:
+- Masonry grid layout for item cards
+- Skeleton loading states
+- Pull-to-refresh gesture
+- Swipe-to-delete on mobile
+- Filter chips with animation
+- Search with autocomplete
+- Export button with loading spinner
+
+📊 DASHBOARD:
+- Total saved over time (animated counter)
+- Most visited stores (donut chart)
+- Most/least expensive items (top 5 lists)
+- Monthly comparison (bar chart)`
         },
         {
             id: 'meeting-assistant',
             icon: '📝',
-            name: 'Meeting/Class Assistant',
-            desc: 'Structured meeting notes',
-            projectName: 'meeting-assistant',
-            goal: `A meeting/class assistant that creates structure, not prose:
-- Template-based minutes (agenda, participants, decisions)
-- Action items with responsibility and deadlines
-- Timer for meeting duration
-- Save meetings with date and title
-- Search previous meetings
-- Export to Markdown
-- Generate calendar file (.ics) for deadlines
-- Local storage with export options`
+            name: 'AI Meeting Assistant',
+            desc: '🎙️ Live transcription & smart notes',
+            projectName: 'ai-meeting-assistant',
+            goal: `A NEXT-LEVEL meeting assistant:
+
+🎙️ LIVE SIMULATION:
+- "Recording" indicator with pulsating red dot
+- Live "transcription" feed (simulate typing effect)
+- Waveform visualization that animates
+- Speaker diarization (different colors per person)
+- Timestamps for each entry
+
+🤖 "AI" FEATURES:
+- Auto-detect action items from text (regex for tasks, deadlines)
+- Sentiment analysis visualization (emojis based on tone)
+- Keyword extraction with tag-cloud
+- Auto-generate meeting title from content
+- Smart suggestions for next meeting
+
+⚡ KILLER UI:
+- Split-screen: Live notes | Action items
+- Floating timer with circular progress
+- Kanban board for tasks (Todo/Doing/Done)
+- Drag-drop for re-prioritization
+- Color-coded priority (High=red, Medium=yellow, Low=green)
+- Assignee avatars (generate initials in circle)
+- Due date picker with calendar popup
+
+📊 MEETING INSIGHTS:
+- Talk time per person (bar chart)
+- Action items vs completed ratio
+- Average meeting length
+- Most productive time of day (if multiple meetings)
+
+💾 EXPORT MAGIC:
+- Markdown with proper formatting
+- .ics calendar file with reminders
+- PDF with styling (simulate browser print)
+- Email-friendly HTML template
+- Slack/Teams webhook simulation`
         },
         {
             id: 'learning-game',
             icon: '🎮',
-            name: 'Learning Game Generator',
-            desc: 'Create mini-games for one subject',
-            projectName: 'learning-game-gen',
-            goal: `A generator for learning games on one topic:
-- Choose theme (math, language, history, etc.)
-- Define tasks with questions and answers
-- Levels with increasing difficulty
-- Hint system
-- Points and highscore
-- Timer per task
-- Playable on one page
-- Save games locally
-- Export game data for sharing
-- Colorful, engaging design`
+            name: 'GameDev Learning Studio',
+            desc: '🕹️ Full game engine for learning',
+            projectName: 'gamedev-learning',
+            goal: `A COMPLETE game engine for educational games:
+
+🎮 GAME MECHANICS:
+- Multiple game modes: Quiz, Memory, Typing Race, Math Blaster
+- Power-ups system (2x points, slow time, skip, hint)
+- Combo multipliers on answer streaks
+- Boss battles every 5 levels
+- Unlockable achievements with notifications
+- XP system with level-up animations
+- Virtual currency to buy hints/power-ups
+
+✨ INSANE VISUALS:
+- Particle explosions on correct answer
+- Screen shake on wrong answer
+- Confetti cannon on level complete
+- Health bar with pulse animation
+- Score counter with flying numbers (+100!)
+- Combo meter with color gradient
+- Starfield background with parallax
+- Character avatars that react (happy/sad/thinking)
+
+🎨 CUSTOMIZATION:
+- Choose avatar (8+ characters with emoji/SVG)
+- Color themes (Neon, Retro, Nature, Space)
+- Difficulty slider (Easy/Medium/Hard/Insane)
+- Sound effects toggle (synthesized bleeps)
+- Animation speed control
+
+📊 STATS & PROGRESS:
+- Real-time leaderboard (top 10 highscores)
+- Detailed stats (accuracy%, avg time, best streak)
+- Progress ring chart per category
+- Heatmap calendar for practice days
+- Skill radar chart (different topic strengths)
+
+🎯 CREATOR MODE:
+- Visual question builder with preview
+- Bulk import via CSV/JSON
+- Randomize question order
+- Add images to questions (URL or emoji)
+- Set time limits per question
+- Tag questions by difficulty/category
+- Export game as shareable JSON link`
         },
         {
             id: 'economy-tracker',
             icon: '💰',
-            name: 'Economy & Receipt Archive',
-            desc: 'Local-first finance management',
-            projectName: 'economy-tracker',
-            goal: `A finance tool without an account:
-- Paste receipt text (auto-parse amount/date)
-- Tag and categorize expenses
-- Search in history
-- Monthly graph of income/expenses
-- Dashboard with statistics
-- Budget tracking
-- Export to CSV/PDF
-- All stored locally in localStorage
-- Dark mode with graphs and visualization`
+            name: 'Finance Dashboard Pro',
+            desc: '📸 Receipt scanner & AI insights',
+            projectName: 'finance-dashboard-pro',
+            goal: `A PREMIUM finance tool:
+
+📸 RECEIPT MAGIC:
+- "Scan receipt" button with camera simulation
+- Upload image → show processing animation
+- Extract text with regex (amounts, dates, stores, items)
+- Animated "scanning" overlay on image
+- Confidence score for each extracted value
+- Manual edit with inline validation
+
+📊 INSANE DASHBOARD:
+- Hero cards with animated counters (total spent, avg/day, etc.)
+- Donut chart for categories with hover details
+- Line chart for spending over time (multi-line for categories)
+- Bar chart for top expenses
+- Calendar heatmap for spending days
+- Progress rings for budgets with color coding
+- Trend indicators (↗️ spending up 12%)
+
+💳 BUDGET SYSTEM:
+- Set monthly budgets per category
+- Visual progress bars with warning colors
+- Notifications when over 80% of budget
+- Predictive "if you continue" calculator
+- Savings goal tracker with celebration animation
+- Recurring expense detection
+
+🎯 SMART INSIGHTS:
+- "Your biggest expense this month: ☕ Coffee ($45)"
+- "You spent 30% less on transport vs last month!"
+- Suggested budget adjustments
+- Find patterns ("You always spend more on Fridays")
+- Waste detector (duplicate entries, small purchases that add up)
+
+✨ PREMIUM UI:
+- Glassmorphic cards on dark gradient background
+- Smooth page transitions
+- Skeleton loaders for charts
+- Filter drawer that slides in from right
+- Tag pills with quick-filter
+- Batch actions (select multiple → bulk categorize)
+- Swipe gestures on mobile
+- Export wizard with format selection
+
+🔐 DATA:
+- AES-like "encryption" simulation
+- Backup/restore functionality
+- Auto-save with visual feedback
+- Data compression for localStorage`
         },
         {
             id: 'task-planner',
             icon: '📋',
-            name: 'Task & Weekly Planner',
-            desc: 'Template-based planning',
-            projectName: 'weekly-planner',
-            goal: `A task and weekly planner generator:
-- Define templates for tasks (homework, meetings, projects)
-- Criteria (subject, priority, estimated time)
-- Generate complete weekly plans based on templates
-- Checklists with checkboxes
-- Save plans locally
-- Export to Markdown, DOCX and PDF
-- Drag & drop for reorganization
-- Calendar view (week/month)
-- Print-friendly layout`
+            name: 'AI Task Planner Ultra',
+            desc: '🤖 Notion-style productivity suite',
+            projectName: 'ai-task-planner-ultra',
+            goal: `A NOTION-LIKE productivity powerhouse:
+
+🎯 VIEWS:
+- Kanban board with smooth drag & drop
+- Calendar view (month/week/day) with event cards
+- Table view with inline editing
+- Timeline/Gantt chart for projects
+- List view with grouping and filtering
+- Switch views with animated transition
+
+🤖 AI SCHEDULER:
+- "Auto-schedule week" button
+- Intelligently distribute tasks based on priority/deadline
+- Suggest optimal times based on task type
+- Conflict detection (overlapping tasks)
+- Buffer time between tasks
+- "Focus time" blocks automatically
+
+✨ NEXT-LEVEL TASKS:
+- Rich text editor (bold, italic, links, code)
+- Sub-tasks with indentation
+- Dependencies ("blocked by" relationships)
+- Time tracking with start/stop timer
+- Pomodoro integration (25/5 min cycles)
+- Tags with auto-complete
+- Custom properties (dropdown, number, date, person)
+- Templates for recurring tasks
+- Quick-add with natural language ("meeting Wednesday 2pm")
+
+📊 DASHBOARDS:
+- Personal dashboard with today's tasks
+- Week overview with workload distribution
+- Habit tracker with streak counter
+- Time spent per project (pie chart)
+- Productivity score with trend
+- Burndown chart for sprints
+
+🎨 CUSTOMIZATION:
+- Multiple workspaces (Work, Personal, School)
+- Custom themes with color pickers
+- Icon library for projects (emoji + icons)
+- Cover images for project pages
+- Sidebar favorites with drag-reorder
+
+⚡ POWER FEATURES:
+- Keyboard shortcuts (/, ⌘K for quick actions)
+- Slash commands for formatting
+- @mentions for assignees
+- Due date reminders with browser notifications
+- Recurring tasks (daily, weekly, custom)
+- Archive completed tasks
+- Batch operations (multi-select)
+- Global search with fuzzy matching
+
+💾 EXPORT:
+- PDF with custom styling
+- Markdown with checkboxes
+- CSV/Excel for data analysis
+- iCal for calendar sync
+- JSON for backup`
         },
         {
             id: 'scratch',
