@@ -140,18 +140,12 @@ const i18n = {
         optNoDb: '💾 Kun lokal lagring',
         optStackHtml: 'Ren HTML/CSS/JS (anbefalt)',
         optStackTailwind: 'HTML + Tailwind CSS',
-        optStackReact: 'React',
-        optStackVue: 'Vue',
-        optStackSvelte: 'Svelte',
-        optStackNext: 'Next.js',
-        optStackFlask: 'Python + Flask',
-        optStackFastapi: 'Python + FastAPI',
-        optStackExpress: 'Node.js + Express',
+        optStackReact: 'React (ESM - ingen npm)',
+        optStackPwa: 'PWA (Progressive Web App)',
         optStackCustom: 'Egendefinert...',
         phStackCustom: 'Skriv inn teknologi...',
         optGroupBeginner: 'Nybegynnervennlig',
-        optGroupJs: 'JavaScript-rammeverk',
-        optGroupBackend: 'Backend',
+        optGroupAdvanced: 'Avansert',
         optGroupOther: 'Annet',
         // Help page
         helpTitle: '🚀 Kom i gang på 5 minutter',
@@ -283,18 +277,12 @@ const i18n = {
         optNoDb: '💾 Local storage only',
         optStackHtml: 'Vanilla HTML/CSS/JS (recommended)',
         optStackTailwind: 'HTML + Tailwind CSS',
-        optStackReact: 'React',
-        optStackVue: 'Vue',
-        optStackSvelte: 'Svelte',
-        optStackNext: 'Next.js',
-        optStackFlask: 'Python + Flask',
-        optStackFastapi: 'Python + FastAPI',
-        optStackExpress: 'Node.js + Express',
+        optStackReact: 'React (ESM - no npm)',
+        optStackPwa: 'PWA (Progressive Web App)',
         optStackCustom: 'Custom...',
         phStackCustom: 'Enter technology...',
         optGroupBeginner: 'Beginner-friendly',
-        optGroupJs: 'JavaScript frameworks',
-        optGroupBackend: 'Backend',
+        optGroupAdvanced: 'Advanced',
         optGroupOther: 'Other',
         // Help page
         helpTitle: '🚀 Get started in 5 minutes',
@@ -453,20 +441,14 @@ function applyLang() {
     setOpt('stack', 'html-css-js', t.optStackHtml);
     setOpt('stack', 'html-tailwind', t.optStackTailwind);
     setOpt('stack', 'react', t.optStackReact);
-    setOpt('stack', 'vue', t.optStackVue);
-    setOpt('stack', 'svelte', t.optStackSvelte);
-    setOpt('stack', 'nextjs', t.optStackNext);
-    setOpt('stack', 'python-flask', t.optStackFlask);
-    setOpt('stack', 'python-fastapi', t.optStackFastapi);
-    setOpt('stack', 'nodejs-express', t.optStackExpress);
+    setOpt('stack', 'pwa', t.optStackPwa);
     setOpt('stack', 'custom', t.optStackCustom);
 
     // Update optgroup labels
     const stackOptgroups = $('stack').querySelectorAll('optgroup');
     if (stackOptgroups[0]) stackOptgroups[0].label = t.optGroupBeginner;
-    if (stackOptgroups[1]) stackOptgroups[1].label = t.optGroupJs;
-    if (stackOptgroups[2]) stackOptgroups[2].label = t.optGroupBackend;
-    if (stackOptgroups[3]) stackOptgroups[3].label = t.optGroupOther;
+    if (stackOptgroups[1]) stackOptgroups[1].label = t.optGroupAdvanced;
+    if (stackOptgroups[2]) stackOptgroups[2].label = t.optGroupOther;
 
     // Update constraint checkbox labels
     document.querySelector('[data-i18n="optNoBackend"]').textContent = t.optNoBackend;
@@ -698,15 +680,6 @@ function buildPrompt() {
 - Code MUST run directly in browser without npm/build - use ESM imports only
 - DO NOT generate package.json or npm scripts - it should run directly
 - Structure components logically with good state management`,
-        'vue': outLang === 'no'
-            ? `\n**VUE-SPESIFIKT:**
-- Bruk Vue 3 CDN eller ESM import
-- Kan bruke petite-vue for enklere oppsett
-- Koden MÅ kjøre direkte i nettleseren`
-            : `\n**VUE-SPECIFIC:**
-- Use Vue 3 CDN or ESM import
-- Can use petite-vue for simpler setup
-- Code MUST run directly in browser`,
         'pwa': outLang === 'no'
             ? `\n**PWA-SPESIFIKT:**
 - Inkluder manifest.json med korrekte properties (name, short_name, start_url, display, icons)
@@ -1108,10 +1081,10 @@ async function downloadAllFiles() {
     );
     
     // Only needs Node.js setup if it's a framework WITHOUT ESM imports
-    const needsNodeSetup = ['nextjs'].includes(stack) || 
-        (['react', 'vue', 'svelte'].includes(stack) && !usesESMImports);
+    // Since we removed Next.js, Vue, Svelte - this simplifies to never needing Node
+    const needsNodeSetup = false;
     
-    const needsServer = needsNodeSetup || stack.includes('python') || stack.includes('nodejs');
+    const needsServer = stack.includes('python') || stack.includes('nodejs');
     
     // Determine if it's a PWA
     const isPWA = allFiles.some(f => f.path === 'manifest.json' || f.path === 'sw.js');
@@ -1474,7 +1447,8 @@ $('stack').addEventListener('change', (e) => {
     }
     
     // Show warning for complex stacks
-    const complexStacks = ['react', 'vue', 'svelte', 'nextjs', 'python-flask', 'python-fastapi', 'nodejs-express'];
+    // With simplified options, no stacks need warnings since React uses ESM and PWA is straightforward
+    const complexStacks = [];
     const hintEl = $('hStack');
     const t = i18n[state.lang];
     
