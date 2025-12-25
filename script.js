@@ -336,96 +336,105 @@ const i18n = {
 const templates = {
     no: [
         {
-            id: 'quiz',
-            icon: '🎯',
-            name: 'Quiz / Kahoot',
-            desc: 'Interaktivt quiz-spill med poeng',
-            projectName: 'quiz-spill',
-            goal: `En quiz-app hvor:
-- 10 multiple choice spørsmål vises ett av gangen
-- Bruker velger svar og får umiddelbar tilbakemelding (riktig/galt)
-- Poeng telles opp (1 poeng per riktig)
-- Sluttskjerm viser totalt poeng og prosent
-- Mulighet for å starte på nytt
-- Animasjoner ved riktig/galt svar
-- Responsiv design for mobil`
+            id: 'crm',
+            icon: '📇',
+            name: 'Mikro CRM',
+            desc: 'Kontakt/kunde-database for din nisje',
+            projectName: 'mikro-crm',
+            goal: `En enkel CRM-app for din nisje (bandøving, foredrag, elever, kunder, hobbyprosjekter):
+- Legg til kontakter med navn, info, notater
+- Tags/kategorier (elev, kunde, prosjekt, etc.)
+- Tidslinje med aktiviteter og historikk
+- Påminnelser og oppfølging
+- Søk og filtrer kontakter
+- Eksporter til JSON/CSV
+- Alt lagres lokalt i localStorage
+- Responsivt design med liste- og kortvisning`
         },
         {
-            id: 'memory',
-            icon: '🧠',
-            name: 'Memory-spill',
-            desc: 'Finn par med kort',
-            projectName: 'memory-game',
-            goal: `Et memory-spill hvor:
-- 16 kort (8 par) legges ut i rutenett
-- Kort viser emoji/symboler
-- Klikk for å snu kort
-- Finn matchende par
-- Tell antall forsøk
-- Timer som teller ned/opp
-- Konfetti-animasjon ved seier
-- Start på nytt-knapp`
+            id: 'price-tracker',
+            icon: '🏷️',
+            name: 'Pris og tilbud tracker',
+            desc: 'Følg priser uten konto',
+            projectName: 'pris-tracker',
+            goal: `En pris-tracker hvor du:
+- Legger inn varer med navn og pris
+- Limer inn kvitteringstekst som parses automatisk
+- Får historikk med dato og butikk
+- Ser "billigste butikk sist" per vare
+- Graf over prisutvikling
+- Søk og filtrer varer
+- Sammenlign priser på tvers av butikker
+- Lokal lagring (localStorage)
+- Eksporter data til CSV`
         },
         {
-            id: 'meme',
-            icon: '😂',
-            name: 'Meme-generator',
-            desc: 'Lag memes med tekst',
-            projectName: 'meme-maker',
-            goal: `En meme-generator hvor:
-- Velg fra 6-8 populære meme-templates
-- Legg til topptek st og bunntekst
-- Forhåndsvisning i sanntid
-- Juster tekststørrelse og posisjon
-- Last ned meme som bilde (canvas)
-- Del-knapper (copy image)
-- Responsivt design`
+            id: 'meeting-assistant',
+            icon: '📝',
+            name: 'Møte/klasse assistent',
+            desc: 'Strukturerte referater',
+            projectName: 'mote-assistent',
+            goal: `En møte/klasse assistent som lager struktur, ikke prosa:
+- Malstyrt referat (agenda, deltakere, beslutninger)
+- Tiltak-liste med ansvar og frister
+- Timer for møtets lengde
+- Lagre møter med dato og tittel
+- Søk i tidligere møter
+- Eksporter til Markdown
+- Generer kalenderfil (.ics) for frister
+- Lokal lagring med eksport-muligheter`
         },
         {
-            id: 'pomodoro',
-            icon: '🍅',
-            name: 'Pomodoro Timer',
-            desc: 'Fokus-timer med pauser',
-            projectName: 'pomodoro',
-            goal: `En Pomodoro-timer med:
-- 25 min fokus-økter
-- 5 min korte pauser
-- 15 min lange pauser (etter 4 økter)
-- Start, pause, reset funksjonalitet
-- Visuell sirkulær countdown
-- Teller antall fullførte økter i dag
-- Lyd-varsling ved slutt av økt (valgfritt)
-- Stor, visuell timer med gradient`
+            id: 'learning-game',
+            icon: '🎮',
+            name: 'Læringsspill generator',
+            desc: 'Lag minispill for ett fagtema',
+            projectName: 'laringsspill-gen',
+            goal: `En generator for læringsspill på ett tema:
+- Velg tema (matte, språk, historie, etc.)
+- Definer oppgaver med spørsmål og svar
+- Nivåer med økende vanskelighet
+- Hint-system
+- Poeng og highscore
+- Timer per oppgave
+- Spillbar på én side
+- Lagre spill lokalt
+- Eksporter spill-data til deling
+- Fargerikt, engasjerende design`
         },
         {
-            id: 'password',
-            icon: '🔐',
-            name: 'Passordgenerator',
-            desc: 'Lag sterke passord',
-            projectName: 'password-gen',
-            goal: `En passordgenerator hvor:
-- Velg lengde (8-32 tegn)
-- Toggle: store bokstaver, sm å, tall, symboler
-- Generer tilfeldig passord
-- Vis passordstyrke (svak/middels/sterk)
-- Copy to clipboard-knapp
-- Generer flere alternativ samtidig
-- Minimalistisk, moderne design`
+            id: 'economy-tracker',
+            icon: '💰',
+            name: 'Økonomi & kvitteringsarkiv',
+            desc: 'Lokal-først økonomistyring',
+            projectName: 'okonomi-tracker',
+            goal: `Et økonomiverktøy uten konto:
+- Lim inn kvitteringstekst (auto-parse beløp/dato)
+- Tagg og kategoriser utgifter
+- Søk i historikk
+- Månedlig graf over inntekt/utgifter
+- Dashboard med statistikk
+- Budsjett-tracking
+- Eksporter til CSV/PDF
+- Alt lagres lokalt i localStorage
+- Dark mode med grafer og visualisering`
         },
         {
-            id: 'colors',
-            icon: '🎨',
-            name: 'Fargepalett',
-            desc: 'Generer fargepaletter',
-            projectName: 'color-palette',
-            goal: `En fargepalett-generator hvor:
-- Generer 5 tilfeldige farger som matcher
-- Vis hex-koder for hver farge
-- Klikk på farge for å kopiere hex-kode
-- Generer ny palett-knapp
-- Lås enkelte farger (regenerer resten)
-- Eksporter som CSS/Tailwind kode
-- Store fargebokser med smooth transitions`
+            id: 'task-planner',
+            icon: '📋',
+            name: 'Oppgave & ukeplan generator',
+            desc: 'Mal-basert planlegging',
+            projectName: 'ukeplan-gen',
+            goal: `En oppgave og ukeplan generator:
+- Definer maler for oppgaver (lekser, møter, prosjekter)
+- Kriterier (fag, prioritet, estimert tid)
+- Generer ferdige ukeplaner basert på maler
+- Sjekklister med avkryssingsfunksjon
+- Lagre planer lokalt
+- Eksporter til Markdown, DOCX og PDF
+- Drag & drop for omorganisering
+- Kalendervisning (uke/måned)
+- Print-vennlig layout`
         },
         {
             id: 'scratch',
@@ -438,96 +447,105 @@ const templates = {
     ],
     en: [
         {
-            id: 'quiz',
-            icon: '🎯',
-            name: 'Quiz / Kahoot',
-            desc: 'Interactive quiz game with points',
-            projectName: 'quiz-game',
-            goal: `A quiz app where:
-- 10 multiple choice questions shown one at a time
-- User selects answer and gets immediate feedback (correct/wrong)
-- Points counted (1 point per correct)
-- End screen shows total points and percentage
-- Option to restart
-- Animations for correct/wrong answers
-- Responsive mobile design`
+            id: 'crm',
+            icon: '📇',
+            name: 'Micro CRM',
+            desc: 'Contact/customer database for your niche',
+            projectName: 'micro-crm',
+            goal: `A simple CRM app for your niche (band practice, lectures, students, clients, hobby projects):
+- Add contacts with name, info, notes
+- Tags/categories (student, customer, project, etc.)
+- Timeline with activities and history
+- Reminders and follow-ups
+- Search and filter contacts
+- Export to JSON/CSV
+- All stored locally in localStorage
+- Responsive design with list and card views`
         },
         {
-            id: 'memory',
-            icon: '🧠',
-            name: 'Memory Game',
-            desc: 'Find matching card pairs',
-            projectName: 'memory-game',
-            goal: `A memory game where:
-- 16 cards (8 pairs) laid out in grid
-- Cards show emoji/symbols
-- Click to flip cards
-- Find matching pairs
-- Count attempts
-- Timer counting down/up
-- Confetti animation on win
-- Restart button`
+            id: 'price-tracker',
+            icon: '🏷️',
+            name: 'Price & Deal Tracker',
+            desc: 'Track prices without an account',
+            projectName: 'price-tracker',
+            goal: `A price tracker where you:
+- Add items with name and price
+- Paste receipt text for automatic parsing
+- Get history with date and store
+- See "cheapest store recently" per item
+- Graph of price trends
+- Search and filter items
+- Compare prices across stores
+- Local storage (localStorage)
+- Export data to CSV`
         },
         {
-            id: 'meme',
-            icon: '😂',
-            name: 'Meme Generator',
-            desc: 'Create memes with text',
-            projectName: 'meme-maker',
-            goal: `A meme generator where:
-- Choose from 6-8 popular meme templates
-- Add top and bottom text
-- Real-time preview
-- Adjust text size and position
-- Download meme as image (canvas)
-- Share buttons (copy image)
-- Responsive design`
+            id: 'meeting-assistant',
+            icon: '📝',
+            name: 'Meeting/Class Assistant',
+            desc: 'Structured meeting notes',
+            projectName: 'meeting-assistant',
+            goal: `A meeting/class assistant that creates structure, not prose:
+- Template-based minutes (agenda, participants, decisions)
+- Action items with responsibility and deadlines
+- Timer for meeting duration
+- Save meetings with date and title
+- Search previous meetings
+- Export to Markdown
+- Generate calendar file (.ics) for deadlines
+- Local storage with export options`
         },
         {
-            id: 'pomodoro',
-            icon: '🍅',
-            name: 'Pomodoro Timer',
-            desc: 'Focus timer with breaks',
-            projectName: 'pomodoro',
-            goal: `A Pomodoro timer with:
-- 25 min focus sessions
-- 5 min short breaks
-- 15 min long breaks (after 4 sessions)
-- Start, pause, reset functionality
-- Visual circular countdown
-- Count completed sessions today
-- Sound notification at end (optional)
-- Large, visual timer with gradient`
+            id: 'learning-game',
+            icon: '🎮',
+            name: 'Learning Game Generator',
+            desc: 'Create mini-games for one subject',
+            projectName: 'learning-game-gen',
+            goal: `A generator for learning games on one topic:
+- Choose theme (math, language, history, etc.)
+- Define tasks with questions and answers
+- Levels with increasing difficulty
+- Hint system
+- Points and highscore
+- Timer per task
+- Playable on one page
+- Save games locally
+- Export game data for sharing
+- Colorful, engaging design`
         },
         {
-            id: 'password',
-            icon: '🔐',
-            name: 'Password Generator',
-            desc: 'Create strong passwords',
-            projectName: 'password-gen',
-            goal: `A password generator where:
-- Select length (8-32 characters)
-- Toggle: uppercase, lowercase, numbers, symbols
-- Generate random password
-- Show password strength (weak/medium/strong)
-- Copy to clipboard button
-- Generate multiple options at once
-- Minimalist, modern design`
+            id: 'economy-tracker',
+            icon: '💰',
+            name: 'Economy & Receipt Archive',
+            desc: 'Local-first finance management',
+            projectName: 'economy-tracker',
+            goal: `A finance tool without an account:
+- Paste receipt text (auto-parse amount/date)
+- Tag and categorize expenses
+- Search in history
+- Monthly graph of income/expenses
+- Dashboard with statistics
+- Budget tracking
+- Export to CSV/PDF
+- All stored locally in localStorage
+- Dark mode with graphs and visualization`
         },
         {
-            id: 'colors',
-            icon: '🎨',
-            name: 'Color Palette',
-            desc: 'Generate color palettes',
-            projectName: 'color-palette',
-            goal: `A color palette generator where:
-- Generate 5 random matching colors
-- Show hex codes for each color
-- Click color to copy hex code
-- Generate new palette button
-- Lock individual colors (regenerate rest)
-- Export as CSS/Tailwind code
-- Large color boxes with smooth transitions`
+            id: 'task-planner',
+            icon: '📋',
+            name: 'Task & Weekly Planner',
+            desc: 'Template-based planning',
+            projectName: 'weekly-planner',
+            goal: `A task and weekly planner generator:
+- Define templates for tasks (homework, meetings, projects)
+- Criteria (subject, priority, estimated time)
+- Generate complete weekly plans based on templates
+- Checklists with checkboxes
+- Save plans locally
+- Export to Markdown, DOCX and PDF
+- Drag & drop for reorganization
+- Calendar view (week/month)
+- Print-friendly layout`
         },
         {
             id: 'scratch',
