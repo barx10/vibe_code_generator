@@ -800,6 +800,14 @@ pre {
     background-size: 20px 20px;
 }
 
+pre.empty {
+    min-height: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
 .split {
     display: flex;
     align-items: center;

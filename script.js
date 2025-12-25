@@ -176,19 +176,19 @@ const i18n = {
         faq3A: 'Sjekk at: 1) API-nøkkelen er riktig kopiert, 2) Du har valgt en modell som passer til din leverandør, 3) Prøv å trykke Generer på nytt.',
         faq4Q: 'Kan jeg redigere koden etterpå?',
         faq4A: 'Ja! Åpne filen i et program som VS Code, Notepad++, eller til og med vanlig Notepad. Du kan endre tekst, farger og mer.',
-        helpAdvancedTitle: '🔧 For viderekomne',
-        helpAdvancedDesc: 'Vil du lære mer? Her er noen tips:',
-        advTip1: 'Installer',
-        advTip1b: 'for bedre kodeeditoring',
-        advTip2: 'Bruk "Flere filer" output for større prosjekter',
-        advTip3: 'Prøv',
-        advTip3b: 'eller',
-        advTip3c: 'når du er klar',
-        advTip4: 'Lær',
-        advTip4b: 'for å lagre versjoner',
-        advTip5: 'Deploy gratis med',
+        helpAdvancedTitle: '🔧 Neste steg: Utvikle videre',
+        helpAdvancedDesc: 'Når du har generert en app, følg disse stegene for å utvikle den videre med nye funksjoner:',
+        advTip1: '1. Last ned og installer',
+        advTip1b: '– En gratis kodeeditor som gjør det lett å jobbe med HTML/CSS/JS',
+        advTip2: '2. Opprett en mappe på PCen din (f.eks. "Dokumenter/MinApp") og lagre den genererte filen der',
+        advTip3: '3. Høyreklikk på filen i VS Code → "Open with Live Server" for å se endringer live',
+        advTip3b: '(eller bare dobbeltklikk .html-filen for å åpne i nettleser)',
+        advTip3c: '',
+        advTip4: '4. Nå kan du "vibe" og kode ny funksjonalitet! Prompt AI-en med hva du vil legge til',
+        advTip4b: '',
+        advTip5: '5. Klar til å publisere? Deploy gratis på',
         advTip5b: 'eller',
-        advTip6: 'Lær grunnleggende',
+        advTip6: '6. Vil du lære mer? Utforsk',
         advTip6b: 'og'
     },
     en: {
@@ -315,19 +315,20 @@ const i18n = {
         faq3A: 'Check that: 1) The API key is copied correctly, 2) You have selected a model that matches your provider, 3) Try clicking Generate again.',
         faq4Q: 'Can I edit the code afterwards?',
         faq4A: 'Yes! Open the file in a program like VS Code, Notepad++, or even regular Notepad. You can change text, colors and more.',
-        helpAdvancedTitle: '🔧 For advanced users',
-        helpAdvancedDesc: 'Want to learn more? Here are some tips:',
-        advTip1: 'Install',
-        advTip1b: 'for better code editing',
-        advTip2: 'Use "Multiple files" output for larger projects',
-        advTip3: 'Try',
-        advTip3b: 'or',
-        advTip3c: 'when you are ready',
-        advTip4: 'Learn',
-        advTip4b: 'to save versions',
-        advTip5: 'Deploy for free with',
+        helpAdvancedTitle: '🔧 Next Step: Develop Further',
+        helpAdvancedDesc: 'Once you have generated an app, follow these steps to develop it further with new features:',
+        advTip1: '1. Download and install',
+        advTip1b: '– A free code editor that makes it easy to work with HTML/CSS/JS',
+        advTip2: '2. Create a folder on your PC (e.g. "Documents/MyApp") and save the generated file there',
+        advTip3: '3. Right-click the file in VS Code → "Open with Live Server" to see changes live',
+        advTip3b: '(or just double-click the .html file to open in browser)',
+        advTip3c: '',
+        advTip4: '4. Now you can "vibe" and code new functionality! Prompt the AI with what you want to add',
+        advTip4b: '',
+        advTip5: '5. Ready to publish? Deploy for free on',
         advTip5b: 'or',
-        advTip6: 'Learn basic',
+        advTip6: '6. Want to learn more? Explore',
+        advTip6b: 'and',
         advTip6b: 'and'
     }
 };
@@ -341,127 +342,127 @@ const templates = {
             name: 'Mikro CRM Pro',
             desc: '✨ Glassmorphic kontakt-dashboard',
             projectName: 'mikro-crm-pro',
-            goal: `En ULTRA moderne CRM med all bells & whistles:
+            goal: `En ULTRA moderne CRM med alle finesser:
 
 🎨 VISUELT:
-- Glassmorphism UI med blur effects og gradienter
-- Smooth scroll-animasjoner og fade-ins
-- Particle background som reagerer på mus
-- Neon-glow på hover over kort
-- Micro-interactions på alle knapper
-- 3D card flips ved klikk
-- Animated gradient borders
+- Glassmorfisme UI med blur-effekter og gradienter
+- Glatte scroll-animasjoner og fade-ins
+- Partikkel-bakgrunn som reagerer på mus
+- Neon-glød ved hover over kort
+- Mikro-interaksjoner på alle knapper
+- 3D kort-flipping ved klikk
+- Animerte gradient-borders
 
-⚡ FEATURES:
-- Drag & drop kontakter mellom statuser (kanban-style)
-- Real-time søk med highlighting
-- Avansert filtering (multi-select tags, daterange)
-- Interaktiv tidslinje med scroll-triggered animasjoner
-- Smart påminnelser med countdown-timer
-- Bulk-edit med checkbox-selection
-- Quick-actions på hover (kall, mail, slett)
-- Keyboard shortcuts (/, Ctrl+K for search)
+⚡ FUNKSJONER:
+- Dra & slipp kontakter mellom statuser (kanban-stil)
+- Sanntidssøk med utheving
+- Avansert filtrering (multi-select tags, datoperiode)
+- Interaktiv tidslinje med scroll-utløste animasjoner
+- Smarte påminnelser med nedtellingstimer
+- Masse-redigering med checkbox-valg
+- Hurtighandlinger ved hover (ring, mail, slett)
+- Tastatursnarveier (/, Ctrl+K for søk)
 
 📊 DASHBOARD:
-- Animated statistics cards med count-up
+- Animerte statistikk-kort med opptelling
 - Mini-grafer for aktivitet (Chart.js eller Canvas)
 - Heatmap for kontaktfrekvens
-- Tag-cloud med størrelse basert på bruk
+- Tag-sky med størrelse basert på bruk
 
 💾 DATA:
-- Auto-save med "saved"-indicator
+- Auto-lagring med "lagret"-indikator
 - Eksporter til JSON/CSV/vCard
-- Import fra CSV med drag-drop
-- Undo/Redo funksjonalitet
-- localStorage med compression`
+- Importer fra CSV med dra-og-slipp
+- Angre/Gjør om-funksjonalitet
+- localStorage med komprimering`
         },
         {
             id: 'price-tracker',
             icon: '🏷️',
-            name: 'Smart Price Tracker',
-            desc: '📊 AI-powered pris-analyse',
-            projectName: 'smart-price-tracker',
-            goal: `En AVANSERT pris-tracker med AI-vibes:
+            name: 'Smart Prisjeger',
+            desc: '📊 AI-drevet pris-analyse',
+            projectName: 'smart-prisjeger',
+            goal: `En AVANSERT pris-sporer med AI-krefter:
 
-🤖 SMART PARSING:
-- Lim inn kvitteringstekst → auto-detect varer, priser, butikk, dato
+🤖 SMART TOLKING:
+- Lim inn kvitteringstekst → auto-oppdag varer, priser, butikk, dato
 - Regex-magi som gjenkjenner norske formater
 - Fuzzy matching for lignende varer
-- Animert "scanning"-effekt ved parsing
-- Progress bar med steps visualization
+- Animert "scanner"-effekt ved tolking
+- Framdriftslinje med steg-visualisering
 
-📈 INSANE GRAFER:
-- Interactive line charts med zoom og pan
-- Color-coded butikker (hver butikk = egen farge)
-- Hover for exact values med tooltip
-- Animated transitions mellom views
-- Sparklines i hver vare-card
-- Price trend indicators (↗️↘️➡️)
+📈 VANVITTIGE GRAFER:
+- Interaktive linjediagram med zoom og pan
+- Fargekodede butikker (hver butikk = egen farge)
+- Hover for eksakte verdier med verktøytips
+- Animerte overganger mellom visninger
+- Sparklines i hvert vare-kort
+- Pris-trend indikatorer (↗️↘️➡️)
 
-🎯 SMARTE ALERTS:
+🎯 SMARTE VARSLER:
 - Sett målpris → få visuell notifikasjon
-- "Best deal"-badge på billigste butikk
-- Animated confetti når ny lågpris
-- Price drop percentage med color coding
+- "Beste kjøp"-merke på billigste butikk
+- Animert konfetti ved ny lavpris
+- Prisfall-prosent med fargekoding
 
-✨ UI CANDY:
-- Masonry grid layout for vare-kort
-- Skeleton loading states
-- Pull-to-refresh gesture
-- Swipe-to-delete på mobil
-- Filter chips med animation
-- Search med autocomplete
-- Export-knapp med loading spinner
+✨ UI GODTERI:
+- Murstein-rutenett for vare-kort
+- Skjelett-lastestatus
+- Dra-for-å-oppdatere bevegelse
+- Sveip-for-å-slette på mobil
+- Filter-chips med animasjon
+- Søk med auto-fullføring
+- Eksport-knapp med laste-spinner
 
 📊 DASHBOARD:
-- Totalt spart over tid (animated counter)
-- Mest besøkte butikker (donut chart)
-- Dyreste/billigste varer (top 5 lists)
-- Månedlig sammenligning (bar chart)`
+- Totalt spart over tid (animert teller)
+- Mest besøkte butikker (donut-diagram)
+- Dyreste/billigste varer (topp 5 lister)
+- Månedlig sammenligning (søyle-diagram)`
         },
         {
             id: 'meeting-assistant',
             icon: '📝',
-            name: 'AI Meeting Assistant',
-            desc: '🎙️ Live transcription & smart notes',
-            projectName: 'ai-meeting-assistant',
-            goal: `En NEXT-LEVEL møte-assistent:
+            name: 'AI Møteassistent',
+            desc: '🎙️ Live transkribering & smarte notater',
+            projectName: 'ai-moteassistent',
+            goal: `En NESTE-NIVÅ møte-assistent:
 
-🎙️ LIVE SIMULATION:
-- "Recording"-indikator med pulserende rød dot
-- Live "transcription" feed (simulate typing effect)
-- Waveform visualization som animerer
-- Speaker diarization (forskjellige farger per person)
-- Timestamps for hvert innlegg
+🎙️ LIVE SIMULERING:
+- "Tar opp"-indikator med pulserende rød prikk
+- Live "transkriberings"-feed (simuler skriveeffekt)
+- Bølgeform-visualisering som animerer
+- Taler-identifikasjon (forskjellige farger per person)
+- Tidsstempler for hvert innlegg
 
-🤖 "AI" FEATURES:
-- Auto-detect action items fra tekst (regex for "må", "skal", frister)
-- Sentiment analysis visualization (emojis basert på tone)
-- Keyword extraction med tag-cloud
-- Auto-generate meeting title fra innhold
-- Smart suggestions for neste møte
+🤖 "AI" FUNKSJONER:
+- Auto-oppdag handlingspunkter fra tekst (regex for "må", "skal", frister)
+- Sentiment-analyse visualisering (emojis basert på tone)
+- Nøkkelord-utvinning med tag-sky
+- Auto-generer møtetittel fra innhold
+- Smarte forslag til neste møte
 
 ⚡ KILLER UI:
-- Split-screen: Live notes | Action items
-- Floating timer med circular progress
-- Kanban board for tiltak (Todo/Doing/Done)
-- Drag-drop for re-prioritering
-- Color-coded priority (Høy=rød, Medium=gul, Lav=grønn)
-- Assignee avatars (generer initials i sirkel)
-- Due date picker med kalender-popup
+- Delt skjerm: Live notater | Handlingspunkter
+- Flytende timer med sirkulær fremdrift
+- Kanban-tavle for tiltak (Å gjøre/Pågår/Ferdig)
+- Dra-og-slipp for re-prioritering
+- Fargekodede prioriteter (Høy=rød, Medium=gul, Lav=grønn)
+- Tildelte avatarer (generer initialer i sirkel)
+- Forfallsdato-velger med kalender-popup
 
-📊 MEETING INSIGHTS:
-- Snakketid per person (bar chart)
-- Antal action items vs completed
-- Average meeting length
-- Most productive time of day (hvis flere møter)
+📊 MØTE-INNSIKT:
+- Snakketid per person (søyle-diagram)
+- Antall handlingspunkter vs fullført
+- Gjennomsnittlig møtelengde
+- Mest produktiv tid på døgnet (hvis flere møter)
 
-💾 EXPORT MAGIC:
-- Markdown med proper formatting
-- .ics kalender-fil med reminders
-- PDF med styling (simulate browser print)
-- Email-friendly HTML template
-- Slack/Teams webhook simulation`
+💾 EKSPORT-MAGI:
+- Markdown med riktig formatering
+- .ics kalender-fil med påminnelser
+- PDF med styling (simuler nettleser-print)
+- Email-vennlig HTML-mal
+- Slack/Teams webhook simulering`
         },
         {
             id: 'learning-game',
@@ -469,171 +470,171 @@ const templates = {
             name: 'GameDev Learning Studio',
             desc: '🕹️ Full game engine for læring',
             projectName: 'gamedev-learning',
-            goal: `Et KOMPLETT game-engine for educational games:
+            goal: `En KOMPLETT spillmotor for pedagogiske spill:
 
-🎮 GAME MECHANICS:
-- Multiple game modes: Quiz, Memory, Typing Race, Math Blaster
-- Power-ups system (2x points, slow time, skip, hint)
-- Combo multipliers ved streak av riktige svar
-- Boss battles hvert 5. nivå
-- Unlockable achievements med notifikasjoner
-- XP system med level-up animations
-- Virtual currency for å kjøpe hints/power-ups
+🎮 SPILLMEKANIKK:
+- Flere spillmoduser: Quiz, Hukommelse, Skrive-Race, Matte-Blaster
+- Power-up system (2x poeng, sakt tid, hopp over, hint)
+- Combo-multiplikatorer ved streak av riktige svar
+- Boss-kamper hvert 5. nivå
+- Låsbare achievements med notifikasjoner
+- XP-system med level-up animasjoner
+- Virtuell valuta for å kjøpe hints/power-ups
 
-✨ INSANE VISUALS:
-- Particle explosions ved riktig svar
-- Screen shake ved feil
-- Confetti cannon ved level complete
-- Health bar med pulse-animation
-- Score counter med flying numbers (+100!)
-- Combo meter med color gradient
-- Starfield background med parallax
-- Character avatars som reagerer (happy/sad/thinking)
+✨ SPRØ VISUALS:
+- Partikkel-eksplosjoner ved riktig svar
+- Skjermristing ved feil
+- Konfetti-kanon ved fullført nivå
+- Helse-bar med puls-animasjon
+- Poeng-teller med flyvende tall (+100!)
+- Combo-meter med farge-gradient
+- Stjernefelt bakgrunn med parallax
+- Karakter-avatarer som reagerer (glad/trist/tenker)
 
-🎨 CUSTOMIZATION:
-- Velg avatar (8+ characters med emoji/SVG)
-- Farge-themes (Neon, Retro, Nature, Space)
-- Difficulty slider (Easy/Medium/Hard/Insane)
-- Sound effects toggle (synthesized bleeps)
-- Animation speed control
+🎨 TILPASNING:
+- Velg avatar (8+ karakterer med emoji/SVG)
+- Fargetemaer (Neon, Retro, Natur, Verdensrom)
+- Vanskelighetsgrad (Lett/Middels/Vanskelig/Vanvittig)
+- Lydeffekter av/på (syntetiske pip)
+- Kontroll av animasjonshastighet
 
-📊 STATS & PROGRESS:
-- Real-time leaderboard (top 10 highscores)
-- Detailed stats (accuracy%, avg time, best streak)
-- Progress ring chart per kategori
-- Heatmap calendar for practice days
-- Skill radar chart (different topic strengths)
+📊 STATISTIKK & PROGRESJON:
+- Sanntids ledertavle (topp 10 highscores)
+- Detaljert statistikk (nøyaktighet%, gj.snitt tid, beste streak)
+- Progresjon ring-diagram per kategori
+- Heatmap-kalender for øvelsesdager
+- Ferdighets radar-diagram (styrke i forskjellige emner)
 
-🎯 CREATOR MODE:
-- Visual question builder med preview
-- Bulk import via CSV/JSON
-- Randomize question order
-- Add images til spørsmål (URL eller emoji)
-- Set time limits per question
-- Tag questions by difficulty/category
-- Export game as shareable JSON link`
+🎯 SKAPER-MODUS:
+- Visuell spørsmålsbygger med forhåndsvisning
+- Masseimport via CSV/JSON
+- Randomiser spørsmålsrekkefølge
+- Legg til bilder til spørsmål (URL eller emoji)
+- Sett tidsgrenser per spørsmål
+- Tagg spørsmål etter vanskelighet/kategori
+- Eksporter spill som delbar JSON-link`
         },
         {
             id: 'economy-tracker',
             icon: '💰',
-            name: 'Finance Dashboard Pro',
-            desc: '📸 Receipt scanner & AI insights',
-            projectName: 'finance-dashboard-pro',
+            name: 'Finans Dashboard Pro',
+            desc: '📸 Kvitterings-skanner & AI-innsikt',
+            projectName: 'finans-dashboard-pro',
             goal: `Et PREMIUM økonomiverktøy:
 
-📸 RECEIPT MAGIC:
-- "Scan receipt"-button med camera simulation
-- Upload image → show processing animation
-- Extract text med regex (beløp, dato, butikk, varer)
-- Animated "scanning" overlay på bilde
-- Confidence score for hver ekstrahert verdi
-- Manual edit med inline validation
+📸 KVITTERINGS-MAGI:
+- "Skann kvittering"-knapp med kamera-simulering
+- Last opp bilde → vis prosesserings-animasjon
+- Trekk ut tekst med regex (beløp, dato, butikk, varer)
+- Animert "skanner"-overlegg på bilde
+- Konfidenspoeng for hver ekstrahert verdi
+- Manuell redigering med inline validering
 
-📊 INSANE DASHBOARD:
-- Hero cards med animated counters (total spent, avg/day, etc.)
-- Donut chart for kategorier med hover details
-- Line chart for spending over time (multi-line for categories)
-- Bar chart for top expenses
-- Calendar heatmap for spending days
-- Progress rings for budgets med color coding
-- Trend indicators (↗️ spending up 12%)
+📊 VANVITTIG DASHBOARD:
+- Hero-kort med animerte tellere (totalt brukt, gj.snitt/dag, osv.)
+- Donut-diagram for kategorier med hover-detaljer
+- Linje-diagram for utgifter over tid (flere linjer for kategorier)
+- Søyle-diagram for topp utgifter
+- Kalender-heatmap for utgiftsdager
+- Framdrifts-ringer for budsjetter med fargekoding
+- Trend-indikatorer (↗️ utgifter opp 12%)
 
-💳 BUDGET SYSTEM:
-- Set monthly budgets per kategori
-- Visual progress bars med warning colors
-- Notifications når over 80% av budget
-- Predictive "if you continue" calculator
-- Savings goal tracker med celebration animation
-- Recurring expense detection
+💳 BUDSJETT-SYSTEM:
+- Sett månedlige budsjetter per kategori
+- Visuelle framdriftslinjer med advarselsfarger
+- Notifikasjoner når over 80% av budsjett
+- Prediktiv "hvis du fortsetter"-kalkulator
+- Sparemål-sporer med jubel-animasjon
+- Gjentagende utgifts-deteksjon
 
-🎯 SMART INSIGHTS:
-- "Your biggest expense this month: ☕ Coffee (450kr)"
-- "You spent 30% less on transport vs last month!"
-- Suggested budget adjustments
-- Find patterns ("You always spend more on fridays")
-- Waste detector (duplicate entries, small purchases that add up)
+🎯 SMART INNSIKT:
+- "Din største utgift denne måneden: ☕ Kaffe (450kr)"
+- "Du brukte 30% mindre på transport vs forrige måned!"
+- Foreslåtte budsjett-justeringer
+- Finn mønstre ("Du bruker alltid mer på fredager")
+- Søppel-detektor (duplikate oppføringer, småkjøp som summerer seg)
 
 ✨ PREMIUM UI:
-- Glassmorphic cards på dark gradient background
-- Smooth page transitions
-- Skeleton loaders for charts
-- Filter drawer that slides in from right
-- Tag pills med quick-filter
-- Batch actions (select multiple → bulk categorize)
-- Swipe gestures på mobil
-- Export-wizard med format selection
+- Glassmorfiske kort på mørk gradient-bakgrunn
+- Glatte side-overganger
+- Skjelett-lastere for diagrammer
+- Filter-skuff som glir inn fra høyre
+- Tag-piller med hurtig-filter
+- Masse-handlinger (velg flere → masse-kategoriser)
+- Sveip-bevegelser på mobil
+- Eksport-veiviser med formatvalg
 
 🔐 DATA:
-- AES-like "encryption" simulation
-- Backup/restore funksjonalitet
-- Auto-save med visual feedback
-- Data compression for localStorage`
+- AES-lignende "krypterings"-simulering
+- Backup/gjenopprett funksjonalitet
+- Auto-lagring med visuell tilbakemelding
+- Data-komprimering for localStorage`
         },
         {
             id: 'task-planner',
             icon: '📋',
-            name: 'AI Task Planner Ultra',
-            desc: '🤖 Notion-style productivity suite',
-            projectName: 'ai-task-planner-ultra',
-            goal: `Et NOTION-LIKE productivity powerhouse:
+            name: 'AI Oppgave-Planlegger Ultra',
+            desc: '🤖 Notion-stil produktivitets-suite',
+            projectName: 'ai-oppgave-planlegger-ultra',
+            goal: `Et NOTION-LIGNENDE produktivitets kraftsenter:
 
-🎯 VIEWS:
-- Kanban board med smooth drag & drop
-- Calendar view (month/week/day) med event cards
-- Table view med inline editing
-- Timeline/Gantt chart for prosjekter
-- List view med grouping og filtering
-- Switch views med animated transition
+🎯 VISNINGER:
+- Kanban-tavle med glatt dra & slipp
+- Kalender-visning (måned/uke/dag) med hendelseskort
+- Tabell-visning med inline redigering
+- Tidslinje/Gantt-diagram for prosjekter
+- Liste-visning med gruppering og filtrering
+- Bytt visninger med animert overgang
 
-🤖 AI SCHEDULER:
-- "Auto-schedule week"-knapp
-- Intelligently fordel tasks basert på priority/deadline
-- Suggest optimal times basert på task type
-- Conflict detection (overlapping tasks)
-- Buffer time between tasks
-- "Focus time" blocks automatisk
+🤖 AI PLANLEGGER:
+- "Auto-planlegg uke"-knapp
+- Intelligent fordeling av oppgaver basert på prioritet/frist
+- Foreslå optimale tider basert på oppgavetype
+- Konflikt-deteksjon (overlappende oppgaver)
+- Buffer-tid mellom oppgaver
+- "Fokus-tid" blokker automatisk
 
-✨ NEXT-LEVEL TASKS:
-- Rich text editor (bold, italic, links, code)
-- Sub-tasks med indentation
-- Dependencies ("blocked by" relationships)
-- Time tracking med start/stop timer
-- Pomodoro integration (25/5 min cycles)
-- Tags med auto-complete
-- Custom properties (dropdown, number, date, person)
-- Templates for recurring tasks
-- Quick-add med natural language ("møte onsdag kl 14")
+✨ NESTE-NIVÅ OPPGAVER:
+- Rik tekst-editor (fet, kursiv, lenker, kode)
+- Under-oppgaver med innrykk
+- Avhengigheter ("blokkert av" relasjoner)
+- Tidssporing med start/stopp timer
+- Pomodoro-integrasjon (25/5 min sykluser)
+- Tags med auto-fullføring
+- Egendefinerte egenskaper (rullegardin, nummer, dato, person)
+- Maler for gjentagende oppgaver
+- Hurtig-legg til med naturlig språk ("møte onsdag kl 14")
 
 📊 DASHBOARDS:
-- Personal dashboard med today's tasks
-- Week overview med workload distribution
-- Habit tracker med streak counter
-- Time spent per project (pie chart)
-- Productivity score med trend
-- Burndown chart for sprints
+- Personlig dashboard med dagens oppgaver
+- Uke-oversikt med arbeidsmengde-fordeling
+- Vane-sporer med streak-teller
+- Tid brukt per prosjekt (kakediagram)
+- Produktivitets-poeng med trend
+- Nedbrytnings-diagram for sprinter
 
-🎨 CUSTOMIZATION:
-- Multiple workspaces (Work, Personal, School)
-- Custom themes med color pickers
-- Icon library for projects (emoji + icons)
-- Cover images for project pages
-- Sidebar favorites med drag-reorder
+🎨 TILPASNING:
+- Flere arbeidsområder (Jobb, Personlig, Skole)
+- Egendefinerte temaer med fargevelgere
+- Ikon-bibliotek for prosjekter (emoji + ikoner)
+- Forsidebilder for prosjektsider
+- Sidebar favoritter med dra-omorganiser
 
-⚡ POWER FEATURES:
-- Keyboard shortcuts (/, ⌘K for quick actions)
-- Slash commands for formatting
-- @mentions for assignees
-- Due date reminders med browser notifications
-- Recurring tasks (daily, weekly, custom)
-- Archive completed tasks
-- Batch operations (multi-select)
-- Global search med fuzzy matching
+⚡ KRAFT-FUNKSJONER:
+- Tastatursnarveier (/, ⌘K for hurtighandlinger)
+- Skråstrek-kommandoer for formatering
+- @-nevninger for tildelte
+- Forfallsdato påminnelser med nettleser-notifikasjoner
+- Gjentagende oppgaver (daglig, ukentlig, egendefinert)
+- Arkiver fullførte oppgaver
+- Masse-operasjoner (multi-valg)
+- Global søk med fuzzy matching
 
-💾 EXPORT:
-- PDF med custom styling
-- Markdown med checkboxes
-- CSV/Excel for data analysis
-- iCal for calendar sync
+💾 EKSPORT:
+- PDF med egendefinert styling
+- Markdown med avkrysningsbokser
+- CSV/Excel for data-analyse
+- iCal for kalender-synkronisering
 - JSON for backup`
         },
         {
@@ -1221,10 +1222,13 @@ function renderOutput(raw) {
     state.last.raw = raw || '';
     const parsed = normalizeParsed(safeJsonParse(state.last.raw));
     state.last.parsed = parsed;
+    
+    const outputEl = $('output');
 
     const t = i18n[state.uiLang];
     if (parsed && parsed.index_html) {
-        $('output').textContent = parsed.index_html;
+        outputEl.textContent = parsed.index_html;
+        outputEl.classList.remove('empty');
 
         // Update state
         state.last.hasIndex = true;
@@ -1235,7 +1239,14 @@ function renderOutput(raw) {
         return;
     }
 
-    $('output').textContent = state.last.raw;
+    outputEl.textContent = state.last.raw;
+    
+    // Add or remove 'empty' class based on content
+    if (state.last.raw.trim()) {
+        outputEl.classList.remove('empty');
+    } else {
+        outputEl.classList.add('empty');
+    }
 
     // Update state
     state.last.hasIndex = false;
@@ -1494,8 +1505,13 @@ async function callModel() {
     showProgress(true);
     updateProgress(10, state.uiLang === 'no' ? '🔗 Kobler til API...' : '🔗 Connecting to API...');
 
+    // Simulate progress during AI generation
+    let currentProgress = 10;
+    let progressInterval = null;
+
     try {
         updateProgress(25, state.uiLang === 'no' ? '📤 Sender forespørsel...' : '📤 Sending request...');
+        currentProgress = 25;
         
         const res = await fetch(endpoint, {
             method: 'POST',
@@ -1514,8 +1530,18 @@ async function callModel() {
         });
         
         updateProgress(50, state.uiLang === 'no' ? '⚡ AI genererer kode...' : '⚡ AI generating code...');
+        currentProgress = 50;
+        
+        // Gradually increment progress while waiting for response
+        progressInterval = setInterval(() => {
+            if (currentProgress < 70) {
+                currentProgress += 1;
+                updateProgress(currentProgress, state.uiLang === 'no' ? '⚡ AI genererer kode...' : '⚡ AI generating code...');
+            }
+        }, 300);
 
         if (!res.ok) {
+            if (progressInterval) clearInterval(progressInterval);
             const text = await res.text();
             renderOutput(text);
             showProgress(false);
@@ -1551,6 +1577,9 @@ async function callModel() {
             return;
         }
 
+        // Stop the progress simulation
+        if (progressInterval) clearInterval(progressInterval);
+        
         updateProgress(75, state.uiLang === 'no' ? '📥 Mottar respons...' : '📥 Receiving response...');
         
         const json = await res.json();
@@ -1573,6 +1602,7 @@ async function callModel() {
         setStatus('good', t.statusDone);
 
     } catch (e) {
+        if (progressInterval) clearInterval(progressInterval);
         const t = i18n[state.uiLang];
         renderOutput(String(e));
         showProgress(false);
@@ -2000,7 +2030,21 @@ function clearAll() {
     $('stackCustom').classList.add('hidden');
     $('fileMode').value = 'single';
     $('temperature').value = '0.5';
-    renderOutput('');
+    
+    // Clear output completely - both textContent and innerHTML
+    const outputEl = $('output');
+    outputEl.textContent = '';
+    outputEl.innerHTML = '';
+    outputEl.classList.add('empty');
+    
+    // Reset state
+    state.last.raw = '';
+    state.last.parsed = null;
+    state.last.hasIndex = false;
+    state.last.fileCount = 0;
+    
+    // Update meta display and disable actions
+    updateMetaDisplay();
     enableOutputActions(false);
     setStatus('', i18n[state.uiLang].statusReady);
 }
@@ -2026,11 +2070,7 @@ $('btnDownloadAll').addEventListener('click', downloadAllFiles);
 $('btnPreview').addEventListener('click', openPreview);
 $('btnShowFiles').addEventListener('click', showFiles);
 $('btnClear').addEventListener('click', () => {
-    localStorage.removeItem('vibe_idea_builder_api_key');
-    $('apiKey').value = '';
-    $('rememberKey').value = 'no';
     clearAll();
-    setApiState();
 });
 
 $('model').addEventListener('change', (e) => {
@@ -2393,7 +2433,6 @@ function selectTemplate(templateId) {
     }
 }
 
-renderTemplates();
 loadRememberedKey();
 applyLang();
 clearAll();
