@@ -1099,9 +1099,22 @@ async function downloadAllFiles() {
         allFiles.push(...parsed.files);
     }
     
-    // Add comprehensive README with setup instructions
-    const needsNodeSetup = ['react', 'vue', 'svelte', 'nextjs'].includes(stack);
+    // Detect if project actually uses ESM imports (no build needed) vs requires npm
+    // Check if index.html has importmap or esm.sh imports
+    const usesESMImports = parsed.index_html && (
+        parsed.index_html.includes('esm.sh') || 
+        parsed.index_html.includes('type="importmap"') ||
+        parsed.index_html.includes('type="module"')
+    );
+    
+    // Only needs Node.js setup if it's a framework WITHOUT ESM imports
+    const needsNodeSetup = ['nextjs'].includes(stack) || 
+        (['react', 'vue', 'svelte'].includes(stack) && !usesESMImports);
+    
     const needsServer = needsNodeSetup || stack.includes('python') || stack.includes('nodejs');
+    
+    // Determine if it's a PWA
+    const isPWA = allFiles.some(f => f.path === 'manifest.json' || f.path === 'sw.js');
     
     let readmeContent = outLang === 'no' ? 
 `# ${projectName}
@@ -1130,16 +1143,48 @@ ${needsNodeSetup ? `
 3. Kjør: \`pip install -r requirements.txt\` (hvis requirements.txt finnes)
 4. Kjør: \`python app.py\` eller \`python main.py\`
 5. Åpne nettleseren på http://localhost:5000
+` : isPWA ? `
+✅ **PWA - krever lokal webserver (for service worker)**
+
+**Alternativ 1 - VS Code Live Server (enklest):**
+1. Installer VS Code fra https://code.visualstudio.com
+2. Installer "Live Server" extension
+3. Høyreklikk på \`index.html\` → "Open with Live Server"
+4. Appen åpnes automatisk i nettleseren
+
+**Alternativ 2 - Python (hvis du har det installert):**
+1. Åpne Terminal i prosjektmappen
+2. Kjør: \`python -m http.server 8000\` eller \`python3 -m http.server 8000\`
+3. Åpne http://localhost:8000 i nettleseren
+
+**Alternativ 3 - Node.js (hvis du har det installert):**
+1. Åpne Terminal i prosjektmappen
+2. Kjør: \`npx serve\`
+3. Følg instruksjonene for å åpne i nettleseren
+
+**Hvorfor webserver?** Service Workers (for offline-funksjonalitet) krever HTTPS eller localhost. En lokal webserver gir deg localhost.
+` : usesESMImports ? `
+✅ **React/Vue med ESM imports - ingen build nødvendig!**
+
+**Quickstart (anbefalt):**
+1. Installer VS Code fra https://code.visualstudio.com
+2. Installer "Live Server" extension
+3. Høyreklikk på \`index.html\` → "Open with Live Server"
+4. Appen åpnes automatisk!
+
+**Alternativt (uten VS Code):**
+- Dobbel-klikk på \`index.html\` - kan fungere, men noen browsere blokkerer CORS
+- Python: \`python -m http.server 8000\` → åpne http://localhost:8000
+- Node: \`npx serve\` → følg instruksjonene
+
+**Ingen npm install nødvendig!** Koden bruker ESM imports direkte fra CDN.
 ` : `
 ✅ **Enkelt oppsett - ingen installasjon nødvendig!**
 
 1. Dobbel-klikk på \`index.html\` for å åpne i nettleseren
 2. Alternativt: Høyreklikk → Åpne med → Velg nettleser
 
-**For PWA/Service Workers:** Bruk en lokal webserver:
-- VS Code: Installer "Live Server" extension, høyreklikk index.html → "Open with Live Server"
-- Python: Kjør \`python -m http.server 8000\` og åpne http://localhost:8000
-- Node: Kjør \`npx serve\` og følg instruksjonene
+Ferdig! Appen kjører direkte i nettleseren.
 `}
 
 ### Trinn 3: Rediger koden
@@ -1189,10 +1234,49 @@ ${needsNodeSetup ? `
 3. Run: \`pip install -r requirements.txt\` (if requirements.txt exists)
 4. Run: \`python app.py\` or \`python main.py\`
 5. Open browser at http://localhost:5000
+` : isPWA ? `
+✅ **PWA - requires local web server (for service worker)**
+
+**Option 1 - VS Code Live Server (easiest):**
+1. Install VS Code from https://code.visualstudio.com
+2. Install "Live Server" extension
+3. Right-click \`index.html\` → "Open with Live Server"
+4. App opens automatically in browser
+
+**Option 2 - Python (if installed):**
+1. Open Terminal in project folder
+2. Run: \`python -m http.server 8000\` or \`python3 -m http.server 8000\`
+3. Open http://localhost:8000 in browser
+
+**Option 3 - Node.js (if installed):**
+1. Open Terminal in project folder
+2. Run: \`npx serve\`
+3. Follow instructions to open in browser
+
+**Why web server?** Service Workers (for offline functionality) require HTTPS or localhost. A local web server gives you localhost.
+` : usesESMImports ? `
+✅ **React/Vue with ESM imports - no build needed!**
+
+**Quickstart (recommended):**
+1. Install VS Code from https://code.visualstudio.com
+2. Install "Live Server" extension
+3. Right-click \`index.html\` → "Open with Live Server"
+4. App opens automatically!
+
+**Alternative (without VS Code):**
+- Double-click \`index.html\` - may work, but some browsers block CORS
+- Python: \`python -m http.server 8000\` → open http://localhost:8000
+- Node: \`npx serve\` → follow instructions
+
+**No npm install needed!** Code uses ESM imports directly from CDN.
 ` : `
 ✅ **Simple setup - no installation needed!**
 
 1. Double-click \`index.html\` to open in browser
+2. Alternative: Right-click → Open with → Choose browser
+
+Done! App runs directly in browser.
+`}
 2. Alternative: Right-click → Open with → Choose browser
 
 **For PWA/Service Workers:** Use a local web server:
