@@ -1878,14 +1878,24 @@ pre.empty {
     text-align: center;
 }
 
-.about-footer .about-logo {
-    margin-bottom: 16px;
+.footer-logo-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.about-footer .logo-image {
-    width: 60px;
+.footer-logo-link:hover {
+    transform: scale(1.05);
+}
+
+.footer-logo {
+    width: 140px;
     height: auto;
-    opacity: 0.8;
+    opacity: 0.9;
+}
+
+.footer-logo-link:hover .footer-logo {
+    opacity: 1;
 }
 
 .copyright {
