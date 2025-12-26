@@ -422,29 +422,6 @@
                     </div>
 
                     <!-- AI Improvement Section -->
-                    <div class="ai-improve-section">
-                        <div class="ai-improve-header">
-                            <span class="ai-improve-icon">🤖</span>
-                            <div>
-                                <h3 id="aiImproveTitle">AI-assistert forbedring</h3>
-                                <p id="aiImproveDesc">La AI-en forbedre og utvide beskrivelsen din med profesjonelle detaljer</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="aiImproveToggle">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="ai-improve-preview hidden" id="aiImprovePreview">
-                            <div class="ai-preview-loading hidden" id="aiPreviewLoading">
-                                <span class="ai-spinner"></span>
-                                <span>AI forbedrer beskrivelsen din...</span>
-                            </div>
-                            <div class="ai-preview-content" id="aiPreviewContent">
-                                <!-- AI-improved prompt will be shown here -->
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- Generated Prompt Preview -->
                     <div class="prompt-preview">
                         <div class="prompt-preview-header">
@@ -456,6 +433,34 @@
                         </div>
                         <div class="prompt-preview-content hidden" id="promptPreviewContent">
                             <pre id="generatedPromptText"></pre>
+                        </div>
+                    </div>
+
+                    <!-- AI Improvement Section -->
+                    <div class="ai-improve-section">
+                        <div class="ai-improve-header">
+                            <span class="ai-improve-icon">🤖</span>
+                            <div>
+                                <h3 id="aiImproveTitle">AI-assistert forbedring</h3>
+                                <p id="aiImproveDesc">La AI-en forbedre og utvide beskrivelsen din</p>
+                            </div>
+                            <button type="button" class="ai-improve-btn" id="aiImproveBtn">
+                                <span>✨ Forbedre</span>
+                            </button>
+                        </div>
+                        <div class="ai-improve-preview hidden" id="aiImprovePreview">
+                            <div class="ai-preview-loading hidden" id="aiPreviewLoading">
+                                <span class="ai-spinner"></span>
+                                <span>AI forbedrer beskrivelsen din...</span>
+                            </div>
+                            <div class="ai-preview-result hidden" id="aiPreviewResult">
+                                <div class="ai-preview-label">🤖 AI-forbedret versjon:</div>
+                                <div class="ai-preview-content" id="aiPreviewContent"></div>
+                                <div class="ai-preview-actions">
+                                    <button type="button" class="secondary small" id="aiDiscardBtn">Forkast</button>
+                                    <button type="button" class="primary small" id="aiApplyBtn">✅ Bruk denne</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
