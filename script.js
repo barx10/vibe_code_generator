@@ -17,12 +17,12 @@ const providerConfig = {
     google: {
         endpoint: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
         prefix: 'AIza',
-        models: ['gemini-2.0-flash', 'gemini-2.5-flash-preview-05-20', 'gemini-2.5-pro-preview-06-05']
+        models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-3-flash', 'gemini-3-pro']
     },
     openai: {
         endpoint: 'https://api.openai.com/v1/chat/completions',
         prefix: 'sk-',
-        models: ['gpt-4o', 'gpt-4o-mini', 'o1-preview']
+        models: ['gpt-4.1', 'gpt-5-mini', 'gpt-5.2', 'gpt-5.2-pro', 'gpt-5-nano']
     },
     openrouter: {
         endpoint: 'https://openrouter.ai/api/v1/chat/completions',
@@ -32,14 +32,22 @@ const providerConfig = {
 };
 
 const modelConfig = {
-    'gpt-4o': 'https://api.openai.com/v1/chat/completions',
-    'gpt-4o-mini': 'https://api.openai.com/v1/chat/completions',
-    'o1-preview': 'https://api.openai.com/v1/chat/completions',
+    // OpenAI
+    'gpt-4.1': 'https://api.openai.com/v1/chat/completions',
+    'gpt-5-mini': 'https://api.openai.com/v1/chat/completions',
+    'gpt-5.2': 'https://api.openai.com/v1/chat/completions',
+    'gpt-5.2-pro': 'https://api.openai.com/v1/chat/completions',
+    'gpt-5-nano': 'https://api.openai.com/v1/chat/completions',
+    // OpenRouter
     'claude-sonnet-4-20250514': 'https://openrouter.ai/api/v1/chat/completions',
     'claude-3-5-sonnet-20241022': 'https://openrouter.ai/api/v1/chat/completions',
+    // Google Gemini
+    'gemini-2.5-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-2.5-pro': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     'gemini-2.0-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-2.5-flash-preview-05-20': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-2.5-pro-preview-06-05': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-3-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-3-pro': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    // Local
     'local-model': 'http://localhost:1234/v1/chat/completions'
 };
 
