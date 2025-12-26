@@ -1290,6 +1290,9 @@ function initEventListeners() {
 // ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Always start at top of page
+    window.scrollTo(0, 0);
+
     initEventListeners();
     loadRememberedKey();
     applyLang();
