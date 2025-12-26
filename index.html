@@ -541,13 +541,14 @@
         <section id="panelHelp" role="tabpanel" aria-labelledby="tabHelp" class="hidden">
             <div class="card help-card">
                 <h2 id="helpTitle">🚀 Kom i gang på 5 minutter</h2>
+                <p class="help-intro">Vibe Code Generator bruker en enkel 3-stegs wizard som guider deg gjennom hele prosessen.</p>
 
                 <div class="help-section">
-                    <h3 id="helpStep1Title">📋 Steg 1: Få en API-nøkkel (gratis)</h3>
-                    <p id="helpStep1Desc">Du trenger en nøkkel for å bruke AI-modellen. Velg én av disse leverandørene:</p>
+                    <h3 id="helpStep1Title">🔑 Steg 1: Koble til AI</h3>
+                    <p id="helpStep1Desc">Først velger du hvilken AI-leverandør du vil bruke og legger inn API-nøkkelen din:</p>
                     <div class="help-options">
                         <div class="help-option">
-                            <strong>Google Gemini</strong>
+                            <strong>Google Gemini (Anbefalt for nybegynnere)</strong>
                             <ol>
                                 <li>Gå til <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></li>
                                 <li>Logg inn med Google-kontoen din</li>
@@ -565,60 +566,118 @@
                             </ol>
                         </div>
                         <div class="help-option">
-                            <strong>OpenRouter (mange modeller)</strong>
+                            <strong>OpenRouter (For avanserte brukere)</strong>
                             <ol>
                                 <li>Gå til <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a></li>
                                 <li>Opprett konto eller logg inn</li>
                                 <li>Klikk "Create Key"</li>
-                                <li>Kopier nøkkelen (starter med or-...)</li>
+                                <li>Kopier nøkkelen (starter med sk-or-...)</li>
                             </ol>
                         </div>
                     </div>
-                </div>
-
-                <div class="help-section">
-                    <h3 id="helpStep2Title">✏️ Steg 2: Beskriv appen</h3>
-                    <div class="help-tips">
-                        <div class="help-tip">
-                            <span class="tip-icon">✨</span>
-                            <div>
-                                <strong id="tipPromptHelperTitle">Bruk Prompt-hjelperen!</strong>
-                                <p id="tipPromptHelperDesc">Wizarden guider deg gjennom alle spørsmålene for å lage en perfekt beskrivelse av appen din.</p>
-                            </div>
-                        </div>
-                        <div class="help-tip">
-                            <span class="tip-icon">💡</span>
-                            <div>
-                                <strong id="tipGoalTitle">Vær detaljert</strong>
-                                <p id="tipGoalDesc">Jo mer du beskriver, jo bedre blir resultatet. Inkluder funksjoner, design og brukeropplevelse.</p>
-                            </div>
+                    <div class="help-tip">
+                        <span class="tip-icon">💡</span>
+                        <div>
+                            <strong>Tips:</strong>
+                            <p>Wizarden viser deg automatisk instruksjoner for leverandøren du velger, og validerer at nøkkelen har riktig format.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="help-section">
-                    <h3 id="helpStep3Title">🎉 Steg 3: Bruk koden</h3>
+                    <h3 id="helpStep2Title">✨ Steg 2: Bygg din prompt</h3>
+                    <p>Dette er hjertet av appen! En smart wizard guider deg gjennom 7 enkle spørsmål:</p>
+                    <div class="help-tips">
+                        <div class="help-tip">
+                            <span class="tip-icon">1️⃣</span>
+                            <div>
+                                <strong>Hva skal appen hete?</strong>
+                                <p>Gi appen din et navn som beskriver hva den gjør.</p>
+                            </div>
+                        </div>
+                        <div class="help-tip">
+                            <span class="tip-icon">2️⃣</span>
+                            <div>
+                                <strong>Hva er hovedformålet?</strong>
+                                <p>Beskriv kort hva appen skal gjøre for brukeren.</p>
+                            </div>
+                        </div>
+                        <div class="help-tip">
+                            <span class="tip-icon">3️⃣</span>
+                            <div>
+                                <strong>Hvem er målgruppen?</strong>
+                                <p>Tenk på hvem som skal bruke appen.</p>
+                            </div>
+                        </div>
+                        <div class="help-tip">
+                            <span class="tip-icon">4️⃣</span>
+                            <div>
+                                <strong>Hvilke funksjoner trengs?</strong>
+                                <p>List opp de viktigste funksjonene appen skal ha.</p>
+                            </div>
+                        </div>
+                        <div class="help-tip">
+                            <span class="tip-icon">5️⃣</span>
+                            <div>
+                                <strong>Spesielle ønsker?</strong>
+                                <p>Eventuelle ekstra detaljer eller krav.</p>
+                            </div>
+                        </div>
+                        <div class="help-tip">
+                            <span class="tip-icon">6️⃣</span>
+                            <div>
+                                <strong>Velg designstil</strong>
+                                <p>Moderne, minimalistisk, leken, profesjonell eller mørk modus.</p>
+                            </div>
+                        </div>
+                        <div class="help-tip">
+                            <span class="tip-icon">7️⃣</span>
+                            <div>
+                                <strong>Velg fargetema</strong>
+                                <p>Blå, grønn, lilla, oransje, rosa eller egendefinert.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="help-tip highlight-tip">
+                        <span class="tip-icon">🤖</span>
+                        <div>
+                            <strong>AI-forbedring (Premium-funksjon)</strong>
+                            <p>Slå på "Forbedre med AI" for å la AI-en gjøre prompten din enda bedre før generering. Dette legger til profesjonelle detaljer og best practices automatisk!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h3 id="helpStep3Title">🎉 Steg 3: Generer og bruk</h3>
+                    <p>Når prompten er klar, trykker du "Generer app" og venter noen sekunder:</p>
                     <div class="help-steps-visual">
                         <div class="visual-step">
                             <div class="step-number">1</div>
                             <div class="step-content">
                                 <strong id="useStep1Title">Generer</strong>
-                                <p id="useStep1Desc">Klikk "Generer app" og vent noen sekunder</p>
+                                <p id="useStep1Desc">Se live-forhåndsvisning mens koden genereres</p>
                             </div>
                         </div>
                         <div class="visual-step">
                             <div class="step-number">2</div>
                             <div class="step-content">
-                                <strong id="useStep2Title">Last ned</strong>
-                                <p id="useStep2Desc">Klikk "Last ned" for å lagre filen</p>
+                                <strong id="useStep2Title">Forhåndsvis</strong>
+                                <p id="useStep2Desc">Se resultatet direkte i nettleseren</p>
                             </div>
                         </div>
                         <div class="visual-step">
                             <div class="step-number">3</div>
                             <div class="step-content">
-                                <strong id="useStep3Title">Åpne</strong>
-                                <p id="useStep3Desc">Dobbeltklikk på filen for å åpne den. Ferdig! 🎊</p>
+                                <strong id="useStep3Title">Last ned</strong>
+                                <p id="useStep3Desc">Lagre som HTML-fil og åpne lokalt</p>
                             </div>
+                        </div>
+                    </div>
+                    <div class="help-tip">
+                        <span class="tip-icon">🔄</span>
+                        <div>
+                            <strong>Ikke fornøyd?</strong>
+                            <p>Klikk "Generer på nytt" for å få en ny versjon, eller gå tilbake og juster prompten din.</p>
                         </div>
                     </div>
                 </div>
@@ -631,15 +690,23 @@
                     </details>
                     <details class="faq-item">
                         <summary id="faq2Q">Koster det penger?</summary>
-                        <p id="faq2A">De fleste AI-leverandører har en gratis kvote. For hobbyprosjekter vil du vanligvis aldri betale noe.</p>
+                        <p id="faq2A">De fleste AI-leverandører har en gratis kvote. Google Gemini er helt gratis for hobbybruk. For OpenAI kan du få gratis kreditter ved oppstart.</p>
                     </details>
                     <details class="faq-item">
-                        <summary id="faq3Q">Jeg får feilmelding - hva gjør jeg?</summary>
-                        <p id="faq3A">Sjekk at: 1) API-nøkkelen er riktig kopiert, 2) Du har valgt en modell som passer til din leverandør, 3) Prøv å trykke Generer på nytt.</p>
+                        <summary id="faq3Q">Hva gjør "Forbedre med AI"?</summary>
+                        <p id="faq3A">Denne funksjonen sender prompten din til AI-en først for å gjøre den mer detaljert og profesjonell. Du får se forbedringen før generering starter.</p>
                     </details>
                     <details class="faq-item">
-                        <summary id="faq4Q">Kan jeg redigere koden etterpå?</summary>
-                        <p id="faq4A">Ja! Åpne filen i et program som VS Code, Notepad++, eller til og med vanlig Notepad. Du kan endre tekst, farger og mer.</p>
+                        <summary id="faq4Q">Jeg får feilmelding - hva gjør jeg?</summary>
+                        <p id="faq4A">Sjekk at: 1) API-nøkkelen er riktig kopiert og har riktig format, 2) Du har valgt riktig leverandør, 3) Prøv å generere på nytt.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="faq5Q">Kan jeg redigere koden etterpå?</summary>
+                        <p id="faq5A">Ja! Åpne filen i et program som VS Code, Notepad++, eller til og med vanlig Notepad. Du kan endre tekst, farger og mer.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="faq6Q">Lagres API-nøkkelen min?</summary>
+                        <p id="faq6A">Nøkkelen lagres kun lokalt i nettleseren din (localStorage). Den sendes aldri til noen server utenom AI-leverandøren du har valgt.</p>
                     </details>
                 </div>
             </div>
