@@ -554,10 +554,31 @@ async function improvePromptWithAI() {
 
 function applyAIImprovement() {
     if (state.aiImprovedPrompt) {
+        // Update the prompt preview with AI-improved text
+        $('generatedPromptText').textContent = state.aiImprovedPrompt;
+
+        // Store in goal field for generation
         $('goal').value = state.aiImprovedPrompt;
-        state.aiImprovedPrompt = null;
+
+        // Open the prompt preview so user sees the change
+        const content = $('promptPreviewContent');
+        const btn = $('togglePromptPreview');
+        const text = $('togglePromptText');
+        const t = i18n[state.uiLang];
+
+        content.classList.remove('hidden');
+        btn.classList.add('open');
+        text.textContent = t.hidePreview;
+
+        // Hide AI preview section
         $('aiImprovePreview').classList.add('hidden');
-        updatePromptPreview();
+        state.aiImprovedPrompt = null;
+
+        // Generate project name from app type
+        const appType = $('promptAppType').value.trim();
+        if (appType) {
+            $('projectName').value = appType.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        }
     }
 }
 
