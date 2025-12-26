@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>VibeCoding Idea Builder</title>
     <meta name="description" content="Bruk AI til å generere startklare webprosjekter. Perfekt for lærere, studenter og alle som vil lære webutvikling på en praktisk måte." />
-    
+
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea'/><stop offset='100%' style='stop-color:%23764ba2'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><path d='M35 40 L45 50 L35 60' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/><path d='M65 40 L55 50 L65 60' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/><circle cx='50' cy='70' r='2' fill='white'/></svg>" />
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://barx10.github.io/vibe_code_generator/" />
@@ -18,14 +18,14 @@
     <meta property="og:image" content="https://barx10.github.io/vibe_code_generator/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    
+
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://barx10.github.io/vibe_code_generator/" />
     <meta property="twitter:title" content="VibeCoding Idea Builder - AI-drevet kodegenerator" />
     <meta property="twitter:description" content="Bruk AI til å generere startklare webprosjekter. Perfekt for lærere, studenter og alle som vil lære webutvikling." />
     <meta property="twitter:image" content="https://barx10.github.io/vibe_code_generator/og-image.png" />
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -109,89 +109,108 @@
         </div>
 
         <section id="panelGen" role="tabpanel" aria-labelledby="tabGen">
-            <div class="grid">
 
-                <div class="card">
-                    <h2 id="tDetails">Beskriv appen din</h2>
-                    <div class="hint" id="hTemplates">Bruk Prompt-hjelperen for å lage en detaljert beskrivelse som gir deg en premium app! ✨</div>
+            <!-- Wizard Step Indicator -->
+            <div class="wizard-steps">
+                <div class="wizard-step active" data-step="1">
+                    <div class="wizard-step-number">1</div>
+                    <div class="wizard-step-label" id="wizardStep1Label">API-nøkkel</div>
+                </div>
+                <div class="wizard-step-line"></div>
+                <div class="wizard-step" data-step="2">
+                    <div class="wizard-step-number">2</div>
+                    <div class="wizard-step-label" id="wizardStep2Label">Beskriv appen</div>
+                </div>
+                <div class="wizard-step-line"></div>
+                <div class="wizard-step" data-step="3">
+                    <div class="wizard-step-number">3</div>
+                    <div class="wizard-step-label" id="wizardStep3Label">Generer</div>
+                </div>
+            </div>
 
-                    <label id="lName" for="projectName">Prosjektnavn</label>
-                    <input id="projectName" placeholder="f.eks. quiz-spill, memory-game" />
+            <!-- STEP 1: API Configuration -->
+            <div class="wizard-panel active" id="wizardStep1">
+                <div class="card wizard-card">
+                    <div class="wizard-card-header">
+                        <span class="wizard-card-icon">🔑</span>
+                        <div>
+                            <h2 id="step1Title">Koble til AI</h2>
+                            <p class="wizard-card-desc" id="step1Desc">Legg inn API-nøkkelen din for å komme i gang</p>
+                        </div>
+                    </div>
 
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:16px">
-                        <label id="lGoal" for="goal">Beskrivelse</label>
-                        <button type="button" id="btnPromptHelper" class="secondary" style="font-size:12px;padding:6px 12px">
-                            ✨ Prompt-hjelper
+                    <div class="api-providers">
+                        <button class="provider-btn active" data-provider="google">
+                            <span class="provider-icon">🔵</span>
+                            <span class="provider-name">Google Gemini</span>
+                            <span class="provider-badge free">Gratis</span>
+                        </button>
+                        <button class="provider-btn" data-provider="openai">
+                            <span class="provider-icon">🟢</span>
+                            <span class="provider-name">OpenAI</span>
+                            <span class="provider-badge">Betalt</span>
+                        </button>
+                        <button class="provider-btn" data-provider="openrouter">
+                            <span class="provider-icon">🟣</span>
+                            <span class="provider-name">OpenRouter</span>
+                            <span class="provider-badge">Mange modeller</span>
                         </button>
                     </div>
-                    <textarea id="goal" rows="8" placeholder="Beskriv hva appen skal gjøre... Bruk Prompt-hjelperen for å få hjelp!"></textarea>
 
-                    <details style="margin:16px 0">
-                        <summary style="cursor:pointer;color:var(--text2);font-size:14px">⚙️ Avanserte innstillinger (valgfritt)</summary>
-                        <div style="margin-top:12px">
-                            <label id="lStack" for="stack">Teknologi</label>
-                            <div class="hint" id="hStack">Ren HTML anbefales for nybegynnere</div>
-                            <select id="stack">
-                                <option value="html-css-js" selected>Ren HTML/CSS/JS (anbefalt)</option>
-                                <option value="html-tailwind">HTML + Tailwind CSS</option>
-                                <option value="react">React (ESM - ingen npm)</option>
-                                <option value="custom">Egendefinert...</option>
-                            </select>
-                            <input id="stackCustom" class="hidden" placeholder="Skriv inn teknologi..." />
+                    <div class="provider-instructions" id="providerInstructions">
+                        <div class="provider-instruction active" data-provider="google">
+                            <h4>🚀 Slik får du gratis Google API-nøkkel:</h4>
+                            <ol>
+                                <li>Gå til <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></li>
+                                <li>Logg inn med Google-kontoen din</li>
+                                <li>Klikk "Create API Key"</li>
+                                <li>Kopier nøkkelen (starter med <code>AIza...</code>)</li>
+                            </ol>
                         </div>
-                    </details>
-
-                    <hr style="border:none;border-top:1px solid var(--line);margin:14px 0" />
-
-                    <h2 id="tApi">Modell</h2>
-
-                    <div class="row">
-                        <div>
-                            <label id="lEndpoint" for="endpoint">API endpoint</label>
-                            <input id="endpoint" value="https://api.openai.com/v1/chat/completions" />
-                            <div class="hint" id="hEndpoint">Du kan endre til annen leverandør hvis du vil</div>
+                        <div class="provider-instruction" data-provider="openai">
+                            <h4>🔐 Slik får du OpenAI API-nøkkel:</h4>
+                            <ol>
+                                <li>Gå til <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a></li>
+                                <li>Opprett konto eller logg inn</li>
+                                <li>Klikk "Create new secret key"</li>
+                                <li>Kopier nøkkelen (starter med <code>sk-...</code>)</li>
+                            </ol>
                         </div>
-                        <div>
-                            <label id="lModel" for="model">Modellnavn</label>
-                            <select id="model">
-                                <optgroup label="Latest & Preview">
-                                    <option value="gpt-4o" selected>OpenAI GPT-4o</option>
-                                    <option value="o1-preview">OpenAI o1-preview (Reasoning)</option>
-                                    <option value="o1-mini">OpenAI o1-mini (Fast Reasoning)</option>
-                                    <option value="claude-sonnet-4.5">Claude Sonnet 4.5</option>
-                                </optgroup>
-                                <optgroup label="Specialized Code">
-                                    <option value="gpt-5.1-codex-max">GPT-5.1 Codex Max</option>
-                                    <option value="grok-code-fast-1">Grok Code Fast 1</option>
-                                    <option value="raptor-mini-preview">Raptor Mini (Preview)</option>
-                                </optgroup>
-                                <optgroup label="Standard Powerhouses">
-                                    <option value="gpt-4.1">GPT-4.1</option>
-                                    <option value="gpt-4o">GPT-4o</option>
-                                    <option value="claude-opus-4.5">Claude Opus 4.5</option>
-                                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
-                                </optgroup>
-                                <optgroup label="Gemini Series (Google AI)">
-                                    <option value="gemini-3-pro-preview">Gemini 3 Pro</option>
-                                    <option value="gemini-3-flash-preview">Gemini 3 Flash</option>
-                                    <option value="gemini-2.5-pro-preview-06-05">Gemini 2.5 Pro</option>
-                                    <option value="gemini-2.5-flash-preview-05-20">Gemini 2.5 Flash</option>
-                                    <option value="gemini-2.5-flash-lite-preview-06-17">Gemini 2.5 Flash-Lite</option>
-                                    <option value="gemini-2.0-flash">Gemini 2.0 Flash</option>
-                                    <option value="gemini-2.0-flash-lite">Gemini 2.0 Flash-Lite</option>
-                                </optgroup>
-                                <optgroup label="Other">
-                                    <option value="local-model">Local (LM Studio/Ollama)</option>
-                                    <option value="custom">Egendefinert...</option>
-                                </optgroup>
-                            </select>
+                        <div class="provider-instruction" data-provider="openrouter">
+                            <h4>🌐 Slik får du OpenRouter API-nøkkel:</h4>
+                            <ol>
+                                <li>Gå til <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a></li>
+                                <li>Opprett konto eller logg inn</li>
+                                <li>Klikk "Create Key"</li>
+                                <li>Kopier nøkkelen (starter med <code>sk-or-...</code>)</li>
+                            </ol>
                         </div>
                     </div>
 
-                    <label id="lKey" for="apiKey">API key</label>
-                    <input id="apiKey" type="password" placeholder="Lagres ikke i output" />
-                    <div id="keyHint" class="hint"></div>
-                    
+                    <div class="api-input-group">
+                        <label id="lKey" for="apiKey">API-nøkkel</label>
+                        <div class="api-input-wrapper">
+                            <input id="apiKey" type="password" placeholder="Lim inn din API-nøkkel her..." />
+                            <button type="button" id="toggleKeyVisibility" class="input-icon-btn" title="Vis/skjul nøkkel">👁️</button>
+                        </div>
+                        <div id="keyHint" class="hint"></div>
+                    </div>
+
+                    <div class="api-validation" id="apiValidation">
+                        <div class="validation-pending hidden" id="validationPending">
+                            <span class="validation-spinner"></span>
+                            <span id="validationPendingText">Validerer nøkkel...</span>
+                        </div>
+                        <div class="validation-success hidden" id="validationSuccess">
+                            <span class="validation-icon">✅</span>
+                            <span id="validationSuccessText">Nøkkel validert! Klar til å fortsette.</span>
+                        </div>
+                        <div class="validation-error hidden" id="validationError">
+                            <span class="validation-icon">❌</span>
+                            <span id="validationErrorText">Ugyldig nøkkel. Sjekk at du har kopiert hele nøkkelen.</span>
+                        </div>
+                    </div>
+
                     <!-- Security info box -->
                     <div class="security-box" id="securityBox">
                         <span class="security-icon">🔒</span>
@@ -201,23 +220,261 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <details class="advanced-settings">
+                        <summary id="advancedSettingsLabel">⚙️ Avanserte innstillinger</summary>
+                        <div class="advanced-content">
+                            <div class="row">
+                                <div>
+                                    <label id="lEndpoint" for="endpoint">API endpoint</label>
+                                    <input id="endpoint" value="https://generativelanguage.googleapis.com/v1beta/openai/chat/completions" />
+                                </div>
+                                <div>
+                                    <label id="lModel" for="model">Modell</label>
+                                    <select id="model">
+                                        <optgroup label="Google Gemini (Anbefalt)">
+                                            <option value="gemini-2.0-flash" selected>Gemini 2.0 Flash (Rask)</option>
+                                            <option value="gemini-2.5-flash-preview-05-20">Gemini 2.5 Flash (Nyeste)</option>
+                                            <option value="gemini-2.5-pro-preview-06-05">Gemini 2.5 Pro (Kraftig)</option>
+                                        </optgroup>
+                                        <optgroup label="OpenAI">
+                                            <option value="gpt-4o">GPT-4o</option>
+                                            <option value="gpt-4o-mini">GPT-4o Mini (Billigere)</option>
+                                            <option value="o1-preview">o1-preview (Reasoning)</option>
+                                        </optgroup>
+                                        <optgroup label="Anthropic (via OpenRouter)">
+                                            <option value="claude-sonnet-4-20250514">Claude Sonnet 4</option>
+                                            <option value="claude-3-5-sonnet-20241022">Claude 3.5 Sonnet</option>
+                                        </optgroup>
+                                        <optgroup label="Annet">
+                                            <option value="local-model">Lokal modell (LM Studio/Ollama)</option>
+                                            <option value="custom">Egendefinert...</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div>
+                                    <label id="lRemember">Lagre nøkkel</label>
+                                    <select id="rememberKey">
+                                        <option value="no">Ikke lagre</option>
+                                        <option value="local">Lagre lokalt i nettleser</option>
+                                    </select>
+                                    <div class="hint" id="hRemember">Lagres kryptert i localStorage</div>
+                                </div>
+                                <div>
+                                    <label id="lStack" for="stack">Teknologi</label>
+                                    <select id="stack">
+                                        <option value="html-css-js" selected>Ren HTML/CSS/JS (anbefalt)</option>
+                                        <option value="html-tailwind">HTML + Tailwind CSS</option>
+                                        <option value="react">React (ESM - ingen npm)</option>
+                                        <option value="custom">Egendefinert...</option>
+                                    </select>
+                                    <input id="stackCustom" class="hidden" placeholder="Skriv inn teknologi..." />
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <div class="wizard-actions">
+                        <button class="primary wizard-next-btn" id="step1NextBtn" disabled>
+                            <span>Fortsett til neste steg</span>
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 2: Prompt Builder (Premium Prompt Helper) -->
+            <div class="wizard-panel" id="wizardStep2">
+                <div class="card wizard-card prompt-builder-card">
+                    <div class="wizard-card-header">
+                        <span class="wizard-card-icon">✨</span>
                         <div>
-                            <label id="lRemember">Lagring</label>
-                            <select id="rememberKey">
-                                <option value="no">Ikke lagre</option>
-                                <option value="local">Lagre lokalt i nettleser</option>
-                            </select>
-                            <div class="hint" id="hRemember">Lagring skjer i localStorage på denne maskinen</div>
+                            <h2 id="step2Title">Beskriv drømmeappen din</h2>
+                            <p class="wizard-card-desc" id="step2Desc">Svar på spørsmålene under for å lage en detaljert beskrivelse. Jo mer du forteller, jo bedre blir resultatet!</p>
                         </div>
                     </div>
 
-                    <div class="btns">
-                        <button class="primary" id="btnGenerate" type="button">Generer</button>
-                        <button id="btnCopy" type="button" disabled>Kopier output</button>
-                        <button id="btnDownload" type="button" disabled>Last ned index.html</button>
-                        <button id="btnDownloadAll" type="button" disabled class="hidden">📦 Last ned ZIP</button>
-                        <button class="danger" id="btnClear" type="button">Nullstill</button>
+                    <div class="prompt-builder">
+                        <!-- Question 1: App Type -->
+                        <div class="prompt-question">
+                            <div class="prompt-question-header">
+                                <span class="prompt-question-number">1</span>
+                                <label id="promptQ1Label">Hva slags app vil du lage?</label>
+                                <span class="prompt-required">*</span>
+                            </div>
+                            <input type="text" id="promptAppType" placeholder="F.eks. quiz-spill, todo-liste, kalkulator, portfolio, chatbot..." />
+                            <div class="prompt-suggestions">
+                                <span class="suggestion-chip" data-value="quiz-spill">🎮 Quiz-spill</span>
+                                <span class="suggestion-chip" data-value="todo-liste">📝 Todo-liste</span>
+                                <span class="suggestion-chip" data-value="kalkulator">🔢 Kalkulator</span>
+                                <span class="suggestion-chip" data-value="portfolio">💼 Portfolio</span>
+                                <span class="suggestion-chip" data-value="budsjett-sporer">💰 Budsjett-sporer</span>
+                                <span class="suggestion-chip" data-value="vær-app">🌤️ Vær-app</span>
+                            </div>
+                        </div>
+
+                        <!-- Question 2: Target Audience -->
+                        <div class="prompt-question">
+                            <div class="prompt-question-header">
+                                <span class="prompt-question-number">2</span>
+                                <label id="promptQ2Label">Hvem er målgruppen?</label>
+                            </div>
+                            <input type="text" id="promptAudience" placeholder="F.eks. elever, lærere, meg selv, bedrifter..." />
+                        </div>
+
+                        <!-- Question 3: Main Function (Required) -->
+                        <div class="prompt-question">
+                            <div class="prompt-question-header">
+                                <span class="prompt-question-number">3</span>
+                                <label id="promptQ3Label">Beskriv hovedfunksjonen i detalj</label>
+                                <span class="prompt-required">*</span>
+                            </div>
+                            <textarea id="promptMainFeature" rows="4" placeholder="Skriv hva brukeren skal kunne gjøre, hva som skal skje når de klikker, hvilke resultater de skal se..."></textarea>
+                            <div class="prompt-hint" id="promptQ3Hint">
+                                💡 <strong>Tips:</strong> Beskriv steg-for-steg hva brukeren skal kunne gjøre. Vær så detaljert som mulig!
+                            </div>
+                        </div>
+
+                        <!-- Question 4: Data -->
+                        <div class="prompt-question">
+                            <div class="prompt-question-header">
+                                <span class="prompt-question-number">4</span>
+                                <label id="promptQ4Label">Hvilke data skal lagres/vises?</label>
+                            </div>
+                            <textarea id="promptData" rows="2" placeholder="F.eks. brukerpoeng, historikk, favoritter, innstillinger..."></textarea>
+                        </div>
+
+                        <!-- Question 5: Interactions -->
+                        <div class="prompt-question">
+                            <div class="prompt-question-header">
+                                <span class="prompt-question-number">5</span>
+                                <label id="promptQ5Label">Interaksjoner - hva skal skje?</label>
+                            </div>
+                            <textarea id="promptInteractions" rows="2" placeholder="F.eks. animasjoner, lydeffekter, visuell feedback..."></textarea>
+                        </div>
+
+                        <!-- Question 6: Design Style -->
+                        <div class="prompt-question">
+                            <div class="prompt-question-header">
+                                <span class="prompt-question-number">6</span>
+                                <label id="promptQ6Label">Hvilket design/stemning?</label>
+                            </div>
+                            <div class="design-options">
+                                <label class="design-option active">
+                                    <input type="radio" name="designStyle" value="💎 Moderne & Glassmorphic" checked>
+                                    <span class="design-option-content">
+                                        <span class="design-icon">💎</span>
+                                        <span class="design-name">Moderne & Glassmorphic</span>
+                                    </span>
+                                </label>
+                                <label class="design-option">
+                                    <input type="radio" name="designStyle" value="🎮 Gamer/Neon/Cyberpunk">
+                                    <span class="design-option-content">
+                                        <span class="design-icon">🎮</span>
+                                        <span class="design-name">Gamer/Neon</span>
+                                    </span>
+                                </label>
+                                <label class="design-option">
+                                    <input type="radio" name="designStyle" value="🎨 Fargerik & Leken">
+                                    <span class="design-option-content">
+                                        <span class="design-icon">🎨</span>
+                                        <span class="design-name">Fargerik & Leken</span>
+                                    </span>
+                                </label>
+                                <label class="design-option">
+                                    <input type="radio" name="designStyle" value="💼 Profesjonell & Minimalistisk">
+                                    <span class="design-option-content">
+                                        <span class="design-icon">💼</span>
+                                        <span class="design-name">Profesjonell</span>
+                                    </span>
+                                </label>
+                                <label class="design-option">
+                                    <input type="radio" name="designStyle" value="🌙 Dark Mode Premium">
+                                    <span class="design-option-content">
+                                        <span class="design-icon">🌙</span>
+                                        <span class="design-name">Dark Mode</span>
+                                    </span>
+                                </label>
+                                <label class="design-option">
+                                    <input type="radio" name="designStyle" value="🌈 Gradient & 3D-effekter">
+                                    <span class="design-option-content">
+                                        <span class="design-icon">🌈</span>
+                                        <span class="design-name">Gradient & 3D</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Question 7: Special Requests -->
+                        <div class="prompt-question">
+                            <div class="prompt-question-header">
+                                <span class="prompt-question-number">7</span>
+                                <label id="promptQ7Label">Spesielle ønsker?</label>
+                            </div>
+                            <textarea id="promptOther" rows="2" placeholder="F.eks. dark mode toggle, mobilvennlig, tilgjengelighet, spesifikke farger..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- AI Improvement Section -->
+                    <div class="ai-improve-section">
+                        <div class="ai-improve-header">
+                            <span class="ai-improve-icon">🤖</span>
+                            <div>
+                                <h3 id="aiImproveTitle">AI-assistert forbedring</h3>
+                                <p id="aiImproveDesc">La AI-en forbedre og utvide beskrivelsen din med profesjonelle detaljer</p>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="aiImproveToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="ai-improve-preview hidden" id="aiImprovePreview">
+                            <div class="ai-preview-loading hidden" id="aiPreviewLoading">
+                                <span class="ai-spinner"></span>
+                                <span>AI forbedrer beskrivelsen din...</span>
+                            </div>
+                            <div class="ai-preview-content" id="aiPreviewContent">
+                                <!-- AI-improved prompt will be shown here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Generated Prompt Preview -->
+                    <div class="prompt-preview">
+                        <div class="prompt-preview-header">
+                            <h3 id="promptPreviewTitle">📝 Din prompt</h3>
+                            <button type="button" class="preview-toggle-btn" id="togglePromptPreview">
+                                <span id="togglePromptText">Vis forhåndsvisning</span>
+                                <span class="toggle-arrow">▼</span>
+                            </button>
+                        </div>
+                        <div class="prompt-preview-content hidden" id="promptPreviewContent">
+                            <pre id="generatedPromptText"></pre>
+                        </div>
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="secondary" id="step2BackBtn">
+                            <span class="btn-arrow">←</span>
+                            <span>Tilbake</span>
+                        </button>
+                        <button class="primary wizard-next-btn" id="step2NextBtn" disabled>
+                            <span>🚀 Generer app</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 3: Generate & Results -->
+            <div class="wizard-panel" id="wizardStep3">
+                <div class="card wizard-card">
+                    <div class="wizard-card-header">
+                        <span class="wizard-card-icon">🚀</span>
+                        <div>
+                            <h2 id="step3Title">Din app er klar!</h2>
+                            <p class="wizard-card-desc" id="step3Desc">Resultatet vises nedenfor. Du kan forhåndsvise, laste ned eller kopiere koden.</p>
+                        </div>
                     </div>
 
                     <!-- Progress bar for generation -->
@@ -236,29 +493,55 @@
                         <span id="statusText">klar</span>
                     </div>
 
+                    <div class="output-section">
+                        <div class="split">
+                            <h3 id="tOut">Output</h3>
+                            <span class="tag" id="outMeta">ingen</span>
+                        </div>
+                        <pre class="mono" id="output" aria-label="output"></pre>
+
+                        <div class="output-actions">
+                            <button id="btnPreview" type="button" disabled>👁️ Preview</button>
+                            <button id="btnCopy" type="button" disabled>📋 Kopier</button>
+                            <button id="btnDownload" type="button" disabled>💾 Last ned</button>
+                            <button id="btnDownloadAll" type="button" disabled class="hidden">📦 Last ned ZIP</button>
+                            <button id="btnShowFiles" type="button" disabled class="hidden">📂 Vis filer</button>
+                        </div>
+                    </div>
+
+                    <div class="wizard-actions">
+                        <button class="secondary" id="step3BackBtn">
+                            <span class="btn-arrow">←</span>
+                            <span>Tilbake</span>
+                        </button>
+                        <button class="primary" id="btnRegenerate">
+                            <span>🔄 Generer på nytt</span>
+                        </button>
+                        <button class="danger" id="btnStartOver">
+                            <span>🔁 Start på nytt</span>
+                        </button>
+                    </div>
+
                     <div class="footerNote" id="noteKey">Tips: legg aldri API key i generert kode</div>
                 </div>
-
-                <div class="card">
-                    <div class="split">
-                        <h2 id="tOut">Output</h2>
-                        <span class="tag" id="outMeta">ingen</span>
-                    </div>
-                    <pre class="mono" id="output" aria-label="output"></pre>
-                    <div class="btns" style="margin-top:12px">
-                        <button id="btnPreview" type="button" disabled>👁️ Preview</button>
-                        <button id="btnShowFiles" type="button" disabled class="hidden">📂 Vis alle filer</button>
-                    </div>
-                    <div class="hint" id="hOut">Appen prøver å parse JSON, ellers vises rå tekst</div>
-                </div>
-
             </div>
+
+            <!-- Hidden fields for compatibility -->
+            <input type="hidden" id="projectName" value="min-app" />
+            <input type="hidden" id="goal" value="" />
+            <input type="hidden" id="users" value="" />
+            <select id="appType" class="hidden"><option value="webapp">webapp</option></select>
+            <select id="complexity" class="hidden"><option value="simple">simple</option></select>
+            <select id="fileMode" class="hidden"><option value="single">single</option></select>
+            <select id="outputLang" class="hidden"><option value="no">no</option></select>
+            <input type="hidden" id="temperature" value="0.7" />
+
         </section>
 
         <section id="panelHelp" role="tabpanel" aria-labelledby="tabHelp" class="hidden">
             <div class="card help-card">
                 <h2 id="helpTitle">🚀 Kom i gang på 5 minutter</h2>
-                
+
                 <div class="help-section">
                     <h3 id="helpStep1Title">📋 Steg 1: Få en API-nøkkel (gratis)</h3>
                     <p id="helpStep1Desc">Du trenger en nøkkel for å bruke AI-modellen. Velg én av disse leverandørene:</p>
@@ -294,34 +577,20 @@
                 </div>
 
                 <div class="help-section">
-                    <h3 id="helpStep2Title">✏️ Steg 2: Fyll ut skjemaet</h3>
+                    <h3 id="helpStep2Title">✏️ Steg 2: Beskriv appen</h3>
                     <div class="help-tips">
                         <div class="help-tip">
                             <span class="tip-icon">✨</span>
                             <div>
                                 <strong id="tipPromptHelperTitle">Bruk Prompt-hjelperen!</strong>
-                                <p id="tipPromptHelperDesc">Klikk på "✨ Prompt-hjelper" knappen for å få veiledning til å lage en detaljert beskrivelse. Den hjelper deg steg-for-steg med å beskrive appen din, og sikrer at du får en profesjonell app med alle finesser!</p>
+                                <p id="tipPromptHelperDesc">Wizarden guider deg gjennom alle spørsmålene for å lage en perfekt beskrivelse av appen din.</p>
                             </div>
                         </div>
                         <div class="help-tip">
                             <span class="tip-icon">💡</span>
                             <div>
-                                <strong id="tipNameTitle">Prosjektnavn</strong>
-                                <p id="tipNameDesc">Gi prosjektet et kort navn, f.eks. "todo-app" eller "quiz-spill"</p>
-                            </div>
-                        </div>
-                        <div class="help-tip">
-                            <span class="tip-icon">💡</span>
-                            <div>
-                                <strong id="tipGoalTitle">Hva skal den gjøre</strong>
-                                <p id="tipGoalDesc">Beskriv hva appen skal gjøre. Jo mer detaljert, jo bedre resultat. Eksempel: "En huskeliste-app der jeg kan legge til oppgaver, markere dem som ferdig, og slette dem"</p>
-                            </div>
-                        </div>
-                        <div class="help-tip">
-                            <span class="tip-icon">💡</span>
-                            <div>
-                                <strong id="tipTechTitle">Teknologi</strong>
-                                <p id="tipTechDesc">Velg "Ren HTML/CSS/JS" hvis du er nybegynner. Dette gir deg én fil som fungerer rett i nettleseren!</p>
+                                <strong id="tipGoalTitle">Vær detaljert</strong>
+                                <p id="tipGoalDesc">Jo mer du beskriver, jo bedre blir resultatet. Inkluder funksjoner, design og brukeropplevelse.</p>
                             </div>
                         </div>
                     </div>
@@ -333,21 +602,21 @@
                         <div class="visual-step">
                             <div class="step-number">1</div>
                             <div class="step-content">
-                                <strong id="useStep1Title">Klikk "Generer"</strong>
-                                <p id="useStep1Desc">Vent noen sekunder mens AI-en lager koden</p>
+                                <strong id="useStep1Title">Generer</strong>
+                                <p id="useStep1Desc">Klikk "Generer app" og vent noen sekunder</p>
                             </div>
                         </div>
                         <div class="visual-step">
                             <div class="step-number">2</div>
                             <div class="step-content">
-                                <strong id="useStep2Title">Last ned filen</strong>
-                                <p id="useStep2Desc">Klikk "Last ned index.html" for å lagre filen</p>
+                                <strong id="useStep2Title">Last ned</strong>
+                                <p id="useStep2Desc">Klikk "Last ned" for å lagre filen</p>
                             </div>
                         </div>
                         <div class="visual-step">
                             <div class="step-number">3</div>
                             <div class="step-content">
-                                <strong id="useStep3Title">Åpne i nettleser</strong>
+                                <strong id="useStep3Title">Åpne</strong>
                                 <p id="useStep3Desc">Dobbeltklikk på filen for å åpne den. Ferdig! 🎊</p>
                             </div>
                         </div>
@@ -372,43 +641,6 @@
                         <summary id="faq4Q">Kan jeg redigere koden etterpå?</summary>
                         <p id="faq4A">Ja! Åpne filen i et program som VS Code, Notepad++, eller til og med vanlig Notepad. Du kan endre tekst, farger og mer.</p>
                     </details>
-                </div>
-
-                <div class="help-section help-advanced">
-                    <h3 id="helpAdvancedTitle">🔧 Neste steg: Utvikle videre</h3>
-                    <p id="helpAdvancedDesc">Når du har generert en app, følg disse stegene for å utvikle den videre med nye funksjoner:</p>
-                    <div class="tool-grid">
-                        <button class="tool-card" data-tool="vscode">
-                            <span class="tool-icon">💻</span>
-                            <span class="tool-name">VS Code</span>
-                            <span class="tool-desc">Kodeeditor</span>
-                        </button>
-                        <button class="tool-card" data-tool="react">
-                            <span class="tool-icon">⚛️</span>
-                            <span class="tool-name">React</span>
-                            <span class="tool-desc">UI-rammeverk</span>
-                        </button>
-                        <button class="tool-card" data-tool="vue">
-                            <span class="tool-icon">💚</span>
-                            <span class="tool-name">Vue</span>
-                            <span class="tool-desc">Progressivt rammeverk</span>
-                        </button>
-                        <button class="tool-card" data-tool="git">
-                            <span class="tool-icon">📦</span>
-                            <span class="tool-name">Git & GitHub</span>
-                            <span class="tool-desc">Versjonskontroll</span>
-                        </button>
-                        <button class="tool-card" data-tool="deploy">
-                            <span class="tool-icon">🚀</span>
-                            <span class="tool-name">Deploy</span>
-                            <span class="tool-desc">Publiser gratis</span>
-                        </button>
-                        <button class="tool-card" data-tool="basics">
-                            <span class="tool-icon">📚</span>
-                            <span class="tool-name">Grunnleggende</span>
-                            <span class="tool-desc">HTML/CSS/JS</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </section>
@@ -474,23 +706,6 @@
             </div>
         </div>
     </section>
-    
-    <!-- Tool Info Modal -->
-    <div class="tool-modal-overlay hidden" id="toolModal">
-        <div class="tool-modal">
-            <div class="tool-modal-header">
-                <span class="tool-modal-icon" id="toolModalIcon">💻</span>
-                <h3 id="toolModalTitle">VS Code</h3>
-                <button class="preview-btn preview-close" id="toolModalClose">✕</button>
-            </div>
-            <div class="tool-modal-body" id="toolModalBody">
-                <!-- Content injected by JS -->
-            </div>
-            <div class="tool-modal-footer">
-                <a href="#" target="_blank" class="tool-modal-link" id="toolModalLink">Gå til nettside →</a>
-            </div>
-        </div>
-    </div>
 
     <script src="script.js"></script>
 </body>
