@@ -1775,11 +1775,117 @@ pre.empty {
     transform: translateY(-2px);
 }
 
+/* Feature Grid */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.feature-item {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--panel-border);
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.feature-item strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 4px;
+}
+
+.feature-item p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* How It Works */
+.how-it-works {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.how-step {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 16px;
+    background: rgba(56, 189, 248, 0.05);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--primary);
+}
+
+.how-number {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 50%;
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.how-step p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.how-step strong {
+    color: var(--text);
+}
+
+/* Features List */
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0 0;
+}
+
+.features-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--panel-border);
+    color: var(--text-muted);
+}
+
+.features-list li:last-child {
+    border-bottom: none;
+}
+
+.features-list strong {
+    color: var(--text);
+}
+
 .about-footer {
     margin-top: 40px;
     padding-top: 24px;
     border-top: 1px solid var(--panel-border);
     text-align: center;
+}
+
+.about-footer .about-logo {
+    margin-bottom: 16px;
+}
+
+.about-footer .logo-image {
+    width: 60px;
+    height: auto;
+    opacity: 0.8;
 }
 
 .copyright {
@@ -1804,6 +1910,10 @@ pre.empty {
 
     .about-brand h1 {
         font-size: 2rem;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr;
     }
 }
 
