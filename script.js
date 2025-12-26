@@ -500,17 +500,26 @@ function updatePromptPreview() {
 // AI IMPROVEMENT
 // ============================================
 
+// Store the AI-improved prompt temporarily
+state.aiImprovedPrompt = null;
+
 async function improvePromptWithAI() {
     const apiKey = $('apiKey').value.trim();
     const endpoint = $('endpoint').value.trim();
     const model = $('model').value.trim();
 
-    if (!apiKey) return;
+    if (!apiKey) {
+        alert(state.uiLang === 'no' ? 'Du må legge inn API-nøkkel først' : 'Please enter API key first');
+        return;
+    }
 
     const basePrompt = buildUserPrompt();
 
+    // Show preview section and loading state
+    $('aiImprovePreview').classList.remove('hidden');
     $('aiPreviewLoading').classList.remove('hidden');
-    $('aiPreviewContent').textContent = '';
+    $('aiPreviewResult').classList.add('hidden');
+    $('aiImproveBtn').disabled = true;
 
     const improveSystemPrompt = state.uiLang === 'no'
         ? `Du er en ekspert på å forbedre app-beskrivelser. Ta brukerens beskrivelse og gjør den mer detaljert og profesjonell. Legg til spesifikke UI/UX-detaljer, animasjoner, og funksjoner som ville gjøre appen fantastisk. Behold strukturen men utvid med kreative forslag. Svar KUN med den forbedrede beskrivelsen, ingen annen tekst.`
@@ -523,15 +532,38 @@ async function improvePromptWithAI() {
             const json = await res.json();
             const content = extractContent(json, endpoint);
             if (content) {
+                state.aiImprovedPrompt = content;
                 $('aiPreviewContent').textContent = content;
-                $('goal').value = content;
+                $('aiPreviewResult').classList.remove('hidden');
             }
+        } else {
+            const errorText = await res.text();
+            console.error('AI improve error:', errorText);
+            $('aiImprovePreview').classList.add('hidden');
+            alert(state.uiLang === 'no' ? 'Kunne ikke forbedre prompten. Sjekk API-nøkkelen.' : 'Could not improve prompt. Check API key.');
         }
     } catch (e) {
         console.error('AI improve error:', e);
+        $('aiImprovePreview').classList.add('hidden');
+        alert(state.uiLang === 'no' ? 'Feil ved AI-forbedring: ' + e.message : 'AI improvement error: ' + e.message);
     } finally {
         $('aiPreviewLoading').classList.add('hidden');
+        $('aiImproveBtn').disabled = false;
     }
+}
+
+function applyAIImprovement() {
+    if (state.aiImprovedPrompt) {
+        $('goal').value = state.aiImprovedPrompt;
+        state.aiImprovedPrompt = null;
+        $('aiImprovePreview').classList.add('hidden');
+        updatePromptPreview();
+    }
+}
+
+function discardAIImprovement() {
+    state.aiImprovedPrompt = null;
+    $('aiImprovePreview').classList.add('hidden');
 }
 
 // ============================================
@@ -1184,16 +1216,17 @@ function initEventListeners() {
         });
     });
 
-    // AI improve toggle
-    $('aiImproveToggle').addEventListener('change', (e) => {
-        const preview = $('aiImprovePreview');
-        if (e.target.checked) {
-            preview.classList.remove('hidden');
-            improvePromptWithAI();
-        } else {
-            preview.classList.add('hidden');
-            updatePromptPreview(); // Reset to original
-        }
+    // AI improve buttons
+    $('aiImproveBtn').addEventListener('click', () => {
+        improvePromptWithAI();
+    });
+
+    $('aiApplyBtn').addEventListener('click', () => {
+        applyAIImprovement();
+    });
+
+    $('aiDiscardBtn').addEventListener('click', () => {
+        discardAIImprovement();
     });
 
     // Toggle prompt preview
