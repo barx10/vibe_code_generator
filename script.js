@@ -17,7 +17,7 @@ const providerConfig = {
     google: {
         endpoint: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
         prefix: 'AIza',
-        models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-3-flash', 'gemini-3-pro']
+        models: ['gemini-2.5-flash', 'gemini-2.5-pro', 'gemini-2.0-flash', 'gemini-3.0-flash', 'gemini-3.0-pro']
     },
     openai: {
         endpoint: 'https://api.openai.com/v1/chat/completions',
@@ -46,8 +46,8 @@ const modelConfig = {
     'gemini-2.5-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     'gemini-2.5-pro': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     'gemini-2.0-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-3-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-3-pro': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-3.0-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+    'gemini-3.0-pro': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     // Local
     'local-model': 'http://localhost:1234/v1/chat/completions'
 };
