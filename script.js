@@ -24,10 +24,10 @@ const providerConfig = {
         prefix: 'sk-',
         models: ['gpt-4.1', 'gpt-5-mini', 'gpt-5.2', 'gpt-5.2-pro', 'gpt-5-nano']
     },
-    openrouter: {
-        endpoint: 'https://openrouter.ai/api/v1/chat/completions',
-        prefix: 'sk-or-',
-        models: ['claude-sonnet-4-5', 'claude-opus-4-5', 'claude-haiku-4-5-20251001']
+    anthropic: {
+        endpoint: 'https://api.anthropic.com/v1/messages',
+        prefix: 'sk-ant-',
+        models: ['claude-sonnet-4-5-20250514', 'claude-opus-4-5-20250514', 'claude-haiku-4-5-20251001']
     }
 };
 
@@ -38,10 +38,10 @@ const modelConfig = {
     'gpt-5.2': 'https://api.openai.com/v1/chat/completions',
     'gpt-5.2-pro': 'https://api.openai.com/v1/chat/completions',
     'gpt-5-nano': 'https://api.openai.com/v1/chat/completions',
-    // OpenRouter (Claude)
-    'claude-sonnet-4-5': 'https://openrouter.ai/api/v1/chat/completions',
-    'claude-opus-4-5': 'https://openrouter.ai/api/v1/chat/completions',
-    'claude-haiku-4-5-20251001': 'https://openrouter.ai/api/v1/chat/completions',
+    // Anthropic (Claude) - direkte
+    'claude-sonnet-4-5-20250514': 'https://api.anthropic.com/v1/messages',
+    'claude-opus-4-5-20250514': 'https://api.anthropic.com/v1/messages',
+    'claude-haiku-4-5-20251001': 'https://api.anthropic.com/v1/messages',
     // Google Gemini
     'gemini-2.5-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     'gemini-2.5-pro': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
@@ -51,6 +51,65 @@ const modelConfig = {
     // Local
     'local-model': 'http://localhost:1234/v1/chat/completions'
 };
+
+// Helper: Detect if using Anthropic API
+function isAnthropicEndpoint(endpoint) {
+    return endpoint.includes('api.anthropic.com');
+}
+
+// Helper: Make API call with correct format for provider
+async function makeApiCall(endpoint, apiKey, model, systemPrompt, userPrompt, temperature = 0.7, maxTokens = 16000) {
+    if (isAnthropicEndpoint(endpoint)) {
+        // Anthropic format
+        const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': apiKey,
+                'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify({
+                model,
+                max_tokens: maxTokens,
+                system: systemPrompt,
+                messages: [
+                    { role: 'user', content: userPrompt }
+                ]
+            })
+        });
+        return res;
+    } else {
+        // OpenAI-compatible format (OpenAI, Google, etc.)
+        const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`
+            },
+            body: JSON.stringify({
+                model,
+                temperature,
+                max_tokens: maxTokens,
+                messages: [
+                    { role: 'system', content: systemPrompt },
+                    { role: 'user', content: userPrompt }
+                ]
+            })
+        });
+        return res;
+    }
+}
+
+// Helper: Extract content from API response
+function extractContent(json, endpoint) {
+    if (isAnthropicEndpoint(endpoint)) {
+        // Anthropic response format
+        return json?.content?.[0]?.text;
+    } else {
+        // OpenAI-compatible response format
+        return json?.choices?.[0]?.message?.content;
+    }
+}
 
 const i18n = {
     no: {
@@ -458,26 +517,11 @@ async function improvePromptWithAI() {
         : `You are an expert at improving app descriptions. Take the user's description and make it more detailed and professional. Add specific UI/UX details, animations, and features that would make the app amazing. Keep the structure but expand with creative suggestions. Reply ONLY with the improved description, no other text.`;
 
     try {
-        const res = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model,
-                temperature: 0.8,
-                max_tokens: 2000,
-                messages: [
-                    { role: 'system', content: improveSystemPrompt },
-                    { role: 'user', content: basePrompt }
-                ]
-            })
-        });
+        const res = await makeApiCall(endpoint, apiKey, model, improveSystemPrompt, basePrompt, 0.8, 2000);
 
         if (res.ok) {
             const json = await res.json();
-            const content = json?.choices?.[0]?.message?.content;
+            const content = extractContent(json, endpoint);
             if (content) {
                 $('aiPreviewContent').textContent = content;
                 $('goal').value = content;
@@ -620,21 +664,7 @@ async function callModel() {
         updateProgress(25, state.uiLang === 'no' ? '📤 Sender forespørsel...' : '📤 Sending request...');
         currentProgress = 25;
 
-        const res = await fetch(endpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${apiKey}`
-            },
-            body: JSON.stringify({
-                model,
-                temperature: 0.7,
-                messages: [
-                    { role: 'system', content: sys },
-                    { role: 'user', content: user }
-                ]
-            })
-        });
+        const res = await makeApiCall(endpoint, apiKey, model, sys, user, 0.7, 16000);
 
         updateProgress(50, state.uiLang === 'no' ? '⚡ AI genererer kode...' : '⚡ AI generating code...');
         currentProgress = 50;
@@ -668,7 +698,7 @@ async function callModel() {
         updateProgress(75, state.uiLang === 'no' ? '📥 Mottar respons...' : '📥 Receiving response...');
 
         const json = await res.json();
-        const content = json?.choices?.[0]?.message?.content;
+        const content = extractContent(json, endpoint);
         if (typeof content !== 'string') {
             renderOutput(JSON.stringify(json, null, 2));
             showProgress(false);
