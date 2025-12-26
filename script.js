@@ -27,7 +27,7 @@ const providerConfig = {
     openrouter: {
         endpoint: 'https://openrouter.ai/api/v1/chat/completions',
         prefix: 'sk-or-',
-        models: ['claude-sonnet-4-20250514', 'claude-3-5-sonnet-20241022']
+        models: ['claude-sonnet-4-5', 'claude-opus-4-5', 'claude-haiku-4-5-20251001']
     }
 };
 
@@ -38,9 +38,10 @@ const modelConfig = {
     'gpt-5.2': 'https://api.openai.com/v1/chat/completions',
     'gpt-5.2-pro': 'https://api.openai.com/v1/chat/completions',
     'gpt-5-nano': 'https://api.openai.com/v1/chat/completions',
-    // OpenRouter
-    'claude-sonnet-4-20250514': 'https://openrouter.ai/api/v1/chat/completions',
-    'claude-3-5-sonnet-20241022': 'https://openrouter.ai/api/v1/chat/completions',
+    // OpenRouter (Claude)
+    'claude-sonnet-4-5': 'https://openrouter.ai/api/v1/chat/completions',
+    'claude-opus-4-5': 'https://openrouter.ai/api/v1/chat/completions',
+    'claude-haiku-4-5-20251001': 'https://openrouter.ai/api/v1/chat/completions',
     // Google Gemini
     'gemini-2.5-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
     'gemini-2.5-pro': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
