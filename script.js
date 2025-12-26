@@ -232,7 +232,7 @@ const i18n = {
 // WIZARD NAVIGATION
 // ============================================
 
-function goToStep(step) {
+function goToStep(step, skipScroll = false) {
     if (step < 1 || step > 3) return;
 
     state.currentStep = step;
@@ -257,8 +257,10 @@ function goToStep(step) {
         el.classList.toggle('active', idx + 1 === step);
     });
 
-    // Scroll to top of wizard
-    document.querySelector('.wizard-steps')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Scroll to top of wizard (but not on initial load)
+    if (!skipScroll) {
+        document.querySelector('.wizard-steps')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 function validateStep1() {
@@ -1296,7 +1298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initEventListeners();
     loadRememberedKey();
     applyLang();
-    goToStep(1);
+    goToStep(1, true); // skipScroll = true on initial load
     validateStep2();
     setStatus('', i18n[state.uiLang].statusReady);
 });
