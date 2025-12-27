@@ -1,5 +1,72 @@
 const $ = (id) => document.getElementById(id);
 
+// ============================================
+// SECURITY: API KEY OBFUSCATION
+// ============================================
+// NOTE: This is NOT encryption - it's obfuscation to prevent casual viewing.
+// localStorage is inherently insecure. Users should be warned about risks.
+const STORAGE_KEY = 'vibe_idea_builder_api_key_v2';
+const OBFUSCATION_KEY = 'vibe-secure-2024'; // Simple obfuscation, not real security
+
+function obfuscateKey(plainKey) {
+    if (!plainKey) return '';
+    const keyChars = OBFUSCATION_KEY.split('');
+    return btoa(plainKey.split('').map((char, i) =>
+        String.fromCharCode(char.charCodeAt(0) ^ keyChars[i % keyChars.length].charCodeAt(0))
+    ).join(''));
+}
+
+function deobfuscateKey(obfuscatedKey) {
+    if (!obfuscatedKey) return '';
+    try {
+        const decoded = atob(obfuscatedKey);
+        const keyChars = OBFUSCATION_KEY.split('');
+        return decoded.split('').map((char, i) =>
+            String.fromCharCode(char.charCodeAt(0) ^ keyChars[i % keyChars.length].charCodeAt(0))
+        ).join('');
+    } catch {
+        return '';
+    }
+}
+
+// Security: Sanitize HTML to prevent XSS
+function sanitizeHtml(html) {
+    // Create a temporary element to parse HTML
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
+
+    // Remove dangerous elements
+    const dangerousTags = ['script', 'iframe', 'object', 'embed', 'form', 'input', 'meta', 'link', 'base'];
+    dangerousTags.forEach(tag => {
+        temp.querySelectorAll(tag).forEach(el => el.remove());
+    });
+
+    // Remove dangerous attributes
+    const dangerousAttrs = ['onclick', 'onerror', 'onload', 'onmouseover', 'onfocus', 'onblur',
+                           'onsubmit', 'onreset', 'onkeydown', 'onkeyup', 'onkeypress'];
+    temp.querySelectorAll('*').forEach(el => {
+        dangerousAttrs.forEach(attr => el.removeAttribute(attr));
+        // Remove javascript: URLs
+        if (el.href && el.href.toLowerCase().startsWith('javascript:')) {
+            el.removeAttribute('href');
+        }
+        if (el.src && el.src.toLowerCase().startsWith('javascript:')) {
+            el.removeAttribute('src');
+        }
+    });
+
+    return temp.innerHTML;
+}
+
+// Security: Safe error logging without exposing API keys
+function safeLogError(context, error) {
+    const sanitizedError = String(error)
+        .replace(/sk-[a-zA-Z0-9_-]+/g, 'sk-***REDACTED***')
+        .replace(/sk-ant-[a-zA-Z0-9_-]+/g, 'sk-ant-***REDACTED***')
+        .replace(/AIza[a-zA-Z0-9_-]+/g, 'AIza***REDACTED***');
+    console.error(context, sanitizedError);
+}
+
 const state = {
     uiLang: 'no',
     currentStep: 1,
@@ -556,12 +623,12 @@ async function improvePromptWithAI() {
             }
         } else {
             const errorText = await res.text();
-            console.error('AI improve error:', errorText);
+            safeLogError('AI improve error:', errorText);
             $('aiImprovePreview').classList.add('hidden');
             alert(state.uiLang === 'no' ? 'Kunne ikke forbedre prompten. Sjekk API-nøkkelen.' : 'Could not improve prompt. Check API key.');
         }
     } catch (e) {
-        console.error('AI improve error:', e);
+        safeLogError('AI improve error:', e);
         $('aiImprovePreview').classList.add('hidden');
         alert(state.uiLang === 'no' ? 'Feil ved AI-forbedring: ' + e.message : 'AI improvement error: ' + e.message);
     } finally {
@@ -943,27 +1010,31 @@ function openPreview() {
                     <button class="preview-btn preview-close" id="previewClose" title="Lukk">✕</button>
                 </div>
             </div>
-            <iframe class="preview-iframe" sandbox="allow-scripts allow-same-origin"></iframe>
+            <!-- Security: sandbox without allow-same-origin prevents access to parent window -->
+            <iframe class="preview-iframe" sandbox="allow-scripts"></iframe>
         </div>
     `;
 
     document.body.appendChild(overlay);
 
+    // Security: Use srcdoc with Blob URL for safer content injection
     const iframe = overlay.querySelector('.preview-iframe');
-    const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-    iframeDoc.open();
-    iframeDoc.write(html);
-    iframeDoc.close();
+    const blob = new Blob([html], { type: 'text/html' });
+    const blobUrl = URL.createObjectURL(blob);
+    iframe.src = blobUrl;
+
+    // Clean up blob URL when iframe loads
+    iframe.onload = () => URL.revokeObjectURL(blobUrl);
 
     overlay.querySelector('#previewClose').addEventListener('click', () => overlay.remove());
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
     overlay.querySelector('#previewNewTab').addEventListener('click', () => {
-        const w = window.open('', '_blank');
-        if (w) {
-            w.document.open();
-            w.document.write(html);
-            w.document.close();
-        }
+        // Security: Open in new tab using Blob URL (safer than document.write)
+        const newBlob = new Blob([html], { type: 'text/html' });
+        const newBlobUrl = URL.createObjectURL(newBlob);
+        window.open(newBlobUrl, '_blank');
+        // Note: Can't revoke immediately as new tab needs time to load
+        setTimeout(() => URL.revokeObjectURL(newBlobUrl), 60000);
     });
 
     const escHandler = (e) => {
@@ -1121,18 +1192,51 @@ function rememberKeyMaybe() {
     const mode = $('rememberKey').value;
     const key = $('apiKey').value;
     if (mode === 'local') {
-        localStorage.setItem('vibe_idea_builder_api_key', key);
-    } else {
+        // Security: Show warning about localStorage risks
+        const t = i18n[state.uiLang];
+        const warningMsg = state.uiLang === 'no'
+            ? '⚠️ ADVARSEL: Lagring av API-nøkler i nettleseren er ikke helt sikkert.\n\n' +
+              'Risiko:\n• Browser-utvidelser kan lese nøkkelen\n• XSS-angrep kan stjele nøkkelen\n• Andre brukere på denne maskinen kan se den\n\n' +
+              'Fortsett kun på din egen private maskin. Vil du lagre nøkkelen?'
+            : '⚠️ WARNING: Storing API keys in browser is not fully secure.\n\n' +
+              'Risks:\n• Browser extensions can read the key\n• XSS attacks can steal the key\n• Other users on this machine can see it\n\n' +
+              'Only continue on your private machine. Save the key?';
+
+        if (!confirm(warningMsg)) {
+            $('rememberKey').value = 'none';
+            return;
+        }
+        // Store obfuscated key (not encrypted, but prevents casual viewing)
+        localStorage.setItem(STORAGE_KEY, obfuscateKey(key));
+        // Remove old unobfuscated key if exists
         localStorage.removeItem('vibe_idea_builder_api_key');
+    } else {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem('vibe_idea_builder_api_key'); // Clean up old format
     }
 }
 
 function loadRememberedKey() {
-    const saved = localStorage.getItem('vibe_idea_builder_api_key');
+    // Try new obfuscated format first
+    let saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+        const key = deobfuscateKey(saved);
+        if (key) {
+            $('apiKey').value = key;
+            $('rememberKey').value = 'local';
+            validateStep1();
+            return;
+        }
+    }
+    // Fallback: migrate old unobfuscated key
+    saved = localStorage.getItem('vibe_idea_builder_api_key');
     if (saved) {
         $('apiKey').value = saved;
         $('rememberKey').value = 'local';
         validateStep1();
+        // Migrate to new format
+        localStorage.setItem(STORAGE_KEY, obfuscateKey(saved));
+        localStorage.removeItem('vibe_idea_builder_api_key');
     }
 }
 
