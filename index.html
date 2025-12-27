@@ -528,6 +528,27 @@
                         </div>
                     </div>
 
+                    <!-- Refine/Edit Output Section -->
+                    <div class="refine-section hidden" id="refineSection">
+                        <div class="refine-header">
+                            <span class="refine-icon">✏️</span>
+                            <div>
+                                <h3 id="refineTitle">Ikke helt fornøyd?</h3>
+                                <p id="refineDesc">Beskriv hva du vil endre eller forbedre</p>
+                            </div>
+                        </div>
+                        <div class="refine-input-group">
+                            <textarea id="refineInput" rows="3" placeholder="F.eks. 'Gjør knappene større', 'Legg til en footer', 'Endre fargetema til blått', 'Fiks buggen med...'"></textarea>
+                            <button type="button" class="primary refine-btn" id="btnRefine" disabled>
+                                <span>🔄 Forbedre koden</span>
+                            </button>
+                        </div>
+                        <div class="refine-loading hidden" id="refineLoading">
+                            <span class="refine-spinner"></span>
+                            <span id="refineLoadingText">AI forbedrer koden din...</span>
+                        </div>
+                    </div>
+
                     <div class="wizard-actions">
                         <button class="secondary" id="step3BackBtn">
                             <span class="btn-arrow">←</span>

@@ -2776,6 +2776,120 @@ pre.empty {
 }
 
 /* ============================================
+   REFINE/EDIT OUTPUT SECTION
+   ============================================ */
+
+.refine-section {
+    margin-top: 32px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+    border-radius: var(--radius);
+}
+
+.refine-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.refine-icon {
+    font-size: 2rem;
+}
+
+.refine-header > div {
+    flex: 1;
+}
+
+.refine-header h3 {
+    margin: 0 0 4px 0;
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.refine-header p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.refine-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.refine-input-group textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    resize: vertical;
+    transition: all 0.2s ease;
+}
+
+.refine-input-group textarea:focus {
+    outline: none;
+    border-color: var(--success);
+    box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+}
+
+.refine-input-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.refine-btn {
+    align-self: flex-end;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--success), var(--primary));
+    border: none;
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.refine-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 211, 153, 0.4);
+}
+
+.refine-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.refine-loading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.refine-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top-color: var(--success);
+    border-right-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ============================================
    RESPONSIVE ADJUSTMENTS
    ============================================ */
 

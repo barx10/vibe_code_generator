@@ -250,7 +250,12 @@ const i18n = {
         download: '💾 Last ned',
         downloadZip: '📦 Last ned ZIP',
         showFiles: '📂 Vis filer',
-        noteKey: 'Tips: legg aldri API key i generert kode'
+        noteKey: 'Tips: legg aldri API key i generert kode',
+        refineTitle: 'Ikke helt fornøyd?',
+        refineDesc: 'Beskriv hva du vil endre eller forbedre',
+        refinePlaceholder: "F.eks. 'Gjør knappene større', 'Legg til en footer', 'Endre fargetema til blått', 'Fiks buggen med...'",
+        refineBtn: '🔄 Forbedre koden',
+        refineLoading: 'AI forbedrer koden din...'
     },
     en: {
         heroBadge: '✨ AI-powered code generator',
@@ -307,7 +312,12 @@ const i18n = {
         download: '💾 Download',
         downloadZip: '📦 Download ZIP',
         showFiles: '📂 Show files',
-        noteKey: 'Tip: never put API keys in generated code'
+        noteKey: 'Tip: never put API keys in generated code',
+        refineTitle: 'Not quite satisfied?',
+        refineDesc: 'Describe what you want to change or improve',
+        refinePlaceholder: "E.g. 'Make the buttons larger', 'Add a footer', 'Change color theme to blue', 'Fix the bug with...'",
+        refineBtn: '🔄 Refine code',
+        refineLoading: 'AI is refining your code...'
     }
 };
 
@@ -870,6 +880,118 @@ async function callModel() {
 }
 
 // ============================================
+// REFINE OUTPUT
+// ============================================
+
+async function refineOutput() {
+    const t = i18n[state.uiLang];
+    const endpoint = $('endpoint').value.trim();
+    const model = $('model').value.trim();
+    const apiKey = $('apiKey').value.trim();
+    const refineInstructions = $('refineInput').value.trim();
+
+    if (!apiKey) {
+        alert(state.uiLang === 'no' ? 'Du må legge inn API-nøkkel først' : 'Please enter API key first');
+        return;
+    }
+
+    if (!refineInstructions) {
+        alert(state.uiLang === 'no' ? 'Skriv inn hva du vil endre' : 'Please describe what you want to change');
+        return;
+    }
+
+    // Get current code
+    const currentCode = state.last.parsed?.index_html || $('output').textContent || '';
+    if (!currentCode.trim()) {
+        alert(state.uiLang === 'no' ? 'Ingen kode å forbedre' : 'No code to refine');
+        return;
+    }
+
+    // Show loading state
+    $('refineLoading').classList.remove('hidden');
+    $('btnRefine').disabled = true;
+
+    const refineSystemPrompt = state.uiLang === 'no'
+        ? `Du er en ekspert webutvikler. Din oppgave er å FORBEDRE eksisterende kode basert på brukerens instruksjoner.
+
+REGLER:
+1. Behold all eksisterende funksjonalitet som ikke eksplisitt skal endres
+2. Implementer ALLE endringene brukeren ber om
+3. Hold samme kodestil og struktur
+4. Returner KOMPLETT, kjørbar kode (ikke bare utdrag)
+5. Hvis brukeren ber om noe uklart, gjør ditt beste for å tolke ønsket
+
+Svar KUN med JSON i dette formatet:
+{
+  "index_html": "... komplett oppdatert HTML/CSS/JS ...",
+  "files": [],
+  "notes": "kort beskrivelse av endringene"
+}`
+        : `You are an expert web developer. Your task is to IMPROVE existing code based on user instructions.
+
+RULES:
+1. Keep all existing functionality that is not explicitly changed
+2. Implement ALL changes the user requests
+3. Maintain the same code style and structure
+4. Return COMPLETE, runnable code (not just snippets)
+5. If the user asks for something unclear, do your best to interpret the request
+
+Reply ONLY with JSON in this format:
+{
+  "index_html": "... complete updated HTML/CSS/JS ...",
+  "files": [],
+  "notes": "brief description of changes"
+}`;
+
+    const userPrompt = state.uiLang === 'no'
+        ? `Her er den eksisterende koden:\n\n\`\`\`html\n${currentCode}\n\`\`\`\n\nBrukerens ønskede endringer:\n${refineInstructions}\n\nOppdater koden og returner den komplette, forbedrede versjonen.`
+        : `Here is the existing code:\n\n\`\`\`html\n${currentCode}\n\`\`\`\n\nUser's requested changes:\n${refineInstructions}\n\nUpdate the code and return the complete, improved version.`;
+
+    try {
+        setStatus('', state.uiLang === 'no' ? 'Forbedrer kode...' : 'Refining code...');
+
+        const res = await makeApiCall(endpoint, apiKey, model, refineSystemPrompt, userPrompt, 0.7, 16000);
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            safeLogError('Refine error:', errorText);
+            alert(state.uiLang === 'no' ? 'Kunne ikke forbedre koden. Prøv igjen.' : 'Could not refine code. Please try again.');
+            setStatus('bad', t.statusFail);
+            return;
+        }
+
+        const json = await res.json();
+        const content = extractContent(json, endpoint);
+
+        if (content) {
+            renderOutput(content);
+            setStatus('good', t.statusDone);
+
+            // Clear the refine input after successful refinement
+            $('refineInput').value = '';
+            $('btnRefine').disabled = true;
+
+            // Show success feedback
+            const btn = $('btnRefine');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span>✅ ' + (state.uiLang === 'no' ? 'Kode oppdatert!' : 'Code updated!') + '</span>';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+        } else {
+            setStatus('warn', 'warning');
+        }
+    } catch (e) {
+        safeLogError('Refine error:', e);
+        alert(state.uiLang === 'no' ? 'Feil ved forbedring: ' + e.message : 'Refine error: ' + e.message);
+        setStatus('bad', t.statusFail);
+    } finally {
+        $('refineLoading').classList.add('hidden');
+        $('btnRefine').disabled = !$('refineInput').value.trim();
+    }
+}
+
+// ============================================
 // OUTPUT HANDLING
 // ============================================
 
@@ -922,6 +1044,12 @@ function enableOutputActions(on) {
     $('btnShowFiles').classList.toggle('hidden', !hasFiles);
     $('btnDownloadAll').disabled = !on || !hasFiles;
     $('btnDownloadAll').classList.toggle('hidden', !hasFiles);
+
+    // Show/hide refine section based on whether we have output
+    const refineSection = $('refineSection');
+    if (refineSection) {
+        refineSection.classList.toggle('hidden', !on);
+    }
 }
 
 function renderOutput(raw) {
@@ -1294,6 +1422,13 @@ function applyLang() {
 
     $('noteKey').textContent = t.noteKey;
 
+    // Refine section
+    $('refineTitle').textContent = t.refineTitle;
+    $('refineDesc').textContent = t.refineDesc;
+    $('refineInput').placeholder = t.refinePlaceholder;
+    $('btnRefine').querySelector('span').textContent = t.refineBtn;
+    $('refineLoadingText').textContent = t.refineLoading;
+
     $('langPill').querySelector('.mono').textContent = state.uiLang.toUpperCase();
 
     setApiState();
@@ -1435,6 +1570,13 @@ function initEventListeners() {
     $('btnDownloadAll').addEventListener('click', downloadAllFiles);
     $('btnPreview').addEventListener('click', openPreview);
     $('btnShowFiles').addEventListener('click', showFiles);
+
+    // Refine output
+    $('refineInput').addEventListener('input', () => {
+        const hasText = $('refineInput').value.trim().length > 0;
+        $('btnRefine').disabled = !hasText;
+    });
+    $('btnRefine').addEventListener('click', refineOutput);
 }
 
 // ============================================
