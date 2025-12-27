@@ -250,7 +250,12 @@ const i18n = {
         download: '💾 Last ned',
         downloadZip: '📦 Last ned ZIP',
         showFiles: '📂 Vis filer',
-        noteKey: 'Tips: legg aldri API key i generert kode'
+        noteKey: 'Tips: legg aldri API key i generert kode',
+        refineTitle: 'Ikke helt fornøyd?',
+        refineDesc: 'Beskriv hva du vil endre eller forbedre',
+        refinePlaceholder: "F.eks. 'Gjør knappene større', 'Legg til en footer', 'Endre fargetema til blått', 'Fiks buggen med...'",
+        refineBtn: '🔄 Forbedre koden',
+        refineLoading: 'AI forbedrer koden din...'
     },
     en: {
         heroBadge: '✨ AI-powered code generator',
@@ -307,7 +312,12 @@ const i18n = {
         download: '💾 Download',
         downloadZip: '📦 Download ZIP',
         showFiles: '📂 Show files',
-        noteKey: 'Tip: never put API keys in generated code'
+        noteKey: 'Tip: never put API keys in generated code',
+        refineTitle: 'Not quite satisfied?',
+        refineDesc: 'Describe what you want to change or improve',
+        refinePlaceholder: "E.g. 'Make the buttons larger', 'Add a footer', 'Change color theme to blue', 'Fix the bug with...'",
+        refineBtn: '🔄 Refine code',
+        refineLoading: 'AI is refining your code...'
     }
 };
 
@@ -607,8 +617,40 @@ async function improvePromptWithAI() {
     $('aiImproveBtn').disabled = true;
 
     const improveSystemPrompt = state.uiLang === 'no'
-        ? `Du er en ekspert på å forbedre app-beskrivelser. Ta brukerens beskrivelse og gjør den mer detaljert og profesjonell. Legg til spesifikke UI/UX-detaljer, animasjoner, og funksjoner som ville gjøre appen fantastisk. Behold strukturen men utvid med kreative forslag. Svar KUN med den forbedrede beskrivelsen, ingen annen tekst.`
-        : `You are an expert at improving app descriptions. Take the user's description and make it more detailed and professional. Add specific UI/UX details, animations, and features that would make the app amazing. Keep the structure but expand with creative suggestions. Reply ONLY with the improved description, no other text.`;
+        ? `ROLLE: Du er en UX-designer og produktekspert som forbedrer app-beskrivelser.
+
+OPPGAVE: Transformer brukerens enkle beskrivelse til en detaljert, profesjonell spesifikasjon.
+
+LEGG TIL:
+- Spesifikke UI-komponenter (kort, modaler, tabeller, skjemaer)
+- Micro-interaksjoner (hover-effekter, loading-states, success-feedback)
+- Brukerflyt (hva skjer når brukeren klikker, submitter, etc.)
+- Eksempeldata som gjør appen realistisk
+- Tilgjengelighets-features (keyboard-nav, skjermleser-støtte)
+
+BEHOLD:
+- Brukerens kjerneidé og hovedfunksjonalitet
+- Eventuell teknisk stack nevnt
+- Språket/tonen i originalen
+
+FORMAT: Svar KUN med den forbedrede beskrivelsen. Ingen intro, ingen forklaring, bare den nye teksten.`
+        : `ROLE: You are a UX designer and product expert who improves app descriptions.
+
+TASK: Transform the user's simple description into a detailed, professional specification.
+
+ADD:
+- Specific UI components (cards, modals, tables, forms)
+- Micro-interactions (hover effects, loading states, success feedback)
+- User flow (what happens when user clicks, submits, etc.)
+- Example data that makes the app realistic
+- Accessibility features (keyboard nav, screen reader support)
+
+KEEP:
+- The user's core idea and main functionality
+- Any technical stack mentioned
+- The language/tone of the original
+
+FORMAT: Reply ONLY with the improved description. No intro, no explanation, just the new text.`;
 
     try {
         const res = await makeApiCall(endpoint, apiKey, model, improveSystemPrompt, basePrompt, 0.8, 2000);
@@ -707,74 +749,125 @@ function setApiState() {
 }
 
 function buildPrompt() {
-    const outLang = 'no';
+    const lang = state.uiLang;
+    const isNo = lang === 'no';
 
     let stackValue = $('stack').value;
     if (stackValue === 'custom') {
         stackValue = $('stackCustom').value.trim() || 'html-css-js';
     }
 
+    const projectName = $('projectName').value.trim() || (isNo ? 'min-app' : 'my-app');
+    const goal = $('goal').value.trim();
+
     const spec = {
-        project_name: $('projectName').value.trim() || 'min-app',
-        goal: $('goal').value.trim(),
+        project_name: projectName,
+        goal: goal,
         stack: stackValue,
-        output_language: outLang,
+        output_language: lang,
         output_mode: 'single'
     };
 
+    // Stack-specific instructions (bilingual)
     const stackGuide = {
-        'react': `\n**REACT-SPESIFIKT:**
+        'react': isNo
+            ? `\n\n**REACT-SPESIFIKT:**
 - Bruk React 18+ med ESM imports fra esm.sh
 - Inkluder createRoot fra react-dom/client
 - Bruk hooks (useState, useEffect, etc.)
 - Koden MÅ kjøre direkte i nettleseren uten npm/build`
+            : `\n\n**REACT-SPECIFIC:**
+- Use React 18+ with ESM imports from esm.sh
+- Include createRoot from react-dom/client
+- Use hooks (useState, useEffect, etc.)
+- Code MUST run directly in browser without npm/build`
     };
 
     const stackInstructions = stackGuide[stackValue] || '';
 
-    const sys = `Du er en ekspert fullstack-utvikler som lager FUNGERENDE, startklare prosjekter. Koden må faktisk kjøre - ikke teoretiske eksempler.
+    // System prompt with clear role definition (bilingual)
+    const sys = isNo
+        ? `ROLLE: Du er en senior frontend-utvikler som genererer produksjonsklar kode.
 
-KRITISKE REGLER:
-1. **FUNKSJONALITET FØRST:** Koden MÅ kjøre uten feil
-2. **KOMPLETT IMPLEMENTASJON:** Alle features i goal må være implementert
-3. **INGEN EKSTERNE AVHENGIGHETER SOM KREVER BUILD:** Bruk CDN eller ESM imports
-4. **REALISTISKE EKSEMPELDATA:** Inkluder faktiske eksempler
-5. **FEILHÅNDTERING:** Legg til try/catch og brukervenlige feilmeldinger${stackInstructions}
+MÅL: Lag "${projectName}" - ${goal}
 
-DESIGN-KRAV:
-- Mørk, moderne fargeprofil (dark mode) som standard
-- Subtile gradienter, shadows og hover-effekter
-- Smooth CSS-animasjoner og transitions
-- Google Fonts (Inter, Outfit, eller lignende)
-- Responsivt design (CSS Grid/Flexbox)
-- Visuelt tiltalende header/hero-seksjon
-- Loading states og micro-interactions
-- CSS custom properties (variabler)`;
+BEGRENSNINGER:
+- Kun browser-kode (ingen server, ingen build-steg)
+- All kode inline i én HTML-fil
+- Bruk CDN eller ESM imports for biblioteker
 
-    const format = `Svar kun som JSON. Schema:
+KVALITETSKRAV:
+1. Null console-feil ved lasting og bruk
+2. Fungerer på viewports 320px-1920px (mobil til desktop)
+3. Alle features i beskrivelsen må være implementert og fungere
+4. Realistiske eksempeldata (ikke "Lorem ipsum" eller tomme lister)
+5. Keyboard-navigasjon og ARIA-labels for tilgjengelighet
+6. Try/catch rundt async-operasjoner med brukervenlige feilmeldinger${stackInstructions}
+
+DESIGN-SYSTEM:
+- Fargeskjema: Mørk bakgrunn (#0a0a0f), lys tekst (#f1f5f9), accent (#38bdf8 eller #8b5cf6)
+- Typografi: Google Fonts (Inter, Outfit, eller lignende), god hierarki
+- Komponenter: Kort med rgba(30,41,59,0.6) bakgrunn, subtle borders, hover-glow på knapper
+- Animasjoner: fadeIn på load, smooth hover-transforms (0.2s ease), loading-spinners
+- Layout: CSS Grid/Flexbox, CSS custom properties for farger/spacing`
+
+        : `ROLE: You are a senior frontend developer generating production-ready code.
+
+GOAL: Build "${projectName}" - ${goal}
+
+CONSTRAINTS:
+- Browser-only code (no server, no build step)
+- All code inline in a single HTML file
+- Use CDN or ESM imports for libraries
+
+QUALITY REQUIREMENTS:
+1. Zero console errors on load and during use
+2. Works on viewports 320px-1920px (mobile to desktop)
+3. All features in the description must be implemented and functional
+4. Realistic example data (no "Lorem ipsum" or empty lists)
+5. Keyboard navigation and ARIA labels for accessibility
+6. Try/catch around async operations with user-friendly error messages${stackInstructions}
+
+DESIGN SYSTEM:
+- Color scheme: Dark background (#0a0a0f), light text (#f1f5f9), accent (#38bdf8 or #8b5cf6)
+- Typography: Google Fonts (Inter, Outfit, or similar), good hierarchy
+- Components: Cards with rgba(30,41,59,0.6) background, subtle borders, hover-glow on buttons
+- Animations: fadeIn on load, smooth hover-transforms (0.2s ease), loading spinners
+- Layout: CSS Grid/Flexbox, CSS custom properties for colors/spacing`;
+
+    // Output format instructions (bilingual, consolidated)
+    const format = isNo
+        ? `SVAR KUN MED JSON i dette formatet:
 {
-  "index_html": "...",
+  "index_html": "<komplett HTML-dokument med inline CSS og JS>",
   "files": [],
-  "notes": "kort, valgfritt"
+  "notes": "valgfri kort merknad"
 }
 
-VIKTIGE REGLER:
-1) **index_html må være komplett og KJØRBAR**
-2) **Ingen API keys eller hemmeligheter i kode**
-3) **Bruk faktiske, fungerende eksempeldata**
-4) **Single mode:** Legg ALL CSS og JS inline i index_html. files skal være tom liste []
+VIKTIG:
+- index_html skal være en komplett, kjørbar HTML-fil
+- files skal alltid være tom liste [] (single-file mode)
+- Ingen API-nøkler eller hemmeligheter i koden
+- Inkluder <!DOCTYPE html>, <html>, <head>, <body> tags`
 
-STIL-REGLER:
-- Bakgrunn: mørk (#0a0a0f eller #0f172a)
-- Primærfarge: livlig accent (#38bdf8, #8b5cf6, eller lignende)
-- Tekst: #f1f5f9 på mørk bakgrunn
-- Kort/paneler: rgba(30, 41, 59, 0.6) med border
-- Knapper: solid farge eller gradient med hover-glow
-- Animasjoner: fadeIn, subtle hover transforms, smooth transitions`;
+        : `RESPOND ONLY WITH JSON in this format:
+{
+  "index_html": "<complete HTML document with inline CSS and JS>",
+  "files": [],
+  "notes": "optional short note"
+}
 
-    const user = `Spesifikasjon:\n${JSON.stringify(spec, null, 2)}\n\n${format}\n\nLag et FUNGERENDE prosjekt som matcher dette. KRITISK: Koden må faktisk kjøre!`;
+IMPORTANT:
+- index_html must be a complete, runnable HTML file
+- files must always be empty array [] (single-file mode)
+- No API keys or secrets in the code
+- Include <!DOCTYPE html>, <html>, <head>, <body> tags`;
 
-    return { sys, user };
+    const userPrompt = isNo
+        ? `Prosjektspesifikasjon:\n${JSON.stringify(spec, null, 2)}\n\n${format}`
+        : `Project specification:\n${JSON.stringify(spec, null, 2)}\n\n${format}`;
+
+    return { sys, user: userPrompt };
 }
 
 async function callModel() {
@@ -870,6 +963,118 @@ async function callModel() {
 }
 
 // ============================================
+// REFINE OUTPUT
+// ============================================
+
+async function refineOutput() {
+    const t = i18n[state.uiLang];
+    const endpoint = $('endpoint').value.trim();
+    const model = $('model').value.trim();
+    const apiKey = $('apiKey').value.trim();
+    const refineInstructions = $('refineInput').value.trim();
+
+    if (!apiKey) {
+        alert(state.uiLang === 'no' ? 'Du må legge inn API-nøkkel først' : 'Please enter API key first');
+        return;
+    }
+
+    if (!refineInstructions) {
+        alert(state.uiLang === 'no' ? 'Skriv inn hva du vil endre' : 'Please describe what you want to change');
+        return;
+    }
+
+    // Get current code
+    const currentCode = state.last.parsed?.index_html || $('output').textContent || '';
+    if (!currentCode.trim()) {
+        alert(state.uiLang === 'no' ? 'Ingen kode å forbedre' : 'No code to refine');
+        return;
+    }
+
+    // Show loading state
+    $('refineLoading').classList.remove('hidden');
+    $('btnRefine').disabled = true;
+
+    const refineSystemPrompt = state.uiLang === 'no'
+        ? `Du er en ekspert webutvikler. Din oppgave er å FORBEDRE eksisterende kode basert på brukerens instruksjoner.
+
+REGLER:
+1. Behold all eksisterende funksjonalitet som ikke eksplisitt skal endres
+2. Implementer ALLE endringene brukeren ber om
+3. Hold samme kodestil og struktur
+4. Returner KOMPLETT, kjørbar kode (ikke bare utdrag)
+5. Hvis brukeren ber om noe uklart, gjør ditt beste for å tolke ønsket
+
+Svar KUN med JSON i dette formatet:
+{
+  "index_html": "... komplett oppdatert HTML/CSS/JS ...",
+  "files": [],
+  "notes": "kort beskrivelse av endringene"
+}`
+        : `You are an expert web developer. Your task is to IMPROVE existing code based on user instructions.
+
+RULES:
+1. Keep all existing functionality that is not explicitly changed
+2. Implement ALL changes the user requests
+3. Maintain the same code style and structure
+4. Return COMPLETE, runnable code (not just snippets)
+5. If the user asks for something unclear, do your best to interpret the request
+
+Reply ONLY with JSON in this format:
+{
+  "index_html": "... complete updated HTML/CSS/JS ...",
+  "files": [],
+  "notes": "brief description of changes"
+}`;
+
+    const userPrompt = state.uiLang === 'no'
+        ? `Her er den eksisterende koden:\n\n\`\`\`html\n${currentCode}\n\`\`\`\n\nBrukerens ønskede endringer:\n${refineInstructions}\n\nOppdater koden og returner den komplette, forbedrede versjonen.`
+        : `Here is the existing code:\n\n\`\`\`html\n${currentCode}\n\`\`\`\n\nUser's requested changes:\n${refineInstructions}\n\nUpdate the code and return the complete, improved version.`;
+
+    try {
+        setStatus('', state.uiLang === 'no' ? 'Forbedrer kode...' : 'Refining code...');
+
+        const res = await makeApiCall(endpoint, apiKey, model, refineSystemPrompt, userPrompt, 0.7, 16000);
+
+        if (!res.ok) {
+            const errorText = await res.text();
+            safeLogError('Refine error:', errorText);
+            alert(state.uiLang === 'no' ? 'Kunne ikke forbedre koden. Prøv igjen.' : 'Could not refine code. Please try again.');
+            setStatus('bad', t.statusFail);
+            return;
+        }
+
+        const json = await res.json();
+        const content = extractContent(json, endpoint);
+
+        if (content) {
+            renderOutput(content);
+            setStatus('good', t.statusDone);
+
+            // Clear the refine input after successful refinement
+            $('refineInput').value = '';
+            $('btnRefine').disabled = true;
+
+            // Show success feedback
+            const btn = $('btnRefine');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span>✅ ' + (state.uiLang === 'no' ? 'Kode oppdatert!' : 'Code updated!') + '</span>';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+        } else {
+            setStatus('warn', 'warning');
+        }
+    } catch (e) {
+        safeLogError('Refine error:', e);
+        alert(state.uiLang === 'no' ? 'Feil ved forbedring: ' + e.message : 'Refine error: ' + e.message);
+        setStatus('bad', t.statusFail);
+    } finally {
+        $('refineLoading').classList.add('hidden');
+        $('btnRefine').disabled = !$('refineInput').value.trim();
+    }
+}
+
+// ============================================
 // OUTPUT HANDLING
 // ============================================
 
@@ -923,6 +1128,12 @@ function enableOutputActions(on) {
     $('btnShowFiles').classList.toggle('hidden', !hasFiles);
     $('btnDownloadAll').disabled = !on || !hasFiles;
     $('btnDownloadAll').classList.toggle('hidden', !hasFiles);
+
+    // Show/hide refine section based on whether we have output
+    const refineSection = $('refineSection');
+    if (refineSection) {
+        refineSection.classList.toggle('hidden', !on);
+    }
 }
 
 function renderOutput(raw) {
@@ -999,52 +1210,172 @@ function downloadIndex() {
 function openPreview() {
     const parsed = state.last.parsed;
     const html = (parsed && parsed.index_html) ? parsed.index_html : ($('output').textContent || '');
+    const t = i18n[state.uiLang];
 
     const overlay = document.createElement('div');
     overlay.className = 'preview-overlay';
     overlay.innerHTML = `
-        <div class="preview-modal">
+        <div class="preview-modal preview-modal-editor">
             <div class="preview-header">
-                <span class="preview-title">✨ Preview</span>
+                <span class="preview-title">✨ ${state.uiLang === 'no' ? 'Rediger & Forhåndsvis' : 'Edit & Preview'}</span>
                 <div class="preview-actions">
-                    <button class="preview-btn" id="previewNewTab" title="Åpne i ny fane">↗</button>
-                    <button class="preview-btn preview-close" id="previewClose" title="Lukk">✕</button>
+                    <button class="preview-btn preview-btn-save" id="previewSave" title="${state.uiLang === 'no' ? 'Lagre endringer' : 'Save changes'}">💾 ${state.uiLang === 'no' ? 'Lagre' : 'Save'}</button>
+                    <button class="preview-btn" id="previewNewTab" title="${state.uiLang === 'no' ? 'Åpne i ny fane' : 'Open in new tab'}">↗</button>
+                    <button class="preview-btn preview-close" id="previewClose" title="${state.uiLang === 'no' ? 'Lukk' : 'Close'}">✕</button>
                 </div>
             </div>
-            <!-- Security: sandbox without allow-same-origin prevents access to parent window -->
-            <iframe class="preview-iframe" sandbox="allow-scripts"></iframe>
+            <div class="preview-split">
+                <div class="preview-editor-pane">
+                    <div class="preview-pane-header">
+                        <span>📝 ${state.uiLang === 'no' ? 'Kode' : 'Code'}</span>
+                        <span class="editor-hint">${state.uiLang === 'no' ? 'Endringer oppdateres live' : 'Changes update live'}</span>
+                    </div>
+                    <textarea class="preview-editor" id="previewEditor" spellcheck="false"></textarea>
+                </div>
+                <div class="preview-divider" id="previewDivider"></div>
+                <div class="preview-iframe-pane">
+                    <div class="preview-pane-header">
+                        <span>👁️ ${state.uiLang === 'no' ? 'Forhåndsvisning' : 'Preview'}</span>
+                        <button class="preview-btn-small" id="previewRefresh" title="${state.uiLang === 'no' ? 'Oppdater' : 'Refresh'}">🔄</button>
+                    </div>
+                    <!-- Security: sandbox without allow-same-origin prevents access to parent window -->
+                    <iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts"></iframe>
+                </div>
+            </div>
         </div>
     `;
 
     document.body.appendChild(overlay);
 
-    // Security: Use srcdoc with Blob URL for safer content injection
-    const iframe = overlay.querySelector('.preview-iframe');
-    const blob = new Blob([html], { type: 'text/html' });
-    const blobUrl = URL.createObjectURL(blob);
-    iframe.src = blobUrl;
+    const editor = overlay.querySelector('#previewEditor');
+    const iframe = overlay.querySelector('#previewIframe');
 
-    // Clean up blob URL when iframe loads
-    iframe.onload = () => URL.revokeObjectURL(blobUrl);
+    // Set initial content
+    editor.value = html;
 
-    overlay.querySelector('#previewClose').addEventListener('click', () => overlay.remove());
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+    // Function to update preview
+    let updateTimeout = null;
+    const updatePreview = () => {
+        const content = editor.value;
+        const blob = new Blob([content], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+
+        // Revoke old URL if exists
+        if (iframe.dataset.blobUrl) {
+            URL.revokeObjectURL(iframe.dataset.blobUrl);
+        }
+        iframe.dataset.blobUrl = blobUrl;
+        iframe.src = blobUrl;
+    };
+
+    // Initial preview
+    updatePreview();
+
+    // Live update on input (debounced)
+    editor.addEventListener('input', () => {
+        clearTimeout(updateTimeout);
+        updateTimeout = setTimeout(updatePreview, 300);
+    });
+
+    // Manual refresh button
+    overlay.querySelector('#previewRefresh').addEventListener('click', updatePreview);
+
+    // Save button - updates the main output
+    overlay.querySelector('#previewSave').addEventListener('click', () => {
+        const newCode = editor.value;
+
+        // Update state
+        state.last.parsed = {
+            index_html: newCode,
+            files: state.last.parsed?.files || [],
+            notes: ''
+        };
+        state.last.raw = JSON.stringify(state.last.parsed);
+        state.last.hasIndex = true;
+
+        // Update output display
+        $('output').textContent = newCode;
+        updateMetaDisplay();
+        enableOutputActions(true);
+
+        // Visual feedback
+        const saveBtn = overlay.querySelector('#previewSave');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = `✅ ${state.uiLang === 'no' ? 'Lagret!' : 'Saved!'}`;
+        saveBtn.classList.add('saved');
+        setTimeout(() => {
+            saveBtn.innerHTML = originalText;
+            saveBtn.classList.remove('saved');
+        }, 1500);
+    });
+
+    // Close button
+    overlay.querySelector('#previewClose').addEventListener('click', () => {
+        if (iframe.dataset.blobUrl) {
+            URL.revokeObjectURL(iframe.dataset.blobUrl);
+        }
+        overlay.remove();
+    });
+
+    // Click outside to close
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            if (iframe.dataset.blobUrl) {
+                URL.revokeObjectURL(iframe.dataset.blobUrl);
+            }
+            overlay.remove();
+        }
+    });
+
+    // Open in new tab
     overlay.querySelector('#previewNewTab').addEventListener('click', () => {
-        // Security: Open in new tab using Blob URL (safer than document.write)
-        const newBlob = new Blob([html], { type: 'text/html' });
+        const content = editor.value;
+        const newBlob = new Blob([content], { type: 'text/html' });
         const newBlobUrl = URL.createObjectURL(newBlob);
         window.open(newBlobUrl, '_blank');
-        // Note: Can't revoke immediately as new tab needs time to load
         setTimeout(() => URL.revokeObjectURL(newBlobUrl), 60000);
     });
 
+    // Resizable divider
+    const divider = overlay.querySelector('#previewDivider');
+    const editorPane = overlay.querySelector('.preview-editor-pane');
+    let isResizing = false;
+
+    divider.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        document.body.style.cursor = 'col-resize';
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const container = overlay.querySelector('.preview-split');
+        const containerRect = container.getBoundingClientRect();
+        const newWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+        if (newWidth > 20 && newWidth < 80) {
+            editorPane.style.width = newWidth + '%';
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        document.body.style.cursor = '';
+    });
+
+    // Escape to close
     const escHandler = (e) => {
         if (e.key === 'Escape') {
+            if (iframe.dataset.blobUrl) {
+                URL.revokeObjectURL(iframe.dataset.blobUrl);
+            }
             overlay.remove();
             document.removeEventListener('keydown', escHandler);
         }
     };
     document.addEventListener('keydown', escHandler);
+
+    // Focus editor
+    setTimeout(() => editor.focus(), 100);
 }
 
 function escapeHtml(s) {
@@ -1420,6 +1751,13 @@ function applyLang() {
 
     $('noteKey').textContent = t.noteKey;
 
+    // Refine section
+    $('refineTitle').textContent = t.refineTitle;
+    $('refineDesc').textContent = t.refineDesc;
+    $('refineInput').placeholder = t.refinePlaceholder;
+    $('btnRefine').querySelector('span').textContent = t.refineBtn;
+    $('refineLoadingText').textContent = t.refineLoading;
+
     $('langPill').querySelector('.mono').textContent = state.uiLang.toUpperCase();
 
     setApiState();
@@ -1562,6 +1900,13 @@ function initEventListeners() {
     $('btnPreview').addEventListener('click', openPreview);
     $('btnShowFiles').addEventListener('click', showFiles);
     $('btnProjectTips').addEventListener('click', showProjectTips);
+
+    // Refine output
+    $('refineInput').addEventListener('input', () => {
+        const hasText = $('refineInput').value.trim().length > 0;
+        $('btnRefine').disabled = !hasText;
+    });
+    $('btnRefine').addEventListener('click', refineOutput);
 }
 
 // ============================================
