@@ -1126,52 +1126,172 @@ function downloadIndex() {
 function openPreview() {
     const parsed = state.last.parsed;
     const html = (parsed && parsed.index_html) ? parsed.index_html : ($('output').textContent || '');
+    const t = i18n[state.uiLang];
 
     const overlay = document.createElement('div');
     overlay.className = 'preview-overlay';
     overlay.innerHTML = `
-        <div class="preview-modal">
+        <div class="preview-modal preview-modal-editor">
             <div class="preview-header">
-                <span class="preview-title">✨ Preview</span>
+                <span class="preview-title">✨ ${state.uiLang === 'no' ? 'Rediger & Forhåndsvis' : 'Edit & Preview'}</span>
                 <div class="preview-actions">
-                    <button class="preview-btn" id="previewNewTab" title="Åpne i ny fane">↗</button>
-                    <button class="preview-btn preview-close" id="previewClose" title="Lukk">✕</button>
+                    <button class="preview-btn preview-btn-save" id="previewSave" title="${state.uiLang === 'no' ? 'Lagre endringer' : 'Save changes'}">💾 ${state.uiLang === 'no' ? 'Lagre' : 'Save'}</button>
+                    <button class="preview-btn" id="previewNewTab" title="${state.uiLang === 'no' ? 'Åpne i ny fane' : 'Open in new tab'}">↗</button>
+                    <button class="preview-btn preview-close" id="previewClose" title="${state.uiLang === 'no' ? 'Lukk' : 'Close'}">✕</button>
                 </div>
             </div>
-            <!-- Security: sandbox without allow-same-origin prevents access to parent window -->
-            <iframe class="preview-iframe" sandbox="allow-scripts"></iframe>
+            <div class="preview-split">
+                <div class="preview-editor-pane">
+                    <div class="preview-pane-header">
+                        <span>📝 ${state.uiLang === 'no' ? 'Kode' : 'Code'}</span>
+                        <span class="editor-hint">${state.uiLang === 'no' ? 'Endringer oppdateres live' : 'Changes update live'}</span>
+                    </div>
+                    <textarea class="preview-editor" id="previewEditor" spellcheck="false"></textarea>
+                </div>
+                <div class="preview-divider" id="previewDivider"></div>
+                <div class="preview-iframe-pane">
+                    <div class="preview-pane-header">
+                        <span>👁️ ${state.uiLang === 'no' ? 'Forhåndsvisning' : 'Preview'}</span>
+                        <button class="preview-btn-small" id="previewRefresh" title="${state.uiLang === 'no' ? 'Oppdater' : 'Refresh'}">🔄</button>
+                    </div>
+                    <!-- Security: sandbox without allow-same-origin prevents access to parent window -->
+                    <iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts"></iframe>
+                </div>
+            </div>
         </div>
     `;
 
     document.body.appendChild(overlay);
 
-    // Security: Use srcdoc with Blob URL for safer content injection
-    const iframe = overlay.querySelector('.preview-iframe');
-    const blob = new Blob([html], { type: 'text/html' });
-    const blobUrl = URL.createObjectURL(blob);
-    iframe.src = blobUrl;
+    const editor = overlay.querySelector('#previewEditor');
+    const iframe = overlay.querySelector('#previewIframe');
 
-    // Clean up blob URL when iframe loads
-    iframe.onload = () => URL.revokeObjectURL(blobUrl);
+    // Set initial content
+    editor.value = html;
 
-    overlay.querySelector('#previewClose').addEventListener('click', () => overlay.remove());
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+    // Function to update preview
+    let updateTimeout = null;
+    const updatePreview = () => {
+        const content = editor.value;
+        const blob = new Blob([content], { type: 'text/html' });
+        const blobUrl = URL.createObjectURL(blob);
+
+        // Revoke old URL if exists
+        if (iframe.dataset.blobUrl) {
+            URL.revokeObjectURL(iframe.dataset.blobUrl);
+        }
+        iframe.dataset.blobUrl = blobUrl;
+        iframe.src = blobUrl;
+    };
+
+    // Initial preview
+    updatePreview();
+
+    // Live update on input (debounced)
+    editor.addEventListener('input', () => {
+        clearTimeout(updateTimeout);
+        updateTimeout = setTimeout(updatePreview, 300);
+    });
+
+    // Manual refresh button
+    overlay.querySelector('#previewRefresh').addEventListener('click', updatePreview);
+
+    // Save button - updates the main output
+    overlay.querySelector('#previewSave').addEventListener('click', () => {
+        const newCode = editor.value;
+
+        // Update state
+        state.last.parsed = {
+            index_html: newCode,
+            files: state.last.parsed?.files || [],
+            notes: ''
+        };
+        state.last.raw = JSON.stringify(state.last.parsed);
+        state.last.hasIndex = true;
+
+        // Update output display
+        $('output').textContent = newCode;
+        updateMetaDisplay();
+        enableOutputActions(true);
+
+        // Visual feedback
+        const saveBtn = overlay.querySelector('#previewSave');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = `✅ ${state.uiLang === 'no' ? 'Lagret!' : 'Saved!'}`;
+        saveBtn.classList.add('saved');
+        setTimeout(() => {
+            saveBtn.innerHTML = originalText;
+            saveBtn.classList.remove('saved');
+        }, 1500);
+    });
+
+    // Close button
+    overlay.querySelector('#previewClose').addEventListener('click', () => {
+        if (iframe.dataset.blobUrl) {
+            URL.revokeObjectURL(iframe.dataset.blobUrl);
+        }
+        overlay.remove();
+    });
+
+    // Click outside to close
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            if (iframe.dataset.blobUrl) {
+                URL.revokeObjectURL(iframe.dataset.blobUrl);
+            }
+            overlay.remove();
+        }
+    });
+
+    // Open in new tab
     overlay.querySelector('#previewNewTab').addEventListener('click', () => {
-        // Security: Open in new tab using Blob URL (safer than document.write)
-        const newBlob = new Blob([html], { type: 'text/html' });
+        const content = editor.value;
+        const newBlob = new Blob([content], { type: 'text/html' });
         const newBlobUrl = URL.createObjectURL(newBlob);
         window.open(newBlobUrl, '_blank');
-        // Note: Can't revoke immediately as new tab needs time to load
         setTimeout(() => URL.revokeObjectURL(newBlobUrl), 60000);
     });
 
+    // Resizable divider
+    const divider = overlay.querySelector('#previewDivider');
+    const editorPane = overlay.querySelector('.preview-editor-pane');
+    let isResizing = false;
+
+    divider.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        document.body.style.cursor = 'col-resize';
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isResizing) return;
+        const container = overlay.querySelector('.preview-split');
+        const containerRect = container.getBoundingClientRect();
+        const newWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+        if (newWidth > 20 && newWidth < 80) {
+            editorPane.style.width = newWidth + '%';
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        isResizing = false;
+        document.body.style.cursor = '';
+    });
+
+    // Escape to close
     const escHandler = (e) => {
         if (e.key === 'Escape') {
+            if (iframe.dataset.blobUrl) {
+                URL.revokeObjectURL(iframe.dataset.blobUrl);
+            }
             overlay.remove();
             document.removeEventListener('keydown', escHandler);
         }
     };
     document.addEventListener('keydown', escHandler);
+
+    // Focus editor
+    setTimeout(() => editor.focus(), 100);
 }
 
 function escapeHtml(s) {

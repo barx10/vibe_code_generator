@@ -1413,6 +1413,155 @@ pre.empty {
     border-radius: 0 0 var(--radius) var(--radius);
 }
 
+/* Split-View Editor Modal */
+.preview-modal-editor {
+    max-width: 95vw;
+    width: 1600px;
+    height: 90vh;
+    max-height: none;
+}
+
+.preview-split {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+}
+
+.preview-editor-pane {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    background: #0d1117;
+    min-width: 300px;
+}
+
+.preview-iframe-pane {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+.preview-pane-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid var(--panel-border);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.editor-hint {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--success);
+    opacity: 0.8;
+}
+
+.preview-editor {
+    flex: 1;
+    width: 100%;
+    padding: 16px;
+    background: #0d1117;
+    border: none;
+    color: #c9d1d9;
+    font-family: 'SF Mono', 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    resize: none;
+    outline: none;
+    tab-size: 2;
+}
+
+.preview-editor:focus {
+    outline: none;
+}
+
+.preview-divider {
+    width: 6px;
+    background: var(--panel-border);
+    cursor: col-resize;
+    transition: background 0.15s ease;
+    flex-shrink: 0;
+}
+
+.preview-divider:hover {
+    background: var(--primary);
+}
+
+.preview-btn-save {
+    width: auto;
+    padding: 6px 14px;
+    background: linear-gradient(135deg, var(--success), var(--primary));
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    gap: 6px;
+}
+
+.preview-btn-save:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+}
+
+.preview-btn-save.saved {
+    background: var(--success);
+}
+
+.preview-btn-small {
+    padding: 4px 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.preview-btn-small:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+}
+
+.preview-iframe-pane .preview-iframe {
+    border-radius: 0;
+}
+
+/* Responsive: Stack on mobile */
+@media (max-width: 900px) {
+    .preview-modal-editor {
+        width: 100%;
+        height: 100vh;
+        max-width: 100vw;
+        border-radius: 0;
+    }
+
+    .preview-split {
+        flex-direction: column;
+    }
+
+    .preview-editor-pane {
+        width: 100% !important;
+        height: 40%;
+        min-width: unset;
+    }
+
+    .preview-iframe-pane {
+        height: 60%;
+        min-width: unset;
+    }
+
+    .preview-divider {
+        width: 100%;
+        height: 6px;
+        cursor: row-resize;
+    }
+}
+
 /* Files Modal */
 .files-modal {
     max-width: 900px;
