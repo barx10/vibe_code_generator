@@ -80,21 +80,33 @@ async function makeApiCall(endpoint, apiKey, model, systemPrompt, userPrompt, te
         return res;
     } else {
         // OpenAI-compatible format (OpenAI, Google, etc.)
+        // Newer OpenAI models (o1, o3, etc.) require max_completion_tokens instead of max_tokens
+        const isReasoningModel = /^(o1|o3)/.test(model);
+        const tokenParam = isReasoningModel ? 'max_completion_tokens' : 'max_tokens';
+
+        const requestBody = {
+            model,
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: userPrompt }
+            ]
+        };
+
+        // Add temperature only for non-reasoning models (o1/o3 don't support it)
+        if (!isReasoningModel) {
+            requestBody.temperature = temperature;
+        }
+
+        // Use the correct token parameter name
+        requestBody[tokenParam] = maxTokens;
+
         const res = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${apiKey}`
             },
-            body: JSON.stringify({
-                model,
-                temperature,
-                max_tokens: maxTokens,
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: userPrompt }
-                ]
-            })
+            body: JSON.stringify(requestBody)
         });
         return res;
     }
