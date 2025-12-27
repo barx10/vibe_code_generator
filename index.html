@@ -7,7 +7,8 @@
     
     <!-- Security: Content Security Policy -->
     <!-- Note: 'unsafe-inline' for styles is needed for dynamic styling. Scripts are external only. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com http://localhost:1234; img-src 'self' data: blob:; frame-src blob:; object-src 'none'; base-uri 'self'; form-action 'self';" />
+    <!-- blob: is needed for preview iframe functionality -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' blob:; script-src 'self' https://cdnjs.cloudflare.com blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com http://localhost:1234; img-src 'self' data: blob:; frame-src blob:; object-src 'none'; base-uri 'self'; form-action 'self';" />
 
     <!-- Additional security headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
