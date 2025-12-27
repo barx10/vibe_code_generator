@@ -80,10 +80,9 @@ async function makeApiCall(endpoint, apiKey, model, systemPrompt, userPrompt, te
         return res;
     } else {
         // OpenAI-compatible format (OpenAI, Google, etc.)
-        // Newer OpenAI models require max_completion_tokens instead of max_tokens
-        const isNewOpenAIModel = /^(o1|o3|gpt-5)/.test(model);
-        const isReasoningModel = /^(o1|o3)/.test(model);
-        const tokenParam = isNewOpenAIModel ? 'max_completion_tokens' : 'max_tokens';
+        const isOpenAI = endpoint.includes('openai.com');
+        // Reasoning models (o-series) don't support temperature
+        const isReasoningModel = /^o[134]/.test(model);
 
         const requestBody = {
             model,
@@ -93,13 +92,17 @@ async function makeApiCall(endpoint, apiKey, model, systemPrompt, userPrompt, te
             ]
         };
 
-        // Add temperature only for non-reasoning models (o1/o3 don't support it)
+        // Add temperature only for non-reasoning models
         if (!isReasoningModel) {
             requestBody.temperature = temperature;
         }
 
-        // Use the correct token parameter name
-        requestBody[tokenParam] = maxTokens;
+        // OpenAI uses max_completion_tokens, others use max_tokens
+        if (isOpenAI) {
+            requestBody.max_completion_tokens = maxTokens;
+        } else {
+            requestBody.max_tokens = maxTokens;
+        }
 
         const res = await fetch(endpoint, {
             method: 'POST',
