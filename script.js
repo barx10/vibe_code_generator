@@ -1140,22 +1140,43 @@ function openPreview() {
                     <button class="preview-btn preview-close" id="previewClose" title="${state.uiLang === 'no' ? 'Lukk' : 'Close'}">✕</button>
                 </div>
             </div>
-            <div class="preview-split">
-                <div class="preview-editor-pane">
-                    <div class="preview-pane-header">
-                        <span>📝 ${state.uiLang === 'no' ? 'Kode' : 'Code'}</span>
-                        <span class="editor-hint">${state.uiLang === 'no' ? 'Endringer oppdateres live' : 'Changes update live'}</span>
+            <div class="preview-main">
+                <div class="preview-split">
+                    <div class="preview-editor-pane">
+                        <div class="preview-pane-header">
+                            <span>📝 ${state.uiLang === 'no' ? 'Kode' : 'Code'}</span>
+                            <span class="editor-hint">${state.uiLang === 'no' ? 'Endringer oppdateres live' : 'Changes update live'}</span>
+                        </div>
+                        <textarea class="preview-editor" id="previewEditor" spellcheck="false"></textarea>
                     </div>
-                    <textarea class="preview-editor" id="previewEditor" spellcheck="false"></textarea>
+                    <div class="preview-divider" id="previewDivider"></div>
+                    <div class="preview-iframe-pane">
+                        <div class="preview-pane-header">
+                            <span>👁️ ${state.uiLang === 'no' ? 'Forhåndsvisning' : 'Preview'}</span>
+                            <button class="preview-btn-small" id="previewRefresh" title="${state.uiLang === 'no' ? 'Oppdater' : 'Refresh'}">🔄</button>
+                        </div>
+                        <!-- Security: sandbox without allow-same-origin prevents access to parent window -->
+                        <iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts"></iframe>
+                    </div>
                 </div>
-                <div class="preview-divider" id="previewDivider"></div>
-                <div class="preview-iframe-pane">
-                    <div class="preview-pane-header">
-                        <span>👁️ ${state.uiLang === 'no' ? 'Forhåndsvisning' : 'Preview'}</span>
-                        <button class="preview-btn-small" id="previewRefresh" title="${state.uiLang === 'no' ? 'Oppdater' : 'Refresh'}">🔄</button>
+                <div class="preview-chat">
+                    <div class="preview-chat-header">
+                        <span>🤖 ${state.uiLang === 'no' ? 'AI Assistent' : 'AI Assistant'}</span>
+                        <button class="preview-btn-small" id="chatToggle" title="${state.uiLang === 'no' ? 'Vis/skjul chat' : 'Show/hide chat'}">▼</button>
                     </div>
-                    <!-- Security: sandbox without allow-same-origin prevents access to parent window -->
-                    <iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts"></iframe>
+                    <div class="preview-chat-messages" id="chatMessages">
+                        <div class="chat-message chat-message-system">
+                            ${state.uiLang === 'no'
+                                ? '👋 Hei! Beskriv endringene du ønsker, så oppdaterer jeg koden for deg.'
+                                : '👋 Hi! Describe the changes you want, and I\'ll update the code for you.'}
+                        </div>
+                    </div>
+                    <div class="preview-chat-input">
+                        <input type="text" id="chatInput" placeholder="${state.uiLang === 'no' ? 'Skriv hva du vil endre...' : 'Describe what you want to change...'}" />
+                        <button class="chat-send-btn" id="chatSend" title="${state.uiLang === 'no' ? 'Send' : 'Send'}">
+                            <span id="chatSendIcon">➤</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1165,6 +1186,11 @@ function openPreview() {
 
     const editor = overlay.querySelector('#previewEditor');
     const iframe = overlay.querySelector('#previewIframe');
+    const chatMessages = overlay.querySelector('#chatMessages');
+    const chatInput = overlay.querySelector('#chatInput');
+    const chatSendBtn = overlay.querySelector('#chatSend');
+    const chatToggle = overlay.querySelector('#chatToggle');
+    const chatPanel = overlay.querySelector('.preview-chat');
 
     // Set initial content
     editor.value = html;
@@ -1195,6 +1221,123 @@ function openPreview() {
 
     // Manual refresh button
     overlay.querySelector('#previewRefresh').addEventListener('click', updatePreview);
+
+    // Chat toggle
+    chatToggle.addEventListener('click', () => {
+        chatPanel.classList.toggle('collapsed');
+        chatToggle.textContent = chatPanel.classList.contains('collapsed') ? '▲' : '▼';
+    });
+
+    // Add message to chat
+    const addMessage = (text, type) => {
+        const msg = document.createElement('div');
+        msg.className = `chat-message chat-message-${type}`;
+        msg.textContent = text;
+        chatMessages.appendChild(msg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    // AI Chat functionality
+    const sendChatMessage = async () => {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        const apiKey = $('apiKey').value.trim();
+        const endpoint = $('endpoint').value.trim();
+        const model = $('model').value.trim();
+
+        if (!apiKey) {
+            addMessage(state.uiLang === 'no' ? '❌ Du må legge inn API-nøkkel først' : '❌ Please enter API key first', 'system');
+            return;
+        }
+
+        // Add user message
+        addMessage(message, 'user');
+        chatInput.value = '';
+
+        // Show loading
+        chatSendBtn.disabled = true;
+        const sendIcon = overlay.querySelector('#chatSendIcon');
+        sendIcon.textContent = '⏳';
+
+        const currentCode = editor.value;
+
+        const systemPrompt = state.uiLang === 'no'
+            ? `Du er en ekspert webutvikler som hjelper brukeren med å forbedre koden deres.
+Din oppgave er å implementere endringene brukeren ber om.
+
+REGLER:
+1. Behold all eksisterende funksjonalitet som ikke skal endres
+2. Implementer ALLE endringene brukeren ber om
+3. Returner KOMPLETT, kjørbar kode (ikke bare utdrag)
+4. Svar KUN med den oppdaterte HTML/CSS/JS koden, ingen forklaring eller markdown
+
+VIKTIG: Returner BARE koden, ingen \`\`\`html tags eller annen tekst.`
+            : `You are an expert web developer helping the user improve their code.
+Your task is to implement the changes the user requests.
+
+RULES:
+1. Keep all existing functionality that shouldn't change
+2. Implement ALL changes the user requests
+3. Return COMPLETE, runnable code (not just snippets)
+4. Reply ONLY with the updated HTML/CSS/JS code, no explanation or markdown
+
+IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
+
+        const userPrompt = state.uiLang === 'no'
+            ? `Her er koden:\n\n${currentCode}\n\nEndring: ${message}`
+            : `Here is the code:\n\n${currentCode}\n\nChange: ${message}`;
+
+        try {
+            const res = await makeApiCall(endpoint, apiKey, model, systemPrompt, userPrompt, 0.7, 16000);
+
+            if (!res.ok) {
+                addMessage(state.uiLang === 'no' ? '❌ Kunne ikke oppdatere koden. Prøv igjen.' : '❌ Could not update code. Please try again.', 'system');
+                return;
+            }
+
+            const json = await res.json();
+            let content = extractContent(json, endpoint);
+
+            if (content) {
+                // Clean up markdown code blocks if present
+                content = content.trim();
+                if (content.startsWith('```html')) {
+                    content = content.slice(7);
+                }
+                if (content.startsWith('```')) {
+                    content = content.slice(3);
+                }
+                if (content.endsWith('```')) {
+                    content = content.slice(0, -3);
+                }
+                content = content.trim();
+
+                // Update editor and preview
+                editor.value = content;
+                updatePreview();
+
+                addMessage(state.uiLang === 'no' ? '✅ Koden er oppdatert!' : '✅ Code updated!', 'system');
+            } else {
+                addMessage(state.uiLang === 'no' ? '❌ Fikk ikke gyldig respons' : '❌ Did not receive valid response', 'system');
+            }
+        } catch (e) {
+            safeLogError('Chat error:', e);
+            addMessage(state.uiLang === 'no' ? '❌ Feil: ' + e.message : '❌ Error: ' + e.message, 'system');
+        } finally {
+            chatSendBtn.disabled = false;
+            sendIcon.textContent = '➤';
+        }
+    };
+
+    // Chat event listeners
+    chatSendBtn.addEventListener('click', sendChatMessage);
+    chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendChatMessage();
+        }
+    });
 
     // Save button - updates the main output
     overlay.querySelector('#previewSave').addEventListener('click', () => {
@@ -1290,8 +1433,8 @@ function openPreview() {
     };
     document.addEventListener('keydown', escHandler);
 
-    // Focus editor
-    setTimeout(() => editor.focus(), 100);
+    // Focus chat input
+    setTimeout(() => chatInput.focus(), 100);
 }
 
 function escapeHtml(s) {
