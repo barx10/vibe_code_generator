@@ -80,9 +80,10 @@ async function makeApiCall(endpoint, apiKey, model, systemPrompt, userPrompt, te
         return res;
     } else {
         // OpenAI-compatible format (OpenAI, Google, etc.)
-        // Newer OpenAI models (o1, o3, etc.) require max_completion_tokens instead of max_tokens
+        // Newer OpenAI models require max_completion_tokens instead of max_tokens
+        const isNewOpenAIModel = /^(o1|o3|gpt-5)/.test(model);
         const isReasoningModel = /^(o1|o3)/.test(model);
-        const tokenParam = isReasoningModel ? 'max_completion_tokens' : 'max_tokens';
+        const tokenParam = isNewOpenAIModel ? 'max_completion_tokens' : 'max_tokens';
 
         const requestBody = {
             model,
