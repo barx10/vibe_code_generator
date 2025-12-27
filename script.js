@@ -914,6 +914,7 @@ function enableOutputActions(on) {
     $('btnCopy').disabled = !on;
     $('btnDownload').disabled = !on;
     $('btnPreview').disabled = !on;
+    $('btnProjectTips').disabled = !on;
 
     const parsed = state.last.parsed;
     const hasFiles = parsed && parsed.files && parsed.files.length > 0;
@@ -1111,6 +1112,131 @@ function showFiles() {
 
     overlay.querySelector('#filesClose').addEventListener('click', () => overlay.remove());
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+}
+
+function showProjectTips() {
+    const projectFiles = [
+        {
+            name: 'styles.css',
+            icon: '🎨',
+            description: 'Separert CSS-fil for bedre vedlikehold og gjenbruk',
+            tip: 'Flytt alle <style>-blokker hit for ryddigere kode'
+        },
+        {
+            name: 'script.js',
+            icon: '⚡',
+            description: 'Separert JavaScript-fil for funksjonalitet',
+            tip: 'Flytt all <script>-kode hit for bedre struktur'
+        },
+        {
+            name: 'assets/',
+            icon: '📁',
+            description: 'Mappe for bilder, ikoner og andre ressurser',
+            tip: 'Organiser bilder i undermapper som assets/images/'
+        },
+        {
+            name: 'favicon.ico',
+            icon: '⭐',
+            description: 'Ikon som vises i nettleserfanen',
+            tip: 'Bruk 32x32px eller 16x16px .ico eller .png'
+        },
+        {
+            name: 'README.md',
+            icon: '📖',
+            description: 'Dokumentasjon om prosjektet ditt',
+            tip: 'Beskriv hva appen gjør og hvordan man kjører den'
+        },
+        {
+            name: '.gitignore',
+            icon: '🚫',
+            description: 'Forteller Git hvilke filer som skal ignoreres',
+            tip: 'Legg til node_modules/, .env, .DS_Store osv.'
+        },
+        {
+            name: 'LICENSE',
+            icon: '📜',
+            description: 'Lisens for prosjektet (f.eks. MIT, Apache)',
+            tip: 'Velg MIT for åpen kildekode, eller proprietær'
+        }
+    ];
+
+    const overlay = document.createElement('div');
+    overlay.className = 'preview-overlay';
+
+    const modal = document.createElement('div');
+    modal.className = 'preview-modal project-tips-modal';
+
+    const header = document.createElement('div');
+    header.className = 'preview-header';
+
+    const title = document.createElement('span');
+    title.className = 'preview-title';
+    title.textContent = '💡 Anbefalte prosjektfiler';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'preview-btn preview-close';
+    closeBtn.title = 'Lukk';
+    closeBtn.textContent = '✕';
+
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+
+    const intro = document.createElement('p');
+    intro.className = 'project-tips-intro';
+    intro.textContent = 'Når du utvikler prosjektet videre i din IDE, anbefaler vi å opprette disse filene for en profesjonell prosjektstruktur:';
+
+    const container = document.createElement('div');
+    container.className = 'project-tips-container';
+
+    projectFiles.forEach(file => {
+        const item = document.createElement('div');
+        item.className = 'project-tip-item';
+        item.innerHTML = `
+            <div class="project-tip-header">
+                <span class="project-tip-icon">${file.icon}</span>
+                <span class="project-tip-name">${file.name}</span>
+            </div>
+            <p class="project-tip-desc">${file.description}</p>
+            <p class="project-tip-hint">💡 ${file.tip}</p>
+        `;
+        container.appendChild(item);
+    });
+
+    const structureExample = document.createElement('div');
+    structureExample.className = 'project-structure-example';
+    structureExample.innerHTML = `
+        <h4>📂 Eksempel på mappestruktur:</h4>
+        <pre class="structure-tree">mitt-prosjekt/
+├── index.html
+├── styles.css
+├── script.js
+├── favicon.ico
+├── README.md
+├── LICENSE
+├── .gitignore
+└── assets/
+    ├── images/
+    └── fonts/</pre>
+    `;
+
+    modal.appendChild(header);
+    modal.appendChild(intro);
+    modal.appendChild(container);
+    modal.appendChild(structureExample);
+    overlay.appendChild(modal);
+
+    document.body.appendChild(overlay);
+
+    closeBtn.addEventListener('click', () => overlay.remove());
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+
+    const escHandler = (e) => {
+        if (e.key === 'Escape') {
+            overlay.remove();
+            document.removeEventListener('keydown', escHandler);
+        }
+    };
+    document.addEventListener('keydown', escHandler);
 }
 
 async function downloadAllFiles() {
@@ -1435,6 +1561,7 @@ function initEventListeners() {
     $('btnDownloadAll').addEventListener('click', downloadAllFiles);
     $('btnPreview').addEventListener('click', openPreview);
     $('btnShowFiles').addEventListener('click', showFiles);
+    $('btnProjectTips').addEventListener('click', showProjectTips);
 }
 
 // ============================================
