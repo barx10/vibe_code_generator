@@ -786,6 +786,14 @@ async function callModel() {
 
         setStatus('good', t.statusDone);
 
+        // Mark step 3 as completed
+        const step3 = document.querySelectorAll('.wizard-step')[2];
+        if (step3) {
+            step3.classList.remove('active');
+            step3.classList.add('completed');
+        }
+        document.querySelectorAll('.wizard-step-line')[1]?.classList.add('completed');
+
     } catch (e) {
         if (progressInterval) clearInterval(progressInterval);
         renderOutput(String(e));
