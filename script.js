@@ -607,8 +607,40 @@ async function improvePromptWithAI() {
     $('aiImproveBtn').disabled = true;
 
     const improveSystemPrompt = state.uiLang === 'no'
-        ? `Du er en ekspert på å forbedre app-beskrivelser. Ta brukerens beskrivelse og gjør den mer detaljert og profesjonell. Legg til spesifikke UI/UX-detaljer, animasjoner, og funksjoner som ville gjøre appen fantastisk. Behold strukturen men utvid med kreative forslag. Svar KUN med den forbedrede beskrivelsen, ingen annen tekst.`
-        : `You are an expert at improving app descriptions. Take the user's description and make it more detailed and professional. Add specific UI/UX details, animations, and features that would make the app amazing. Keep the structure but expand with creative suggestions. Reply ONLY with the improved description, no other text.`;
+        ? `ROLLE: Du er en UX-designer og produktekspert som forbedrer app-beskrivelser.
+
+OPPGAVE: Transformer brukerens enkle beskrivelse til en detaljert, profesjonell spesifikasjon.
+
+LEGG TIL:
+- Spesifikke UI-komponenter (kort, modaler, tabeller, skjemaer)
+- Micro-interaksjoner (hover-effekter, loading-states, success-feedback)
+- Brukerflyt (hva skjer når brukeren klikker, submitter, etc.)
+- Eksempeldata som gjør appen realistisk
+- Tilgjengelighets-features (keyboard-nav, skjermleser-støtte)
+
+BEHOLD:
+- Brukerens kjerneidé og hovedfunksjonalitet
+- Eventuell teknisk stack nevnt
+- Språket/tonen i originalen
+
+FORMAT: Svar KUN med den forbedrede beskrivelsen. Ingen intro, ingen forklaring, bare den nye teksten.`
+        : `ROLE: You are a UX designer and product expert who improves app descriptions.
+
+TASK: Transform the user's simple description into a detailed, professional specification.
+
+ADD:
+- Specific UI components (cards, modals, tables, forms)
+- Micro-interactions (hover effects, loading states, success feedback)
+- User flow (what happens when user clicks, submits, etc.)
+- Example data that makes the app realistic
+- Accessibility features (keyboard nav, screen reader support)
+
+KEEP:
+- The user's core idea and main functionality
+- Any technical stack mentioned
+- The language/tone of the original
+
+FORMAT: Reply ONLY with the improved description. No intro, no explanation, just the new text.`;
 
     try {
         const res = await makeApiCall(endpoint, apiKey, model, improveSystemPrompt, basePrompt, 0.8, 2000);
@@ -707,74 +739,125 @@ function setApiState() {
 }
 
 function buildPrompt() {
-    const outLang = 'no';
+    const lang = state.uiLang;
+    const isNo = lang === 'no';
 
     let stackValue = $('stack').value;
     if (stackValue === 'custom') {
         stackValue = $('stackCustom').value.trim() || 'html-css-js';
     }
 
+    const projectName = $('projectName').value.trim() || (isNo ? 'min-app' : 'my-app');
+    const goal = $('goal').value.trim();
+
     const spec = {
-        project_name: $('projectName').value.trim() || 'min-app',
-        goal: $('goal').value.trim(),
+        project_name: projectName,
+        goal: goal,
         stack: stackValue,
-        output_language: outLang,
+        output_language: lang,
         output_mode: 'single'
     };
 
+    // Stack-specific instructions (bilingual)
     const stackGuide = {
-        'react': `\n**REACT-SPESIFIKT:**
+        'react': isNo
+            ? `\n\n**REACT-SPESIFIKT:**
 - Bruk React 18+ med ESM imports fra esm.sh
 - Inkluder createRoot fra react-dom/client
 - Bruk hooks (useState, useEffect, etc.)
 - Koden MÅ kjøre direkte i nettleseren uten npm/build`
+            : `\n\n**REACT-SPECIFIC:**
+- Use React 18+ with ESM imports from esm.sh
+- Include createRoot from react-dom/client
+- Use hooks (useState, useEffect, etc.)
+- Code MUST run directly in browser without npm/build`
     };
 
     const stackInstructions = stackGuide[stackValue] || '';
 
-    const sys = `Du er en ekspert fullstack-utvikler som lager FUNGERENDE, startklare prosjekter. Koden må faktisk kjøre - ikke teoretiske eksempler.
+    // System prompt with clear role definition (bilingual)
+    const sys = isNo
+        ? `ROLLE: Du er en senior frontend-utvikler som genererer produksjonsklar kode.
 
-KRITISKE REGLER:
-1. **FUNKSJONALITET FØRST:** Koden MÅ kjøre uten feil
-2. **KOMPLETT IMPLEMENTASJON:** Alle features i goal må være implementert
-3. **INGEN EKSTERNE AVHENGIGHETER SOM KREVER BUILD:** Bruk CDN eller ESM imports
-4. **REALISTISKE EKSEMPELDATA:** Inkluder faktiske eksempler
-5. **FEILHÅNDTERING:** Legg til try/catch og brukervenlige feilmeldinger${stackInstructions}
+MÅL: Lag "${projectName}" - ${goal}
 
-DESIGN-KRAV:
-- Mørk, moderne fargeprofil (dark mode) som standard
-- Subtile gradienter, shadows og hover-effekter
-- Smooth CSS-animasjoner og transitions
-- Google Fonts (Inter, Outfit, eller lignende)
-- Responsivt design (CSS Grid/Flexbox)
-- Visuelt tiltalende header/hero-seksjon
-- Loading states og micro-interactions
-- CSS custom properties (variabler)`;
+BEGRENSNINGER:
+- Kun browser-kode (ingen server, ingen build-steg)
+- All kode inline i én HTML-fil
+- Bruk CDN eller ESM imports for biblioteker
 
-    const format = `Svar kun som JSON. Schema:
+KVALITETSKRAV:
+1. Null console-feil ved lasting og bruk
+2. Fungerer på viewports 320px-1920px (mobil til desktop)
+3. Alle features i beskrivelsen må være implementert og fungere
+4. Realistiske eksempeldata (ikke "Lorem ipsum" eller tomme lister)
+5. Keyboard-navigasjon og ARIA-labels for tilgjengelighet
+6. Try/catch rundt async-operasjoner med brukervenlige feilmeldinger${stackInstructions}
+
+DESIGN-SYSTEM:
+- Fargeskjema: Mørk bakgrunn (#0a0a0f), lys tekst (#f1f5f9), accent (#38bdf8 eller #8b5cf6)
+- Typografi: Google Fonts (Inter, Outfit, eller lignende), god hierarki
+- Komponenter: Kort med rgba(30,41,59,0.6) bakgrunn, subtle borders, hover-glow på knapper
+- Animasjoner: fadeIn på load, smooth hover-transforms (0.2s ease), loading-spinners
+- Layout: CSS Grid/Flexbox, CSS custom properties for farger/spacing`
+
+        : `ROLE: You are a senior frontend developer generating production-ready code.
+
+GOAL: Build "${projectName}" - ${goal}
+
+CONSTRAINTS:
+- Browser-only code (no server, no build step)
+- All code inline in a single HTML file
+- Use CDN or ESM imports for libraries
+
+QUALITY REQUIREMENTS:
+1. Zero console errors on load and during use
+2. Works on viewports 320px-1920px (mobile to desktop)
+3. All features in the description must be implemented and functional
+4. Realistic example data (no "Lorem ipsum" or empty lists)
+5. Keyboard navigation and ARIA labels for accessibility
+6. Try/catch around async operations with user-friendly error messages${stackInstructions}
+
+DESIGN SYSTEM:
+- Color scheme: Dark background (#0a0a0f), light text (#f1f5f9), accent (#38bdf8 or #8b5cf6)
+- Typography: Google Fonts (Inter, Outfit, or similar), good hierarchy
+- Components: Cards with rgba(30,41,59,0.6) background, subtle borders, hover-glow on buttons
+- Animations: fadeIn on load, smooth hover-transforms (0.2s ease), loading spinners
+- Layout: CSS Grid/Flexbox, CSS custom properties for colors/spacing`;
+
+    // Output format instructions (bilingual, consolidated)
+    const format = isNo
+        ? `SVAR KUN MED JSON i dette formatet:
 {
-  "index_html": "...",
+  "index_html": "<komplett HTML-dokument med inline CSS og JS>",
   "files": [],
-  "notes": "kort, valgfritt"
+  "notes": "valgfri kort merknad"
 }
 
-VIKTIGE REGLER:
-1) **index_html må være komplett og KJØRBAR**
-2) **Ingen API keys eller hemmeligheter i kode**
-3) **Bruk faktiske, fungerende eksempeldata**
-4) **Single mode:** Legg ALL CSS og JS inline i index_html. files skal være tom liste []
+VIKTIG:
+- index_html skal være en komplett, kjørbar HTML-fil
+- files skal alltid være tom liste [] (single-file mode)
+- Ingen API-nøkler eller hemmeligheter i koden
+- Inkluder <!DOCTYPE html>, <html>, <head>, <body> tags`
 
-STIL-REGLER:
-- Bakgrunn: mørk (#0a0a0f eller #0f172a)
-- Primærfarge: livlig accent (#38bdf8, #8b5cf6, eller lignende)
-- Tekst: #f1f5f9 på mørk bakgrunn
-- Kort/paneler: rgba(30, 41, 59, 0.6) med border
-- Knapper: solid farge eller gradient med hover-glow
-- Animasjoner: fadeIn, subtle hover transforms, smooth transitions`;
+        : `RESPOND ONLY WITH JSON in this format:
+{
+  "index_html": "<complete HTML document with inline CSS and JS>",
+  "files": [],
+  "notes": "optional short note"
+}
 
-    const user = `Spesifikasjon:\n${JSON.stringify(spec, null, 2)}\n\n${format}\n\nLag et FUNGERENDE prosjekt som matcher dette. KRITISK: Koden må faktisk kjøre!`;
+IMPORTANT:
+- index_html must be a complete, runnable HTML file
+- files must always be empty array [] (single-file mode)
+- No API keys or secrets in the code
+- Include <!DOCTYPE html>, <html>, <head>, <body> tags`;
 
-    return { sys, user };
+    const userPrompt = isNo
+        ? `Prosjektspesifikasjon:\n${JSON.stringify(spec, null, 2)}\n\n${format}`
+        : `Project specification:\n${JSON.stringify(spec, null, 2)}\n\n${format}`;
+
+    return { sys, user: userPrompt };
 }
 
 async function callModel() {
