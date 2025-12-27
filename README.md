@@ -115,13 +115,81 @@ Design? → Glassmorphic med gradienter
 - **Kombiner modeller** - test forskjellige AI-leverandører for best resultat
 - **Husk sikkerhet** - aldri commit API-nøkler til git
 
-## 🔐 Personvern
+## 🔐 Sikkerhet & Personvern
+
+### Er det trygt å bruke min API-nøkkel?
+
+**JA** - men følg disse anbefalingene for best mulig sikkerhet:
+
+#### ✅ Slik fungerer det
+- **Direkte kommunikasjon:** API-nøkkelen sendes direkte fra din nettleser til AI-leverandøren
+- **Ingen mellommann:** Vi lagrer ALDRI nøkkelen på våre servere
+- **Kryptert overføring:** All kommunikasjon går over HTTPS
+- **Open source:** All kode er åpen og inspiserbar - ingen skjulte funksjoner
+
+#### 🛡️ Sikkerhetstiltak implementert
+- **Content Security Policy (CSP):** Beskytter mot XSS-angrep
+- **Subresource Integrity (SRI):** Verifiserer at CDN-ressurser ikke er kompromittert
+- **Ingen innerHTML med brukerdata:** Hindrer script injection
+- **Session-only som default:** Nøkkel lagres ikke automatisk
+
+#### ⚠️ Viktige anbefalinger
+
+**GJØR dette:**
+- ✅ Bruk en dedikert "test" API-nøkkel kun for dette verktøyet
+- ✅ Sett utgiftsgrenser hos AI-leverandøren ($5-10/måned)
+- ✅ Aktiver utgiftsalarmer for å unngå overraskelser
+- ✅ Bruk "Ikke lagre" på delte eller offentlige maskiner
+- ✅ Revurder installerte browser extensions (de kan lese alle inputs)
+- ✅ Roter nøkkelen hvis du tror den kan være kompromittert
+
+**IKKE gjør dette:**
+- ❌ Bruk produksjons-API-nøkler her
+- ❌ Del skjermbilder med nøkkelen synlig
+- ❌ Lagre nøkkel på delte datamaskiner (skole, bibliotek, etc.)
+- ❌ Installer ukjente browser extensions
+- ❌ Commit API-nøkler til git repositories
+
+#### 🔍 Potensielle risikoer
+
+**Hva du er beskyttet mot:**
+- ✅ Man-in-the-middle angrep (HTTPS)
+- ✅ XSS-angrep (CSP + sanitering)
+- ✅ Kompromitterte CDN-ressurser (SRI)
+- ✅ Server-side datalekkasje (vi har ingen server)
+
+**Hva DU må beskytte deg mot:**
+- ⚠️ Ondsinnede browser extensions (kan lese localStorage og inputs)
+- ⚠️ Fysisk tilgang til maskinen (noen ser over skulderen din)
+- ⚠️ Keyloggers og malware på din enhet
+- ⚠️ Phishing-angrep (falske nettsider)
+
+### Personvern
 
 - **Ingen server-side lagring** - Dette er en statisk HTML/CSS/JS applikasjon
 - **API-nøkkel sendes direkte** til valgt AI-leverandør (Google/OpenAI/Anthropic)
-- **Lokal lagring** kun hvis du velger "Lagre lokalt" (localStorage i browser)
+- **Lokal lagring** kun hvis du velger "Lagre lokalt" (localStorage i browser - ikke kryptert)
 - **Ingen tracking** eller analytics
 - **Open source** - all kode er synlig og inspiserbar
+
+### Slik roterer du en kompromittert nøkkel
+
+Hvis du tror nøkkelen din kan være kompromittert:
+
+**Google Gemini:**
+1. Gå til [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+2. Slett den gamle nøkkelen
+3. Opprett en ny
+
+**OpenAI:**
+1. Gå til [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+2. Revoke den gamle nøkkelen
+3. Opprett en ny
+
+**Anthropic:**
+1. Gå til [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys)
+2. Slett den gamle nøkkelen
+3. Opprett en ny
 
 ## 📄 Lisens
 

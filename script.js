@@ -975,15 +975,33 @@ function showFiles() {
         </div>
     `).join('');
 
-    overlay.innerHTML = `
-        <div class="preview-modal files-modal">
-            <div class="preview-header">
-                <span class="preview-title">📂 Alle genererte filer (${parsed.files.length})</span>
-                <button class="preview-btn preview-close" id="filesClose" title="Lukk">✕</button>
-            </div>
-            <div class="files-container">${filesHtml}</div>
-        </div>
-    `;
+    // Security: Use DOM methods instead of innerHTML
+    const modal = document.createElement('div');
+    modal.className = 'preview-modal files-modal';
+    
+    const header = document.createElement('div');
+    header.className = 'preview-header';
+    
+    const title = document.createElement('span');
+    title.className = 'preview-title';
+    title.textContent = `📂 Alle genererte filer (${parsed.files.length})`;
+    
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'preview-btn preview-close';
+    closeBtn.id = 'filesClose';
+    closeBtn.title = 'Lukk';
+    closeBtn.textContent = '✕';
+    
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+    
+    const container = document.createElement('div');
+    container.className = 'files-container';
+    container.innerHTML = filesHtml; // filesHtml is already escaped via escapeHtml()
+    
+    modal.appendChild(header);
+    modal.appendChild(container);
+    overlay.appendChild(modal);
 
     document.body.appendChild(overlay);
 
@@ -1017,6 +1035,9 @@ async function downloadAllFiles() {
     if (!window.JSZip) {
         const script = document.createElement('script');
         script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        // Security: Subresource Integrity to verify CDN content
+        script.integrity = 'sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==';
+        script.crossOrigin = 'anonymous';
         await new Promise((resolve, reject) => {
             script.onload = resolve;
             script.onerror = reject;
@@ -1099,6 +1120,7 @@ function applyLang() {
     const t = i18n[state.uiLang];
 
     $('heroBadge').textContent = t.heroBadge;
+    // Safe: heroTitle contains only static trusted HTML from i18n
     $('heroTitle').innerHTML = t.heroTitle;
     $('heroSubtitle').textContent = t.heroSubtitle;
     $('heroFeature1').textContent = t.heroFeature1;

@@ -4,6 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- Security: Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com http://localhost:1234; img-src 'self' data:; frame-src 'none';" />
+    
     <title>VibeCoding Idea Builder</title>
     <meta name="description" content="Bruk AI til å generere startklare webprosjekter. Perfekt for lærere, studenter og alle som vil lære webutvikling på en praktisk måte." />
 
@@ -261,10 +265,10 @@
                                 <div>
                                     <label id="lRemember">Lagre nøkkel</label>
                                     <select id="rememberKey">
-                                        <option value="no">Ikke lagre</option>
+                                        <option value="no" selected>Ikke lagre (anbefalt)</option>
                                         <option value="local">Lagre lokalt i nettleser</option>
                                     </select>
-                                    <div class="hint" id="hRemember">Lagres kryptert i localStorage</div>
+                                    <div class="hint" id="hRemember">⚠️ Lagring anbefales ikke på delte maskiner</div>
                                 </div>
                                 <div>
                                     <label id="lStack" for="stack">Teknologi</label>
