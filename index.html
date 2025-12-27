@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
     <!-- Security: Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com http://localhost:1234; img-src 'self' data:; frame-src 'none';" />
+    <!-- Note: 'unsafe-inline' for styles is needed for dynamic styling. Scripts are external only. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src https://api.openai.com https://api.anthropic.com https://generativelanguage.googleapis.com http://localhost:1234; img-src 'self' data: blob:; frame-src blob:; object-src 'none'; base-uri 'self'; form-action 'self';" />
+
+    <!-- Additional security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     
     <title>VibeCoding Idea Builder</title>
     <meta name="description" content="Bruk AI til å generere startklare webprosjekter. Perfekt for lærere, studenter og alle som vil lære webutvikling på en praktisk måte." />
@@ -720,7 +725,11 @@
                     </details>
                     <details class="faq-item">
                         <summary id="faq6Q">Lagres API-nøkkelen min?</summary>
-                        <p id="faq6A">Nøkkelen lagres kun lokalt i nettleseren din (localStorage). Den sendes aldri til noen server utenom AI-leverandøren du har valgt.</p>
+                        <p id="faq6A">Nøkkelen sendes kun til AI-leverandøren du har valgt, aldri til våre servere. Hvis du velger "Lagre lokalt", lagres nøkkelen i nettleseren (localStorage) med enkel obfuskering. Merk: localStorage er ikke helt sikkert - browser-utvidelser og andre brukere på maskinen kan potensielt lese den. Vi anbefaler kun å lagre nøkkelen på din egen private maskin.</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary id="faq7Q">Er appen sikker å bruke?</summary>
+                        <p id="faq7A">Ja, appen kjører helt i nettleseren din uten backend. API-nøkkelen din sendes kun til AI-leverandøren via kryptert HTTPS-tilkobling. Forhåndsvisning av generert kode kjører i en sandkasse (iframe) som ikke kan påvirke hovedsiden. Vi anbefaler likevel å gjennomgå generert kode før du bruker den i produksjon.</p>
                     </details>
                 </div>
             </div>
