@@ -80,21 +80,37 @@ async function makeApiCall(endpoint, apiKey, model, systemPrompt, userPrompt, te
         return res;
     } else {
         // OpenAI-compatible format (OpenAI, Google, etc.)
+        const isOpenAI = endpoint.includes('openai.com');
+        // Reasoning models (o-series) don't support temperature
+        const isReasoningModel = /^o[134]/.test(model);
+
+        const requestBody = {
+            model,
+            messages: [
+                { role: 'system', content: systemPrompt },
+                { role: 'user', content: userPrompt }
+            ]
+        };
+
+        // Add temperature only for non-reasoning models
+        if (!isReasoningModel) {
+            requestBody.temperature = temperature;
+        }
+
+        // OpenAI uses max_completion_tokens, others use max_tokens
+        if (isOpenAI) {
+            requestBody.max_completion_tokens = maxTokens;
+        } else {
+            requestBody.max_tokens = maxTokens;
+        }
+
         const res = await fetch(endpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${apiKey}`
             },
-            body: JSON.stringify({
-                model,
-                temperature,
-                max_tokens: maxTokens,
-                messages: [
-                    { role: 'system', content: systemPrompt },
-                    { role: 'user', content: userPrompt }
-                ]
-            })
+            body: JSON.stringify(requestBody)
         });
         return res;
     }
