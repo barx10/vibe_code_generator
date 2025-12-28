@@ -381,5 +381,5 @@ Dette prosjektet er åpen kildekode og gratis å bruke til både personlige og k
 </p>
 
 <p align="center">
-  <img src="laererliv-logo.png" alt="Lærerliv" width="200">
+  <img src="laererliv-logo.png" alt="Lærerliv" width="200" style="border-radius: 20px;">
 </p>

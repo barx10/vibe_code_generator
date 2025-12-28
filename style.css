@@ -2519,6 +2519,7 @@ pre.empty {
     width: 140px;
     height: auto;
     opacity: 0.9;
+    border-radius: 20px;
 }
 
 .footer-logo-link:hover .footer-logo {

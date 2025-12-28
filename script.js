@@ -340,7 +340,36 @@ const i18n = {
         validationField3Label: 'Beskriv hovedfunksjonen',
         validationField3Hint: 'Fortell hva brukeren skal kunne gjøre med appen',
         validationField3Filled: 'Perfekt! Hovedfunksjonen er beskrevet',
-        validationModalBtn: 'Jeg forstår'
+        validationModalBtn: 'Jeg forstår',
+        // Help section
+        helpTitle: '🚀 Kom i gang på 5 minutter',
+        helpIntro: 'Vibe Code Generator bruker en enkel 3-stegs wizard som guider deg gjennom hele prosessen.',
+        helpStep1Title: '🔑 Steg 1: Koble til AI',
+        helpStep1Desc: 'Først velger du hvilken AI-leverandør du vil bruke og legger inn API-nøkkelen din:',
+        helpStep2Title: '✨ Steg 2: Bygg din prompt',
+        helpStep2Desc: 'Dette er hjertet av appen! En smart wizard guider deg gjennom 7 enkle spørsmål:',
+        helpStep3Title: '🎉 Steg 3: Generer og bruk',
+        helpStep3Desc: 'Når prompten er klar, trykker du "Generer app" og venter noen sekunder:',
+        useStep1Title: 'Generer',
+        useStep1Desc: 'Se live-forhåndsvisning mens koden genereres',
+        useStep2Title: 'Forhåndsvis',
+        useStep2Desc: 'Test appen direkte i nettleseren',
+        useStep3Title: 'Last ned',
+        useStep3Desc: 'Få en ferdig HTML-fil du kan åpne overalt',
+        // About section
+        aboutBrand: 'Vibe Code Idea Builder',
+        aboutTagline: 'Fra idé til fungerende app på sekunder',
+        aboutAppTitle: 'Hva kan du lage?',
+        aboutHowTitle: 'Slik fungerer det',
+        aboutFeaturesTitle: 'Kraftige funksjoner',
+        aboutContactTitle: 'Kontakt',
+        aboutEmailLabel: 'E-post',
+        aboutEmail: 'kenneth@laererliv.no',
+        aboutWebLabel: 'Nettside',
+        aboutWeb: 'laererliv.no',
+        aboutOpenSourceTitle: 'Åpen kildekode',
+        aboutOpenSourceDesc: 'Dette prosjektet er åpen kildekode. Du kan se, kopiere og bidra til koden på GitHub.',
+        aboutMadeWith: 'Laget med ❤️ for læring'
     },
     en: {
         heroBadge: '✨ AI-powered code generator',
@@ -492,7 +521,36 @@ const i18n = {
         validationField3Label: 'Describe the main function',
         validationField3Hint: 'Tell us what the user should be able to do with the app',
         validationField3Filled: 'Perfect! The main function is described',
-        validationModalBtn: 'Got it'
+        validationModalBtn: 'Got it',
+        // Help section
+        helpTitle: '🚀 Get started in 5 minutes',
+        helpIntro: 'Vibe Code Generator uses a simple 3-step wizard that guides you through the entire process.',
+        helpStep1Title: '🔑 Step 1: Connect to AI',
+        helpStep1Desc: 'First, choose which AI provider you want to use and enter your API key:',
+        helpStep2Title: '✨ Step 2: Build your prompt',
+        helpStep2Desc: 'This is the heart of the app! A smart wizard guides you through 7 simple questions:',
+        helpStep3Title: '🎉 Step 3: Generate and use',
+        helpStep3Desc: 'When the prompt is ready, click "Generate app" and wait a few seconds:',
+        useStep1Title: 'Generate',
+        useStep1Desc: 'See live preview while code is being generated',
+        useStep2Title: 'Preview',
+        useStep2Desc: 'Test the app directly in your browser',
+        useStep3Title: 'Download',
+        useStep3Desc: 'Get a ready HTML file you can open anywhere',
+        // About section
+        aboutBrand: 'Vibe Code Idea Builder',
+        aboutTagline: 'From idea to working app in seconds',
+        aboutAppTitle: 'What can you build?',
+        aboutHowTitle: 'How it works',
+        aboutFeaturesTitle: 'Powerful features',
+        aboutContactTitle: 'Contact',
+        aboutEmailLabel: 'Email',
+        aboutEmail: 'kenneth@laererliv.no',
+        aboutWebLabel: 'Website',
+        aboutWeb: 'laererliv.no',
+        aboutOpenSourceTitle: 'Open source',
+        aboutOpenSourceDesc: 'This project is open source. You can view, copy and contribute to the code on GitHub.',
+        aboutMadeWith: 'Made with ❤️ for learning'
     }
 };
 
@@ -2791,6 +2849,37 @@ function applyLang() {
     $('refineInput').placeholder = t.refinePlaceholder;
     $('btnRefine').querySelector('span').textContent = t.refineBtn;
     $('refineLoadingText').textContent = t.refineLoading;
+
+    // Help section
+    $('helpTitle').textContent = t.helpTitle;
+    document.querySelector('.help-intro').textContent = t.helpIntro;
+    $('helpStep1Title').textContent = t.helpStep1Title;
+    $('helpStep1Desc').textContent = t.helpStep1Desc;
+    $('helpStep2Title').textContent = t.helpStep2Title;
+    $('helpStep2Desc').textContent = t.helpStep2Desc;
+    $('helpStep3Title').textContent = t.helpStep3Title;
+    $('helpStep3Desc').textContent = t.helpStep3Desc;
+    $('useStep1Title').textContent = t.useStep1Title;
+    $('useStep1Desc').textContent = t.useStep1Desc;
+    $('useStep2Title').textContent = t.useStep2Title;
+    $('useStep2Desc').textContent = t.useStep2Desc;
+    $('useStep3Title').textContent = t.useStep3Title;
+    $('useStep3Desc').textContent = t.useStep3Desc;
+
+    // About section
+    $('aboutBrand').textContent = t.aboutBrand;
+    $('aboutTagline').textContent = t.aboutTagline;
+    $('aboutAppTitle').textContent = t.aboutAppTitle;
+    $('aboutHowTitle').textContent = t.aboutHowTitle;
+    $('aboutFeaturesTitle').textContent = t.aboutFeaturesTitle;
+    $('aboutContactTitle').textContent = t.aboutContactTitle;
+    $('aboutEmailLabel').textContent = t.aboutEmailLabel;
+    $('aboutEmail').textContent = t.aboutEmail;
+    $('aboutWebLabel').textContent = t.aboutWebLabel;
+    $('aboutWeb').textContent = t.aboutWeb;
+    $('aboutOpenSourceTitle').textContent = t.aboutOpenSourceTitle;
+    $('aboutOpenSourceDesc').textContent = t.aboutOpenSourceDesc;
+    $('aboutMadeWith').textContent = t.aboutMadeWith;
 
     setApiState();
 }
