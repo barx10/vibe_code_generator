@@ -346,6 +346,23 @@ const i18n = {
         helpIntro: 'Vibe Code Generator bruker en enkel 3-stegs wizard som guider deg gjennom hele prosessen.',
         helpStep1Title: '🔑 Steg 1: Koble til AI',
         helpStep1Desc: 'Først velger du hvilken AI-leverandør du vil bruke og legger inn API-nøkkelen din:',
+        helpGoogle: 'Google Gemini (Anbefalt for nybegynnere)',
+        helpGoogleStep1: 'Gå til <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>',
+        helpGoogleStep2: 'Logg inn med Google-kontoen din',
+        helpGoogleStep3: 'Klikk "Create API Key"',
+        helpGoogleStep4: 'Kopier nøkkelen (starter med AIza...)',
+        helpOpenAI: 'OpenAI (ChatGPT)',
+        helpOpenAIStep1: 'Gå til <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>',
+        helpOpenAIStep2: 'Opprett konto eller logg inn',
+        helpOpenAIStep3: 'Klikk "Create new secret key"',
+        helpOpenAIStep4: 'Kopier nøkkelen (starter med sk-...)',
+        helpAnthropic: 'Anthropic (Claude)',
+        helpAnthropicStep1: 'Gå til <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a>',
+        helpAnthropicStep2: 'Opprett konto eller logg inn',
+        helpAnthropicStep3: 'Klikk "Create Key"',
+        helpAnthropicStep4: 'Kopier nøkkelen (starter med sk-ant-...)',
+        helpProviderTipTitle: 'Tips:',
+        helpProviderTipDesc: 'Wizarden viser deg automatisk instruksjoner for leverandøren du velger, og validerer at nøkkelen har riktig format.',
         helpStep2Title: '✨ Steg 2: Bygg din prompt',
         helpStep2Desc: 'Dette er hjertet av appen! En smart wizard guider deg gjennom 7 enkle spørsmål:',
         helpStep2DescText: 'Dette er hjertet av appen! En smart wizard guider deg gjennom 7 enkle spørsmål:',
@@ -564,6 +581,23 @@ const i18n = {
         helpIntro: 'Vibe Code Generator uses a simple 3-step wizard that guides you through the entire process.',
         helpStep1Title: '🔑 Step 1: Connect to AI',
         helpStep1Desc: 'First, choose which AI provider you want to use and enter your API key:',
+        helpGoogle: 'Google Gemini (Recommended for beginners)',
+        helpGoogleStep1: 'Go to <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>',
+        helpGoogleStep2: 'Sign in with your Google account',
+        helpGoogleStep3: 'Click "Create API Key"',
+        helpGoogleStep4: 'Copy the key (starts with AIza...)',
+        helpOpenAI: 'OpenAI (ChatGPT)',
+        helpOpenAIStep1: 'Go to <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>',
+        helpOpenAIStep2: 'Create account or sign in',
+        helpOpenAIStep3: 'Click "Create new secret key"',
+        helpOpenAIStep4: 'Copy the key (starts with sk-...)',
+        helpAnthropic: 'Anthropic (Claude)',
+        helpAnthropicStep1: 'Go to <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a>',
+        helpAnthropicStep2: 'Create account or sign in',
+        helpAnthropicStep3: 'Click "Create Key"',
+        helpAnthropicStep4: 'Copy the key (starts with sk-ant-...)',
+        helpProviderTipTitle: 'Tip:',
+        helpProviderTipDesc: 'The wizard automatically shows you instructions for the provider you choose, and validates that the key has the correct format.',
         helpStep2Title: '✨ Step 2: Build your prompt',
         helpStep2Desc: 'This is the heart of the app! A smart wizard guides you through 7 simple questions:',
         helpStep2DescText: 'This is the heart of the app! A smart wizard guides you through 7 simple questions:',
@@ -2929,6 +2963,26 @@ function applyLang() {
     document.querySelector('.help-intro').textContent = t.helpIntro;
     $('helpStep1Title').textContent = t.helpStep1Title;
     $('helpStep1Desc').textContent = t.helpStep1Desc;
+    
+    // Provider instructions
+    $('helpGoogle').textContent = t.helpGoogle;
+    $('helpGoogleStep1').innerHTML = t.helpGoogleStep1;
+    $('helpGoogleStep2').textContent = t.helpGoogleStep2;
+    $('helpGoogleStep3').textContent = t.helpGoogleStep3;
+    $('helpGoogleStep4').textContent = t.helpGoogleStep4;
+    $('helpOpenAI').textContent = t.helpOpenAI;
+    $('helpOpenAIStep1').innerHTML = t.helpOpenAIStep1;
+    $('helpOpenAIStep2').textContent = t.helpOpenAIStep2;
+    $('helpOpenAIStep3').textContent = t.helpOpenAIStep3;
+    $('helpOpenAIStep4').textContent = t.helpOpenAIStep4;
+    $('helpAnthropic').textContent = t.helpAnthropic;
+    $('helpAnthropicStep1').innerHTML = t.helpAnthropicStep1;
+    $('helpAnthropicStep2').textContent = t.helpAnthropicStep2;
+    $('helpAnthropicStep3').textContent = t.helpAnthropicStep3;
+    $('helpAnthropicStep4').textContent = t.helpAnthropicStep4;
+    $('helpProviderTipTitle').textContent = t.helpProviderTipTitle;
+    $('helpProviderTipDesc').textContent = t.helpProviderTipDesc;
+    
     $('helpStep2Title').textContent = t.helpStep2Title;
     $('helpStep2Desc').textContent = t.helpStep2Desc;
     $('helpStep2DescText').textContent = t.helpStep2DescText;
