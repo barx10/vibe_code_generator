@@ -101,14 +101,16 @@
 
         <header>
             <div class="topbar-main">
-                <span class="pill lang-pill" id="langPill">
-                    <span class="lang-flag" id="langFlag">🇳🇴</span>
-                    <span class="mono" id="langCode">NO</span>
-                    <button id="toggleLang" type="button" class="lang-toggle-btn">
-                        <span id="toggleLangFlag">🇬🇧</span>
-                        <span id="toggleLangText">EN</span>
+                <div class="lang-toggle" id="langToggle">
+                    <button type="button" class="lang-btn active" data-lang="no">
+                        <span class="lang-flag">🇳🇴</span>
+                        <span class="lang-code">NO</span>
                     </button>
-                </span>
+                    <button type="button" class="lang-btn" data-lang="en">
+                        <span class="lang-flag">🇬🇧</span>
+                        <span class="lang-code">EN</span>
+                    </button>
+                </div>
                 <span class="pill">
                     <span class="mono">API</span>
                     <span id="apiState" class="status-badge error">ikke konfigurert</span>
@@ -468,7 +470,7 @@
                                 <span>AI forbedrer beskrivelsen din...</span>
                             </div>
                             <div class="ai-preview-result hidden" id="aiPreviewResult">
-                                <div class="ai-preview-label">🤖 AI-forbedret versjon:</div>
+                                <div class="ai-preview-label" id="aiPreviewLabel">🤖 AI-forbedret versjon:</div>
                                 <div class="ai-preview-content" id="aiPreviewContent"></div>
                                 <div class="ai-preview-actions">
                                     <button type="button" class="secondary small" id="aiDiscardBtn">Forkast</button>
