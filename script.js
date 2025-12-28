@@ -1239,8 +1239,8 @@ function openPreview() {
                             <span>👁️ ${state.uiLang === 'no' ? 'Forhåndsvisning' : 'Preview'}</span>
                             <button class="preview-btn-small" id="previewRefresh" title="${state.uiLang === 'no' ? 'Oppdater' : 'Refresh'}">🔄</button>
                         </div>
-                        <!-- Security: sandbox without allow-same-origin prevents access to parent window -->
-                        <iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts"></iframe>
+                        <!-- Sandbox with allow-same-origin for localStorage, allow-scripts for JS, allow-modals for alerts -->
+                        <iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts allow-same-origin allow-modals allow-forms allow-popups"></iframe>
                     </div>
                 </div>
                 <div class="preview-chat">
@@ -1279,19 +1279,11 @@ function openPreview() {
     // Set initial content
     editor.value = html;
 
-    // Function to update preview
+    // Function to update preview using srcdoc
     let updateTimeout = null;
     const updatePreview = () => {
         const content = editor.value;
-        const blob = new Blob([content], { type: 'text/html' });
-        const blobUrl = URL.createObjectURL(blob);
-
-        // Revoke old URL if exists
-        if (iframe.dataset.blobUrl) {
-            URL.revokeObjectURL(iframe.dataset.blobUrl);
-        }
-        iframe.dataset.blobUrl = blobUrl;
-        iframe.src = blobUrl;
+        iframe.srcdoc = content;
     };
 
     // Initial preview
@@ -1454,18 +1446,12 @@ IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
 
     // Close button
     overlay.querySelector('#previewClose').addEventListener('click', () => {
-        if (iframe.dataset.blobUrl) {
-            URL.revokeObjectURL(iframe.dataset.blobUrl);
-        }
         overlay.remove();
     });
 
     // Click outside to close
     overlay.addEventListener('click', (e) => {
         if (e.target === overlay) {
-            if (iframe.dataset.blobUrl) {
-                URL.revokeObjectURL(iframe.dataset.blobUrl);
-            }
             overlay.remove();
         }
     });
@@ -1508,9 +1494,6 @@ IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
     // Escape to close
     const escHandler = (e) => {
         if (e.key === 'Escape') {
-            if (iframe.dataset.blobUrl) {
-                URL.revokeObjectURL(iframe.dataset.blobUrl);
-            }
             overlay.remove();
             document.removeEventListener('keydown', escHandler);
         }
