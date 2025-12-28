@@ -595,6 +595,184 @@ function selectProvider(provider) {
 // PROMPT BUILDING
 // ============================================
 
+// Design-specific instructions for each style
+const designInstructions = {
+    'moderne': {
+        no: `- Glassmorphism effekter med backdrop-filter: blur(20px)
+- Semi-transparente kort med rgba(255,255,255,0.1) bakgrunn
+- Subtile gradient borders (1px solid rgba(255,255,255,0.2))
+- Soft box-shadows med blur og spread
+- Floating elements med subtle shadows
+- Minimalistiske ikoner (outline style)
+- Mye whitespace og luftig layout
+- Elegant typografi med thin/light font weights
+- Frosted glass effekt på navigasjon/modals
+- Subtle hover states med opacity endringer`,
+        en: `- Glassmorphism effects with backdrop-filter: blur(20px)
+- Semi-transparent cards with rgba(255,255,255,0.1) background
+- Subtle gradient borders (1px solid rgba(255,255,255,0.2))
+- Soft box-shadows with blur and spread
+- Floating elements with subtle shadows
+- Minimalistic icons (outline style)
+- Lots of whitespace and airy layout
+- Elegant typography with thin/light font weights
+- Frosted glass effect on navigation/modals
+- Subtle hover states with opacity changes`
+    },
+    'gamer': {
+        no: `- Neon glow effekter med box-shadow: 0 0 20px cyan/magenta
+- Cyberpunk fargeskjema: svart bakgrunn med cyan (#00ffff), magenta (#ff00ff), lime (#00ff00)
+- Animated neon borders som pulserer
+- Glitch-effekter på tekst (text-shadow med offset farger)
+- Scanline overlay effekt (repeating-linear-gradient)
+- Futuristiske fonter (monospace, tech-style)
+- HUD-inspirerte UI elementer
+- Flicker/blink animasjoner på neon elementer
+- RGB/rainbow gradient animasjoner
+- Terminal/console estetikk med grønn tekst
+- Intense hover effects med glow intensitet`,
+        en: `- Neon glow effects with box-shadow: 0 0 20px cyan/magenta
+- Cyberpunk color scheme: black background with cyan (#00ffff), magenta (#ff00ff), lime (#00ff00)
+- Animated neon borders that pulse
+- Glitch effects on text (text-shadow with offset colors)
+- Scanline overlay effect (repeating-linear-gradient)
+- Futuristic fonts (monospace, tech-style)
+- HUD-inspired UI elements
+- Flicker/blink animations on neon elements
+- RGB/rainbow gradient animations
+- Terminal/console aesthetic with green text
+- Intense hover effects with glow intensity`
+    },
+    'fargerik': {
+        no: `- Livlige, mettede farger: korall, turkis, gul, lilla
+- Lekne illustrasjoner og store emoji-ikoner
+- Bouncy animasjoner med cubic-bezier(0.68, -0.55, 0.265, 1.55)
+- Avrundede hjørner (border-radius: 20px+)
+- Confetti/particle effekter
+- Playful hover states (scale, rotate, wobble)
+- Gradient bakgrunner med flere farger
+- Blob/organic former som dekorasjon
+- Stor, bold typografi
+- Shadows med fargetone (ikke bare grå)
+- Wave/bølge animasjoner
+- Fun loading animasjoner (jumping dots, spinning shapes)`,
+        en: `- Vibrant, saturated colors: coral, turquoise, yellow, purple
+- Playful illustrations and large emoji icons
+- Bouncy animations with cubic-bezier(0.68, -0.55, 0.265, 1.55)
+- Rounded corners (border-radius: 20px+)
+- Confetti/particle effects
+- Playful hover states (scale, rotate, wobble)
+- Gradient backgrounds with multiple colors
+- Blob/organic shapes as decoration
+- Large, bold typography
+- Colored shadows (not just gray)
+- Wave animations
+- Fun loading animations (jumping dots, spinning shapes)`
+    },
+    'profesjonell': {
+        no: `- Nøytralt fargeskjema: hvit, grå, svart, én accent-farge
+- Mye whitespace og grid-basert layout
+- Subtile borders (1px solid #e5e7eb)
+- Ingen flashy animasjoner - kun fade og subtle transforms
+- Profesjonell typografi (Inter, Roboto, eller system fonts)
+- Flat design uten shadows eller minimal shadow
+- Tydelig visuelt hierarki
+- Ikoner fra professional icon sets (outline, consistent stroke)
+- Hover states med bakgrunnsfarge-endring
+- Data-tables med zebra striping
+- Form validation med inline feedback
+- Clean button styles uten gradients`,
+        en: `- Neutral color scheme: white, gray, black, one accent color
+- Lots of whitespace and grid-based layout
+- Subtle borders (1px solid #e5e7eb)
+- No flashy animations - only fade and subtle transforms
+- Professional typography (Inter, Roboto, or system fonts)
+- Flat design without shadows or minimal shadow
+- Clear visual hierarchy
+- Icons from professional icon sets (outline, consistent stroke)
+- Hover states with background color change
+- Data tables with zebra striping
+- Form validation with inline feedback
+- Clean button styles without gradients`
+    },
+    'dark': {
+        no: `- Rik, dyp svart bakgrunn (#0a0a0f eller #09090b)
+- Elegant lysgrå tekst (#e4e4e7) med god kontrast
+- Premium accent-farger: gull (#fbbf24), lilla (#a855f7), eller emerald (#10b981)
+- Subtle glow på interaktive elementer
+- Card backgrounds med #18181b eller rgba(24,24,27,0.8)
+- Elegant borders med rgba(255,255,255,0.1)
+- Sophisticated hover states med subtle brightness økning
+- Premium ikoner med glow effekt
+- Shadows som forsterker dybde (ikke for synlige)
+- Gradient accents som highlights
+- Smooth, elegant animasjoner (ease-out, longer duration)
+- Luksuriøs typografi med letter-spacing`,
+        en: `- Rich, deep black background (#0a0a0f or #09090b)
+- Elegant light gray text (#e4e4e7) with good contrast
+- Premium accent colors: gold (#fbbf24), purple (#a855f7), or emerald (#10b981)
+- Subtle glow on interactive elements
+- Card backgrounds with #18181b or rgba(24,24,27,0.8)
+- Elegant borders with rgba(255,255,255,0.1)
+- Sophisticated hover states with subtle brightness increase
+- Premium icons with glow effect
+- Shadows that enhance depth (not too visible)
+- Gradient accents as highlights
+- Smooth, elegant animations (ease-out, longer duration)
+- Luxurious typography with letter-spacing`
+    },
+    'gradient': {
+        no: `- Rike, levende gradient bakgrunner (mesh gradients, multi-color)
+- 3D transforms på kort (perspective, rotateX/Y)
+- Parallax scroll effekter
+- Gradient tekst med background-clip: text
+- Floating 3D objekter med animert rotation
+- Depth med layered shadows (multiple box-shadows)
+- Glassmorphism kombinert med gradients
+- Animated gradient borders (hue-rotate animation)
+- 3D buttons med push-down effekt
+- Isometric eller pseudo-3D elementer
+- Gradient mesh bakgrunner
+- Aurora/northern lights animasjoner
+- Morphing blob shapes i bakgrunnen`,
+        en: `- Rich, vibrant gradient backgrounds (mesh gradients, multi-color)
+- 3D transforms on cards (perspective, rotateX/Y)
+- Parallax scroll effects
+- Gradient text with background-clip: text
+- Floating 3D objects with animated rotation
+- Depth with layered shadows (multiple box-shadows)
+- Glassmorphism combined with gradients
+- Animated gradient borders (hue-rotate animation)
+- 3D buttons with push-down effect
+- Isometric or pseudo-3D elements
+- Gradient mesh backgrounds
+- Aurora/northern lights animations
+- Morphing blob shapes in background`
+    }
+};
+
+// Helper function to get design instructions based on style value
+function getDesignInstructions(styleValue, lang) {
+    const langKey = lang === 'no' ? 'no' : 'en';
+
+    if (styleValue.includes('Moderne') || styleValue.includes('Modern') || styleValue.includes('Glassmorphic')) {
+        return designInstructions.moderne[langKey];
+    } else if (styleValue.includes('Gamer') || styleValue.includes('Neon') || styleValue.includes('Cyberpunk')) {
+        return designInstructions.gamer[langKey];
+    } else if (styleValue.includes('Fargerik') || styleValue.includes('Colorful') || styleValue.includes('Leken') || styleValue.includes('Playful')) {
+        return designInstructions.fargerik[langKey];
+    } else if (styleValue.includes('Profesjonell') || styleValue.includes('Professional') || styleValue.includes('Minimalistisk')) {
+        return designInstructions.profesjonell[langKey];
+    } else if (styleValue.includes('Dark Mode')) {
+        return designInstructions.dark[langKey];
+    } else if (styleValue.includes('Gradient') || styleValue.includes('3D')) {
+        return designInstructions.gradient[langKey];
+    }
+
+    // Default to moderne
+    return designInstructions.moderne[langKey];
+}
+
 function buildUserPrompt() {
     const appType = $('promptAppType').value.trim();
     const audience = $('promptAudience').value.trim();
@@ -631,35 +809,27 @@ function buildUserPrompt() {
         prompt += interactions + '\n\n';
     }
 
+    // Get style-specific design instructions
+    const designDetails = getDesignInstructions(style, lang);
+
     prompt += lang === 'no' ? '🎨 DESIGN & UI/UX:\n' : '🎨 DESIGN & UI/UX:\n';
     prompt += `${style}\n`;
+    prompt += designDetails + '\n';
+
+    // Add common UI elements
     prompt += lang === 'no'
-        ? `- Glassmorphism effekter med backdrop-filter blur
-- Gradient borders og shadows
-- Smooth animasjoner (fade-in, slide, scale, etc)
+        ? `
+- Smooth animasjoner og transitions (0.3s ease)
 - Hover effekter på alle interaktive elementer
-- Micro-interactions (button press, loading states)
-- Animated gradient backgrounds
-- Card-based layout med shadows og hover lift
-- Smooth transitions mellom states (0.3s ease)
-- Loading skeletons/spinners
-- Progress bars/indicators
-- Toast notifications for feedback
-- Emoji/ikoner for visuell appeal
+- Loading states og feedback
+- Toast notifications for bruker-feedback
 
 `
-        : `- Glassmorphism effects with backdrop-filter blur
-- Gradient borders and shadows
-- Smooth animations (fade-in, slide, scale, etc)
+        : `
+- Smooth animations and transitions (0.3s ease)
 - Hover effects on all interactive elements
-- Micro-interactions (button press, loading states)
-- Animated gradient backgrounds
-- Card-based layout with shadows and hover lift
-- Smooth transitions between states (0.3s ease)
-- Loading skeletons/spinners
-- Progress bars/indicators
-- Toast notifications for feedback
-- Emoji/icons for visual appeal
+- Loading states and feedback
+- Toast notifications for user feedback
 
 `;
 
