@@ -256,20 +256,20 @@ const i18n = {
         refineLoading: 'AI forbedrer koden din...',
         // Provider instructions
         providerGoogleTitle: '🚀 Slik får du Google API-nøkkel:',
-        providerGoogleStep1: 'Gå til',
+        providerGoogleStep1: 'Gå til <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>',
         providerGoogleStep2: 'Logg inn med Google-kontoen din',
         providerGoogleStep3: 'Klikk "Create API Key"',
-        providerGoogleStep4: 'Kopier nøkkelen (starter med',
+        providerGoogleStep4: 'Kopier nøkkelen (starter med <code>AIza...</code>)',
         providerOpenAITitle: '🔐 Slik får du OpenAI API-nøkkel:',
-        providerOpenAIStep1: 'Gå til',
+        providerOpenAIStep1: 'Gå til <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>',
         providerOpenAIStep2: 'Opprett konto eller logg inn',
         providerOpenAIStep3: 'Klikk "Create new secret key"',
-        providerOpenAIStep4: 'Kopier nøkkelen (starter med',
+        providerOpenAIStep4: 'Kopier nøkkelen (starter med <code>sk-...</code>)',
         providerAnthropicTitle: '🟣 Slik får du Anthropic API-nøkkel:',
-        providerAnthropicStep1: 'Gå til',
+        providerAnthropicStep1: 'Gå til <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a>',
         providerAnthropicStep2: 'Opprett konto eller logg inn',
         providerAnthropicStep3: 'Klikk "Create Key"',
-        providerAnthropicStep4: 'Kopier nøkkelen (starter med',
+        providerAnthropicStep4: 'Kopier nøkkelen (starter med <code>sk-ant-...</code>)',
         // Labels and placeholders
         apiKeyLabel: 'API-nøkkel',
         apiKeyPlaceholder: 'Lim inn din API-nøkkel her...',
@@ -506,20 +506,20 @@ const i18n = {
         refineLoading: 'AI is refining your code...',
         // Provider instructions
         providerGoogleTitle: '🚀 How to get Google API key:',
-        providerGoogleStep1: 'Go to',
+        providerGoogleStep1: 'Go to <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>',
         providerGoogleStep2: 'Sign in with your Google account',
         providerGoogleStep3: 'Click "Create API Key"',
-        providerGoogleStep4: 'Copy the key (starts with',
+        providerGoogleStep4: 'Copy the key (starts with <code>AIza...</code>)',
         providerOpenAITitle: '🔐 How to get OpenAI API key:',
-        providerOpenAIStep1: 'Go to',
+        providerOpenAIStep1: 'Go to <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>',
         providerOpenAIStep2: 'Create account or sign in',
         providerOpenAIStep3: 'Click "Create new secret key"',
-        providerOpenAIStep4: 'Copy the key (starts with',
+        providerOpenAIStep4: 'Copy the key (starts with <code>sk-...</code>)',
         providerAnthropicTitle: '🟣 How to get Anthropic API key:',
-        providerAnthropicStep1: 'Go to',
+        providerAnthropicStep1: 'Go to <a href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a>',
         providerAnthropicStep2: 'Create account or sign in',
         providerAnthropicStep3: 'Click "Create Key"',
-        providerAnthropicStep4: 'Copy the key (starts with',
+        providerAnthropicStep4: 'Copy the key (starts with <code>sk-ant-...</code>)',
         // Labels and placeholders
         apiKeyLabel: 'API Key',
         apiKeyPlaceholder: 'Paste your API key here...',
@@ -2857,6 +2857,25 @@ function applyLang() {
     // Security section
     $('securityTitle').textContent = t.securityTitle;
     $('securityDesc').textContent = t.securityDesc;
+
+    // Provider instructions in Step 1
+    $('providerGoogleTitle').textContent = t.providerGoogleTitle;
+    $('providerGoogleStep1').innerHTML = t.providerGoogleStep1;
+    $('providerGoogleStep2').textContent = t.providerGoogleStep2;
+    $('providerGoogleStep3').textContent = t.providerGoogleStep3;
+    $('providerGoogleStep4').innerHTML = t.providerGoogleStep4;
+    
+    $('providerOpenAITitle').textContent = t.providerOpenAITitle;
+    $('providerOpenAIStep1').innerHTML = t.providerOpenAIStep1;
+    $('providerOpenAIStep2').textContent = t.providerOpenAIStep2;
+    $('providerOpenAIStep3').textContent = t.providerOpenAIStep3;
+    $('providerOpenAIStep4').innerHTML = t.providerOpenAIStep4;
+    
+    $('providerAnthropicTitle').textContent = t.providerAnthropicTitle;
+    $('providerAnthropicStep1').innerHTML = t.providerAnthropicStep1;
+    $('providerAnthropicStep2').textContent = t.providerAnthropicStep2;
+    $('providerAnthropicStep3').textContent = t.providerAnthropicStep3;
+    $('providerAnthropicStep4').innerHTML = t.providerAnthropicStep4;
 
     // Validation messages
     $('validationPendingText').textContent = t.validating;
