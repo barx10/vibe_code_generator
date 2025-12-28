@@ -348,8 +348,28 @@ const i18n = {
         helpStep1Desc: 'Først velger du hvilken AI-leverandør du vil bruke og legger inn API-nøkkelen din:',
         helpStep2Title: '✨ Steg 2: Bygg din prompt',
         helpStep2Desc: 'Dette er hjertet av appen! En smart wizard guider deg gjennom 7 enkle spørsmål:',
+        helpStep2DescText: 'Dette er hjertet av appen! En smart wizard guider deg gjennom 7 enkle spørsmål:',
         helpStep3Title: '🎉 Steg 3: Generer og bruk',
         helpStep3Desc: 'Når prompten er klar, trykker du "Generer app" og venter noen sekunder:',
+        helpStep3DescText: 'Når prompten er klar, trykker du "Generer app" og venter noen sekunder:',
+        helpTip1Title: 'Hva skal appen hete?',
+        helpTip1Desc: 'Gi appen din et navn som beskriver hva den gjør.',
+        helpTip2Title: 'Hva er hovedformålet?',
+        helpTip2Desc: 'Beskriv kort hva appen skal gjøre for brukeren.',
+        helpTip3Title: 'Hvem er målgruppen?',
+        helpTip3Desc: 'Tenk på hvem som skal bruke appen.',
+        helpTip4Title: 'Hvilke funksjoner trengs?',
+        helpTip4Desc: 'List opp de viktigste funksjonene appen skal ha.',
+        helpTip5Title: 'Spesielle ønsker?',
+        helpTip5Desc: 'Eventuelle ekstra detaljer eller krav.',
+        helpTip6Title: 'Velg designstil',
+        helpTip6Desc: 'Moderne, minimalistisk, leken, profesjonell eller mørk modus.',
+        helpTip7Title: 'Velg fargetema',
+        helpTip7Desc: 'Blå, grønn, lilla, oransje, rosa eller egendefinert.',
+        helpAiTitle: 'AI-forbedring (Premium-funksjon)',
+        helpAiDesc: 'Slå på "Forbedre med AI" for å la AI-en gjøre prompten din enda bedre før generering. Dette legger til profesjonelle detaljer og best practices automatisk!',
+        helpNotSatisfiedTitle: 'Ikke fornøyd?',
+        helpNotSatisfiedDesc: 'Klikk "Generer på nytt" for å få en ny versjon, eller gå tilbake og juster prompten din.',
         useStep1Title: 'Generer',
         useStep1Desc: 'Se live-forhåndsvisning mens koden genereres',
         useStep2Title: 'Forhåndsvis',
@@ -360,8 +380,25 @@ const i18n = {
         aboutBrand: 'Vibe Code Idea Builder',
         aboutTagline: 'Fra idé til fungerende app på sekunder',
         aboutAppTitle: 'Hva kan du lage?',
+        aboutFeature1Title: 'Spill og interaktive apper',
+        aboutFeature1Desc: 'Quiz, memory-spill, trivia, enkle arkadespill',
+        aboutFeature2Title: 'Verktøy og kalkulatorer',
+        aboutFeature2Desc: 'BMI-kalkulator, valutaomregner, to-do lister',
+        aboutFeature3Title: 'Kreative prosjekter',
+        aboutFeature3Desc: 'Portfolio-sider, landingssider, digitale kort',
+        aboutFeature4Title: 'Web-apper',
+        aboutFeature4Desc: 'Værapp, oppskriftsamling, treningsdagbok',
         aboutHowTitle: 'Slik fungerer det',
+        aboutHow1: '<strong>Koble til AI</strong> – Velg leverandør og legg inn API-nøkkel',
+        aboutHow2: '<strong>Beskriv idéen</strong> – Svar på spørsmål om appen din',
+        aboutHow3: '<strong>Generer</strong> – AI lager komplett, fungerende kode',
+        aboutHow4: '<strong>Last ned</strong> – Én HTML-fil som fungerer overalt',
         aboutFeaturesTitle: 'Kraftige funksjoner',
+        aboutFeatureAi: '🤖 <strong>AI-assistert prompt-forbedring</strong> – La AI-en gjøre beskrivelsen din enda bedre',
+        aboutFeatureWizard: '🎯 <strong>Smart wizard</strong> – Guidet prosess med forslag og tips',
+        aboutFeaturePreview: '👁️ <strong>Live forhåndsvisning</strong> – Se resultatet direkte i nettleseren',
+        aboutFeatureMulti: '📦 <strong>Multi-fil støtte</strong> – Last ned som ZIP ved komplekse prosjekter',
+        aboutFeaturePrivate: '🔒 <strong>100% privat</strong> – API-nøkkelen din forlater aldri nettleseren',
         aboutContactTitle: 'Kontakt',
         aboutEmailLabel: 'E-post',
         aboutEmail: 'kenneth@laererliv.no',
@@ -529,8 +566,28 @@ const i18n = {
         helpStep1Desc: 'First, choose which AI provider you want to use and enter your API key:',
         helpStep2Title: '✨ Step 2: Build your prompt',
         helpStep2Desc: 'This is the heart of the app! A smart wizard guides you through 7 simple questions:',
+        helpStep2DescText: 'This is the heart of the app! A smart wizard guides you through 7 simple questions:',
         helpStep3Title: '🎉 Step 3: Generate and use',
         helpStep3Desc: 'When the prompt is ready, click "Generate app" and wait a few seconds:',
+        helpStep3DescText: 'When the prompt is ready, click "Generate app" and wait a few seconds:',
+        helpTip1Title: 'What should the app be called?',
+        helpTip1Desc: 'Give your app a name that describes what it does.',
+        helpTip2Title: 'What is the main purpose?',
+        helpTip2Desc: 'Briefly describe what the app should do for the user.',
+        helpTip3Title: 'Who is the target audience?',
+        helpTip3Desc: 'Think about who will use the app.',
+        helpTip4Title: 'What features are needed?',
+        helpTip4Desc: 'List the most important features the app should have.',
+        helpTip5Title: 'Any special requests?',
+        helpTip5Desc: 'Any additional details or requirements.',
+        helpTip6Title: 'Choose design style',
+        helpTip6Desc: 'Modern, minimalist, playful, professional or dark mode.',
+        helpTip7Title: 'Choose color theme',
+        helpTip7Desc: 'Blue, green, purple, orange, pink or custom.',
+        helpAiTitle: 'AI improvement (Premium feature)',
+        helpAiDesc: 'Turn on "Improve with AI" to let the AI make your prompt even better before generation. This adds professional details and best practices automatically!',
+        helpNotSatisfiedTitle: 'Not satisfied?',
+        helpNotSatisfiedDesc: 'Click "Regenerate" to get a new version, or go back and adjust your prompt.',
         useStep1Title: 'Generate',
         useStep1Desc: 'See live preview while code is being generated',
         useStep2Title: 'Preview',
@@ -541,8 +598,25 @@ const i18n = {
         aboutBrand: 'Vibe Code Idea Builder',
         aboutTagline: 'From idea to working app in seconds',
         aboutAppTitle: 'What can you build?',
+        aboutFeature1Title: 'Games and interactive apps',
+        aboutFeature1Desc: 'Quiz, memory games, trivia, simple arcade games',
+        aboutFeature2Title: 'Tools and calculators',
+        aboutFeature2Desc: 'BMI calculator, currency converter, to-do lists',
+        aboutFeature3Title: 'Creative projects',
+        aboutFeature3Desc: 'Portfolio pages, landing pages, digital cards',
+        aboutFeature4Title: 'Web apps',
+        aboutFeature4Desc: 'Weather app, recipe collection, workout diary',
         aboutHowTitle: 'How it works',
+        aboutHow1: '<strong>Connect to AI</strong> – Choose provider and enter API key',
+        aboutHow2: '<strong>Describe idea</strong> – Answer questions about your app',
+        aboutHow3: '<strong>Generate</strong> – AI creates complete, working code',
+        aboutHow4: '<strong>Download</strong> – One HTML file that works everywhere',
         aboutFeaturesTitle: 'Powerful features',
+        aboutFeatureAi: '🤖 <strong>AI-assisted prompt improvement</strong> – Let AI make your description even better',
+        aboutFeatureWizard: '🎯 <strong>Smart wizard</strong> – Guided process with suggestions and tips',
+        aboutFeaturePreview: '👁️ <strong>Live preview</strong> – See the result directly in your browser',
+        aboutFeatureMulti: '📦 <strong>Multi-file support</strong> – Download as ZIP for complex projects',
+        aboutFeaturePrivate: '🔒 <strong>100% private</strong> – Your API key never leaves your browser',
         aboutContactTitle: 'Contact',
         aboutEmailLabel: 'Email',
         aboutEmail: 'kenneth@laererliv.no',
@@ -2857,8 +2931,31 @@ function applyLang() {
     $('helpStep1Desc').textContent = t.helpStep1Desc;
     $('helpStep2Title').textContent = t.helpStep2Title;
     $('helpStep2Desc').textContent = t.helpStep2Desc;
+    $('helpStep2DescText').textContent = t.helpStep2DescText;
     $('helpStep3Title').textContent = t.helpStep3Title;
     $('helpStep3Desc').textContent = t.helpStep3Desc;
+    $('helpStep3DescText').textContent = t.helpStep3DescText;
+    
+    // Help tips
+    $('helpTip1Title').textContent = t.helpTip1Title;
+    $('helpTip1Desc').textContent = t.helpTip1Desc;
+    $('helpTip2Title').textContent = t.helpTip2Title;
+    $('helpTip2Desc').textContent = t.helpTip2Desc;
+    $('helpTip3Title').textContent = t.helpTip3Title;
+    $('helpTip3Desc').textContent = t.helpTip3Desc;
+    $('helpTip4Title').textContent = t.helpTip4Title;
+    $('helpTip4Desc').textContent = t.helpTip4Desc;
+    $('helpTip5Title').textContent = t.helpTip5Title;
+    $('helpTip5Desc').textContent = t.helpTip5Desc;
+    $('helpTip6Title').textContent = t.helpTip6Title;
+    $('helpTip6Desc').textContent = t.helpTip6Desc;
+    $('helpTip7Title').textContent = t.helpTip7Title;
+    $('helpTip7Desc').textContent = t.helpTip7Desc;
+    $('helpAiTitle').textContent = t.helpAiTitle;
+    $('helpAiDesc').textContent = t.helpAiDesc;
+    $('helpNotSatisfiedTitle').textContent = t.helpNotSatisfiedTitle;
+    $('helpNotSatisfiedDesc').textContent = t.helpNotSatisfiedDesc;
+    
     $('useStep1Title').textContent = t.useStep1Title;
     $('useStep1Desc').textContent = t.useStep1Desc;
     $('useStep2Title').textContent = t.useStep2Title;
@@ -2870,8 +2967,30 @@ function applyLang() {
     $('aboutBrand').textContent = t.aboutBrand;
     $('aboutTagline').textContent = t.aboutTagline;
     $('aboutAppTitle').textContent = t.aboutAppTitle;
+    
+    // About feature items
+    $('aboutFeature1Title').textContent = t.aboutFeature1Title;
+    $('aboutFeature1Desc').textContent = t.aboutFeature1Desc;
+    $('aboutFeature2Title').textContent = t.aboutFeature2Title;
+    $('aboutFeature2Desc').textContent = t.aboutFeature2Desc;
+    $('aboutFeature3Title').textContent = t.aboutFeature3Title;
+    $('aboutFeature3Desc').textContent = t.aboutFeature3Desc;
+    $('aboutFeature4Title').textContent = t.aboutFeature4Title;
+    $('aboutFeature4Desc').textContent = t.aboutFeature4Desc;
+    
     $('aboutHowTitle').textContent = t.aboutHowTitle;
+    $('aboutHow1').innerHTML = t.aboutHow1;
+    $('aboutHow2').innerHTML = t.aboutHow2;
+    $('aboutHow3').innerHTML = t.aboutHow3;
+    $('aboutHow4').innerHTML = t.aboutHow4;
+    
     $('aboutFeaturesTitle').textContent = t.aboutFeaturesTitle;
+    $('aboutFeatureAi').innerHTML = t.aboutFeatureAi;
+    $('aboutFeatureWizard').innerHTML = t.aboutFeatureWizard;
+    $('aboutFeaturePreview').innerHTML = t.aboutFeaturePreview;
+    $('aboutFeatureMulti').innerHTML = t.aboutFeatureMulti;
+    $('aboutFeaturePrivate').innerHTML = t.aboutFeaturePrivate;
+    
     $('aboutContactTitle').textContent = t.aboutContactTitle;
     $('aboutEmailLabel').textContent = t.aboutEmailLabel;
     $('aboutEmail').textContent = t.aboutEmail;
