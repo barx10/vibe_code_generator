@@ -1593,51 +1593,231 @@ function showFiles() {
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
 }
 
+// ============================================
+// PROJECT FILE GENERATORS
+// ============================================
+
+function extractCssFromHtml(html) {
+    if (!html) return '';
+    const styleBlocks = [];
+    const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
+    let match;
+    while ((match = styleRegex.exec(html)) !== null) {
+        styleBlocks.push(match[1].trim());
+    }
+    return styleBlocks.join('\n\n');
+}
+
+function extractJsFromHtml(html) {
+    if (!html) return '';
+    const scriptBlocks = [];
+    const scriptRegex = /<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
+    let match;
+    while ((match = scriptRegex.exec(html)) !== null) {
+        const content = match[1].trim();
+        if (content) {
+            scriptBlocks.push(content);
+        }
+    }
+    return scriptBlocks.join('\n\n');
+}
+
+function generateCleanHtml(html, includeCssLink, includeJsLink) {
+    if (!html) return html;
+    let cleanHtml = html;
+
+    if (includeCssLink) {
+        cleanHtml = cleanHtml.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+        const linkTag = '<link rel="stylesheet" href="styles.css">';
+        if (cleanHtml.includes('</head>')) {
+            cleanHtml = cleanHtml.replace('</head>', `    ${linkTag}\n</head>`);
+        }
+    }
+
+    if (includeJsLink) {
+        cleanHtml = cleanHtml.replace(/<script(?![^>]*\bsrc=)[^>]*>[\s\S]*?<\/script>/gi, '');
+        const scriptTag = '<script src="script.js"></script>';
+        if (cleanHtml.includes('</body>')) {
+            cleanHtml = cleanHtml.replace('</body>', `    ${scriptTag}\n</body>`);
+        }
+    }
+
+    cleanHtml = cleanHtml.replace(/\n\s*\n\s*\n/g, '\n\n');
+    return cleanHtml;
+}
+
+function generateReadme() {
+    const projectName = $('projectName').value || 'Mitt Prosjekt';
+    const appType = $('promptAppType').value || '';
+    const audience = $('promptAudience').value || '';
+    const mainFeature = $('promptMainFeature').value || '';
+
+    let description = `Et webprosjekt generert med Vibe Code Generator.`;
+    if (appType) {
+        description = `${appType}`;
+        if (audience) description += ` for ${audience}`;
+        if (mainFeature) description += `. Hovedfunksjon: ${mainFeature}`;
+    }
+
+    return `# ${projectName}
+
+${description}
+
+## Kom i gang
+
+1. Åpne \`index.html\` i en nettleser
+2. Eller bruk en lokal server: \`npx serve\`
+
+## Prosjektstruktur
+
+\`\`\`
+${projectName.replace(/\s+/g, '-').toLowerCase()}/
+├── index.html      # Hovedside
+├── styles.css      # Stilark
+├── script.js       # JavaScript
+├── README.md       # Denne filen
+├── LICENSE         # Lisens
+└── assets/         # Bilder og ressurser
+\`\`\`
+
+## Teknologier
+
+- HTML5
+- CSS3
+- JavaScript (Vanilla)
+
+## Lisens
+
+MIT License - se [LICENSE](LICENSE) for detaljer.
+
+---
+*Generert med [Vibe Code Generator](https://github.com/barx10/vibe_code_generator)*
+`;
+}
+
+function generateGitignore() {
+    return `# Dependencies
+node_modules/
+bower_components/
+
+# Build output
+dist/
+build/
+.cache/
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+`;
+}
+
+function generateLicense() {
+    const year = new Date().getFullYear();
+    const projectName = $('projectName').value || 'Prosjektet';
+
+    return `MIT License
+
+Copyright (c) ${year} ${projectName}
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+`;
+}
+
+// Store selected project files for download
+state.projectFiles = {};
+
 function showProjectTips() {
+    const parsed = state.last.parsed;
+    const html = parsed?.index_html || '';
+
+    const extractedCss = extractCssFromHtml(html);
+    const extractedJs = extractJsFromHtml(html);
+
     const projectFiles = [
         {
+            id: 'styles',
             name: 'styles.css',
             icon: '🎨',
-            description: 'Separert CSS-fil for bedre vedlikehold og gjenbruk',
-            tip: 'Flytt alle <style>-blokker hit for ryddigere kode'
+            description: 'Separert CSS-fil for bedre vedlikehold',
+            canGenerate: !!extractedCss,
+            content: extractedCss,
+            previewLines: extractedCss ? extractedCss.split('\n').slice(0, 5).join('\n') + (extractedCss.split('\n').length > 5 ? '\n...' : '') : null
         },
         {
+            id: 'script',
             name: 'script.js',
             icon: '⚡',
             description: 'Separert JavaScript-fil for funksjonalitet',
-            tip: 'Flytt all <script>-kode hit for bedre struktur'
+            canGenerate: !!extractedJs,
+            content: extractedJs,
+            previewLines: extractedJs ? extractedJs.split('\n').slice(0, 5).join('\n') + (extractedJs.split('\n').length > 5 ? '\n...' : '') : null
         },
         {
-            name: 'assets/',
-            icon: '📁',
-            description: 'Mappe for bilder, ikoner og andre ressurser',
-            tip: 'Organiser bilder i undermapper som assets/images/'
-        },
-        {
-            name: 'favicon.ico',
-            icon: '⭐',
-            description: 'Ikon som vises i nettleserfanen',
-            tip: 'Bruk 32x32px eller 16x16px .ico eller .png'
-        },
-        {
+            id: 'readme',
             name: 'README.md',
             icon: '📖',
             description: 'Dokumentasjon om prosjektet ditt',
-            tip: 'Beskriv hva appen gjør og hvordan man kjører den'
+            canGenerate: true,
+            generator: generateReadme
         },
         {
+            id: 'gitignore',
             name: '.gitignore',
             icon: '🚫',
             description: 'Forteller Git hvilke filer som skal ignoreres',
-            tip: 'Legg til node_modules/, .env, .DS_Store osv.'
+            canGenerate: true,
+            generator: generateGitignore
         },
         {
+            id: 'license',
             name: 'LICENSE',
             icon: '📜',
-            description: 'Lisens for prosjektet (f.eks. MIT, Apache)',
-            tip: 'Velg MIT for åpen kildekode, eller proprietær'
+            description: 'MIT-lisens for prosjektet',
+            canGenerate: true,
+            generator: generateLicense
         }
     ];
+
+    // Reset project files state
+    state.projectFiles = {};
 
     const overlay = document.createElement('div');
     overlay.className = 'preview-overlay';
@@ -1650,7 +1830,7 @@ function showProjectTips() {
 
     const title = document.createElement('span');
     title.className = 'preview-title';
-    title.textContent = '💡 Anbefalte prosjektfiler';
+    title.textContent = '📦 Generer prosjektfiler';
 
     const closeBtn = document.createElement('button');
     closeBtn.className = 'preview-btn preview-close';
@@ -1662,46 +1842,130 @@ function showProjectTips() {
 
     const intro = document.createElement('p');
     intro.className = 'project-tips-intro';
-    intro.textContent = 'Når du utvikler prosjektet videre i din IDE, anbefaler vi å opprette disse filene for en profesjonell prosjektstruktur:';
+    intro.textContent = 'Velg hvilke filer du vil generere. CSS og JavaScript ekstraheres automatisk fra din kode:';
 
     const container = document.createElement('div');
     container.className = 'project-tips-container';
 
     projectFiles.forEach(file => {
         const item = document.createElement('div');
-        item.className = 'project-tip-item';
-        item.innerHTML = `
-            <div class="project-tip-header">
-                <span class="project-tip-icon">${file.icon}</span>
-                <span class="project-tip-name">${file.name}</span>
-            </div>
-            <p class="project-tip-desc">${file.description}</p>
-            <p class="project-tip-hint">💡 ${file.tip}</p>
+        item.className = 'project-tip-item' + (file.canGenerate ? ' can-generate' : ' cannot-generate');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = `project-file-${file.id}`;
+        checkbox.className = 'project-file-checkbox';
+        checkbox.disabled = !file.canGenerate;
+        checkbox.checked = file.canGenerate;
+
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                const content = file.content || (file.generator ? file.generator() : '');
+                state.projectFiles[file.id] = { name: file.name, content };
+                item.classList.add('selected');
+            } else {
+                delete state.projectFiles[file.id];
+                item.classList.remove('selected');
+            }
+            updateDownloadButton();
+        });
+
+        if (file.canGenerate) {
+            const content = file.content || (file.generator ? file.generator() : '');
+            state.projectFiles[file.id] = { name: file.name, content };
+            item.classList.add('selected');
+        }
+
+        const label = document.createElement('label');
+        label.htmlFor = `project-file-${file.id}`;
+        label.className = 'project-tip-label';
+
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'project-tip-header';
+        headerDiv.innerHTML = `
+            <span class="project-tip-icon">${file.icon}</span>
+            <span class="project-tip-name">${file.name}</span>
         `;
+
+        const desc = document.createElement('p');
+        desc.className = 'project-tip-desc';
+        desc.textContent = file.description;
+
+        label.appendChild(headerDiv);
+        label.appendChild(desc);
+
+        if (file.previewLines) {
+            const preview = document.createElement('pre');
+            preview.className = 'project-file-preview';
+            preview.textContent = file.previewLines;
+            label.appendChild(preview);
+        }
+
+        if (!file.canGenerate) {
+            const noContent = document.createElement('p');
+            noContent.className = 'project-tip-no-content';
+            noContent.textContent = '⚠️ Ingen innhold å ekstrahere';
+            label.appendChild(noContent);
+        }
+
+        item.appendChild(checkbox);
+        item.appendChild(label);
         container.appendChild(item);
     });
 
-    const structureExample = document.createElement('div');
-    structureExample.className = 'project-structure-example';
-    structureExample.innerHTML = `
-        <h4>📂 Eksempel på mappestruktur:</h4>
-        <pre class="structure-tree">mitt-prosjekt/
-├── index.html
-├── styles.css
-├── script.js
-├── favicon.ico
-├── README.md
-├── LICENSE
-├── .gitignore
-└── assets/
-    ├── images/
-    └── fonts/</pre>
-    `;
+    const actions = document.createElement('div');
+    actions.className = 'project-tips-actions';
+
+    const selectAllBtn = document.createElement('button');
+    selectAllBtn.className = 'project-tips-btn secondary';
+    selectAllBtn.textContent = 'Velg alle';
+    selectAllBtn.addEventListener('click', () => {
+        container.querySelectorAll('.project-file-checkbox:not(:disabled)').forEach(cb => {
+            if (!cb.checked) {
+                cb.checked = true;
+                cb.dispatchEvent(new Event('change'));
+            }
+        });
+    });
+
+    const deselectAllBtn = document.createElement('button');
+    deselectAllBtn.className = 'project-tips-btn secondary';
+    deselectAllBtn.textContent = 'Fjern alle';
+    deselectAllBtn.addEventListener('click', () => {
+        container.querySelectorAll('.project-file-checkbox').forEach(cb => {
+            if (cb.checked) {
+                cb.checked = false;
+                cb.dispatchEvent(new Event('change'));
+            }
+        });
+    });
+
+    const downloadBtn = document.createElement('button');
+    downloadBtn.className = 'project-tips-btn primary';
+    downloadBtn.id = 'downloadProjectFilesBtn';
+    downloadBtn.innerHTML = '📥 Last ned prosjekt (.zip)';
+    downloadBtn.addEventListener('click', async () => {
+        await downloadProjectWithFiles();
+        overlay.remove();
+    });
+
+    function updateDownloadButton() {
+        const count = Object.keys(state.projectFiles).length;
+        downloadBtn.disabled = count === 0;
+        downloadBtn.innerHTML = count > 0
+            ? `📥 Last ned prosjekt (${count + 1} filer)`
+            : '📥 Velg minst én fil';
+    }
+    updateDownloadButton();
+
+    actions.appendChild(selectAllBtn);
+    actions.appendChild(deselectAllBtn);
+    actions.appendChild(downloadBtn);
 
     modal.appendChild(header);
     modal.appendChild(intro);
     modal.appendChild(container);
-    modal.appendChild(structureExample);
+    modal.appendChild(actions);
     overlay.appendChild(modal);
 
     document.body.appendChild(overlay);
@@ -1716,6 +1980,65 @@ function showProjectTips() {
         }
     };
     document.addEventListener('keydown', escHandler);
+}
+
+async function downloadProjectWithFiles() {
+    const parsed = state.last.parsed;
+    if (!parsed) return;
+
+    const projectName = $('projectName').value || 'prosjekt';
+    const allFiles = [];
+
+    // Check if we should modify the HTML
+    const hasStyles = state.projectFiles.styles;
+    const hasScript = state.projectFiles.script;
+
+    if (parsed.index_html) {
+        let htmlContent = parsed.index_html;
+        if (hasStyles || hasScript) {
+            htmlContent = generateCleanHtml(htmlContent, !!hasStyles, !!hasScript);
+        }
+        allFiles.push({ path: 'index.html', content: htmlContent });
+    }
+
+    // Add selected project files
+    Object.values(state.projectFiles).forEach(file => {
+        allFiles.push({ path: file.name, content: file.content });
+    });
+
+    // Add any other generated files
+    if (parsed.files) {
+        parsed.files.forEach(f => {
+            if (!allFiles.some(af => af.path === f.path)) {
+                allFiles.push(f);
+            }
+        });
+    }
+
+    if (!window.JSZip) {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+        script.integrity = 'sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==';
+        script.crossOrigin = 'anonymous';
+        await new Promise((resolve, reject) => {
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+    const zip = new JSZip();
+    allFiles.forEach(f => zip.file(f.path, f.content));
+
+    const blob = await zip.generateAsync({ type: 'blob' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${projectName.replace(/\s+/g, '-')}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
 }
 
 async function downloadAllFiles() {

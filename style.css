@@ -1771,6 +1771,121 @@ pre.empty {
     overflow-x: auto;
 }
 
+/* Project Files Generator - Enhanced Styles */
+.project-tips-modal {
+    max-width: 750px;
+}
+
+.project-tip-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.project-tip-item.selected {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.project-tip-item.cannot-generate {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.project-file-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    accent-color: var(--primary);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.project-file-checkbox:disabled {
+    cursor: not-allowed;
+}
+
+.project-tip-label {
+    flex: 1;
+    cursor: pointer;
+}
+
+.project-tip-item.cannot-generate .project-tip-label {
+    cursor: not-allowed;
+}
+
+.project-file-preview {
+    margin: 8px 0 0 0;
+    padding: 8px 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--panel-border);
+    border-radius: var(--radius-sm);
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+    white-space: pre;
+    overflow-x: auto;
+    max-height: 80px;
+}
+
+.project-tip-no-content {
+    margin: 8px 0 0 0;
+    padding: 6px 10px;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    color: #f87171;
+}
+
+.project-tips-actions {
+    display: flex;
+    gap: 10px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--panel-border);
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.project-tips-btn {
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.project-tips-btn.primary {
+    background: var(--primary);
+    color: white;
+}
+
+.project-tips-btn.primary:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.project-tips-btn.primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.project-tips-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    border: 1px solid var(--panel-border);
+}
+
+.project-tips-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--text-muted);
+}
+
 /* ===================== TOOL CARDS GRID ===================== */
 .tool-grid {
     display: grid;
