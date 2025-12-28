@@ -1446,12 +1446,31 @@ pre.empty {
     flex-direction: column;
     border-top: 1px solid var(--panel-border);
     background: rgba(0, 0, 0, 0.3);
-    max-height: 200px;
-    transition: max-height 0.3s ease;
+    height: 350px;
+    min-height: 100px;
+    max-height: 60vh;
+    transition: height 0.3s ease;
+}
+
+.preview-chat-resizer {
+    height: 6px;
+    background: var(--panel-border);
+    cursor: row-resize;
+    transition: background 0.15s ease;
+    flex-shrink: 0;
+}
+
+.preview-chat-resizer:hover {
+    background: var(--primary);
 }
 
 .preview-chat.collapsed {
-    max-height: 40px;
+    height: 40px;
+    min-height: 40px;
+}
+
+.preview-chat.collapsed .preview-chat-resizer {
+    display: none;
 }
 
 .preview-chat.collapsed .preview-chat-messages,
