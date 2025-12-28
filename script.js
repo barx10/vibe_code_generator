@@ -387,6 +387,21 @@ const i18n = {
         helpAiDesc: 'Slå på "Forbedre med AI" for å la AI-en gjøre prompten din enda bedre før generering. Dette legger til profesjonelle detaljer og best practices automatisk!',
         helpNotSatisfiedTitle: 'Ikke fornøyd?',
         helpNotSatisfiedDesc: 'Klikk "Generer på nytt" for å få en ny versjon, eller gå tilbake og juster prompten din.',
+        helpFaqTitle: '❓ Ofte stilte spørsmål',
+        faq1Q: 'Hva er en API-nøkkel?',
+        faq1A: 'En API-nøkkel er som et passord som lar denne appen snakke med AI-tjenesten. Den er gratis å få, men hold den hemmelig!',
+        faq2Q: 'Koster det penger?',
+        faq2A: 'De fleste AI-leverandører har en gratis kvote. Google Gemini er helt gratis for hobbybruk. For OpenAI kan du få gratis kreditter ved oppstart.',
+        faq3Q: 'Hva gjør "Forbedre med AI"?',
+        faq3A: 'Denne funksjonen sender prompten din til AI-en først for å gjøre den mer detaljert og profesjonell. Du får se forbedringen før generering starter.',
+        faq4Q: 'Jeg får feilmelding - hva gjør jeg?',
+        faq4A: 'Sjekk at: 1) API-nøkkelen er riktig kopiert og har riktig format, 2) Du har valgt riktig leverandør, 3) Prøv å generere på nytt.',
+        faq5Q: 'Kan jeg redigere koden etterpå?',
+        faq5A: 'Ja! Åpne filen i et program som VS Code, Notepad++, eller til og med vanlig Notepad. Du kan endre tekst, farger og mer.',
+        faq6Q: 'Lagres API-nøkkelen min?',
+        faq6A: 'Nøkkelen sendes kun til AI-leverandøren du har valgt, aldri til våre servere. Hvis du velger "Lagre lokalt", lagres nøkkelen i nettleseren (localStorage) med enkel obfuskering. Merk: localStorage er ikke helt sikkert - browser-utvidelser og andre brukere på maskinen kan potensielt lese den. Vi anbefaler kun å lagre nøkkelen på din egen private maskin.',
+        faq7Q: 'Er appen sikker å bruke?',
+        faq7A: 'Ja, appen kjører helt i nettleseren din uten backend. API-nøkkelen din sendes kun til AI-leverandøren via kryptert HTTPS-tilkobling. Forhåndsvisning av generert kode kjører i en sandkasse (iframe) som ikke kan påvirke hovedsiden. Vi anbefaler likevel å gjennomgå generert kode før du bruker den i produksjon.',
         useStep1Title: 'Generer',
         useStep1Desc: 'Se live-forhåndsvisning mens koden genereres',
         useStep2Title: 'Forhåndsvis',
@@ -622,6 +637,21 @@ const i18n = {
         helpAiDesc: 'Turn on "Improve with AI" to let the AI make your prompt even better before generation. This adds professional details and best practices automatically!',
         helpNotSatisfiedTitle: 'Not satisfied?',
         helpNotSatisfiedDesc: 'Click "Regenerate" to get a new version, or go back and adjust your prompt.',
+        helpFaqTitle: '❓ Frequently Asked Questions',
+        faq1Q: 'What is an API key?',
+        faq1A: 'An API key is like a password that lets this app talk to the AI service. It\'s free to get, but keep it secret!',
+        faq2Q: 'Does it cost money?',
+        faq2A: 'Most AI providers have a free quota. Google Gemini is completely free for hobby use. For OpenAI, you can get free credits when signing up.',
+        faq3Q: 'What does "Improve with AI" do?',
+        faq3A: 'This feature sends your prompt to the AI first to make it more detailed and professional. You\'ll see the improvement before generation starts.',
+        faq4Q: 'I get an error message - what do I do?',
+        faq4A: 'Check that: 1) The API key is correctly copied and has the right format, 2) You have selected the correct provider, 3) Try generating again.',
+        faq5Q: 'Can I edit the code afterwards?',
+        faq5A: 'Yes! Open the file in a program like VS Code, Notepad++, or even regular Notepad. You can change text, colors and more.',
+        faq6Q: 'Is my API key stored?',
+        faq6A: 'The key is only sent to the AI provider you have chosen, never to our servers. If you choose "Save locally", the key is stored in your browser (localStorage) with simple obfuscation. Note: localStorage is not completely secure - browser extensions and other users on the machine can potentially read it. We recommend only saving the key on your own private machine.',
+        faq7Q: 'Is the app safe to use?',
+        faq7A: 'Yes, the app runs entirely in your browser without a backend. Your API key is only sent to the AI provider via encrypted HTTPS connection. Preview of generated code runs in a sandbox (iframe) that cannot affect the main page. We still recommend reviewing generated code before using it in production.',
         useStep1Title: 'Generate',
         useStep1Desc: 'See live preview while code is being generated',
         useStep2Title: 'Preview',
@@ -3009,6 +3039,23 @@ function applyLang() {
     $('helpAiDesc').textContent = t.helpAiDesc;
     $('helpNotSatisfiedTitle').textContent = t.helpNotSatisfiedTitle;
     $('helpNotSatisfiedDesc').textContent = t.helpNotSatisfiedDesc;
+    
+    // FAQ section
+    $('helpFaqTitle').textContent = t.helpFaqTitle;
+    $('faq1Q').textContent = t.faq1Q;
+    $('faq1A').textContent = t.faq1A;
+    $('faq2Q').textContent = t.faq2Q;
+    $('faq2A').textContent = t.faq2A;
+    $('faq3Q').textContent = t.faq3Q;
+    $('faq3A').textContent = t.faq3A;
+    $('faq4Q').textContent = t.faq4Q;
+    $('faq4A').textContent = t.faq4A;
+    $('faq5Q').textContent = t.faq5Q;
+    $('faq5A').textContent = t.faq5A;
+    $('faq6Q').textContent = t.faq6Q;
+    $('faq6A').textContent = t.faq6A;
+    $('faq7Q').textContent = t.faq7Q;
+    $('faq7A').textContent = t.faq7A;
     
     $('useStep1Title').textContent = t.useStep1Title;
     $('useStep1Desc').textContent = t.useStep1Desc;
