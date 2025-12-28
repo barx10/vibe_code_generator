@@ -433,6 +433,42 @@ header::after {
     transform: translateY(-1px);
 }
 
+/* Language Toggle */
+.lang-pill {
+    gap: 8px;
+}
+
+.lang-flag {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.lang-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    color: white;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.75rem;
+    font-family: var(--font-heading);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+}
+
+.lang-toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+}
+
+.lang-toggle-btn span:first-child {
+    font-size: 1rem;
+}
+
 .status-badge {
     font-weight: 600;
     letter-spacing: 0.03em;
