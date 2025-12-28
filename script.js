@@ -3014,10 +3014,8 @@ function applyLang() {
     $('helpProviderTipDesc').textContent = t.helpProviderTipDesc;
     
     $('helpStep2Title').textContent = t.helpStep2Title;
-    $('helpStep2Desc').textContent = t.helpStep2Desc;
     $('helpStep2DescText').textContent = t.helpStep2DescText;
     $('helpStep3Title').textContent = t.helpStep3Title;
-    $('helpStep3Desc').textContent = t.helpStep3Desc;
     $('helpStep3DescText').textContent = t.helpStep3DescText;
     
     // Help tips
