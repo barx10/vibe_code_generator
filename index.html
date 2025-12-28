@@ -101,9 +101,13 @@
 
         <header>
             <div class="topbar-main">
-                <span class="pill" id="langPill">
-                    <span class="mono">NO</span>
-                    <button id="toggleLang" type="button">Bytt</button>
+                <span class="pill lang-pill" id="langPill">
+                    <span class="lang-flag" id="langFlag">🇳🇴</span>
+                    <span class="mono" id="langCode">NO</span>
+                    <button id="toggleLang" type="button" class="lang-toggle-btn">
+                        <span id="toggleLangFlag">🇬🇧</span>
+                        <span id="toggleLangText">EN</span>
+                    </button>
                 </span>
                 <span class="pill">
                     <span class="mono">API</span>

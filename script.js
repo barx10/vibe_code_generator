@@ -2183,7 +2183,13 @@ function applyLang() {
     $('heroFeature2').textContent = t.heroFeature2;
     $('heroFeature3').textContent = t.heroFeature3;
 
-    $('toggleLang').textContent = t.toggle;
+    // Language toggle with flags
+    const isNorwegian = state.uiLang === 'no';
+    $('langFlag').textContent = isNorwegian ? '🇳🇴' : '🇬🇧';
+    $('langCode').textContent = state.uiLang.toUpperCase();
+    $('toggleLangFlag').textContent = isNorwegian ? '🇬🇧' : '🇳🇴';
+    $('toggleLangText').textContent = isNorwegian ? 'EN' : 'NO';
+
     $('tabGen').textContent = t.generator;
     $('tabHelp').textContent = t.help;
     $('tabAbout').textContent = t.about;
@@ -2228,8 +2234,6 @@ function applyLang() {
     $('refineInput').placeholder = t.refinePlaceholder;
     $('btnRefine').querySelector('span').textContent = t.refineBtn;
     $('refineLoadingText').textContent = t.refineLoading;
-
-    $('langPill').querySelector('.mono').textContent = state.uiLang.toUpperCase();
 
     setApiState();
 }
