@@ -330,7 +330,17 @@ const i18n = {
         aiApply: '✅ Bruk denne',
         // Progress
         progressStarting: 'Starter...',
-        promptTip: '💡 <strong>Tips:</strong> Beskriv steg-for-steg hva brukeren skal kunne gjøre. Vær så detaljert som mulig!'
+        promptTip: '💡 <strong>Tips:</strong> Beskriv steg-for-steg hva brukeren skal kunne gjøre. Vær så detaljert som mulig!',
+        // Validation modal
+        validationModalTitle: 'Nesten der!',
+        validationModalSubtitle: 'Fyll ut de påkrevde feltene for å fortsette',
+        validationField1Label: 'Hva slags app vil du lage?',
+        validationField1Hint: 'Gi appen et navn, f.eks. "Quiz-spill", "Todo-liste" eller "Budsjett-sporer"',
+        validationField1Filled: 'Flott! Du har beskrevet app-typen',
+        validationField3Label: 'Beskriv hovedfunksjonen',
+        validationField3Hint: 'Fortell hva brukeren skal kunne gjøre med appen',
+        validationField3Filled: 'Perfekt! Hovedfunksjonen er beskrevet',
+        validationModalBtn: 'Jeg forstår'
     },
     en: {
         heroBadge: '✨ AI-powered code generator',
@@ -472,7 +482,17 @@ const i18n = {
         aiApply: '✅ Use this',
         // Progress
         progressStarting: 'Starting...',
-        promptTip: '💡 <strong>Tip:</strong> Describe step-by-step what the user should be able to do. Be as detailed as possible!'
+        promptTip: '💡 <strong>Tip:</strong> Describe step-by-step what the user should be able to do. Be as detailed as possible!',
+        // Validation modal
+        validationModalTitle: 'Almost there!',
+        validationModalSubtitle: 'Fill in the required fields to continue',
+        validationField1Label: 'What kind of app do you want to create?',
+        validationField1Hint: 'Give the app a name, e.g. "Quiz game", "Todo list" or "Budget tracker"',
+        validationField1Filled: 'Great! You\'ve described the app type',
+        validationField3Label: 'Describe the main function',
+        validationField3Hint: 'Tell us what the user should be able to do with the app',
+        validationField3Filled: 'Perfect! The main function is described',
+        validationModalBtn: 'Got it'
     }
 };
 
@@ -542,7 +562,14 @@ function validateStep2() {
     const mainFeature = $('promptMainFeature').value.trim();
 
     const isValid = appType.length > 0 && mainFeature.length > 0;
-    $('step2NextBtn').disabled = !isValid;
+
+    // Update button visual state (but keep it enabled for modal trigger)
+    const btn = $('step2NextBtn');
+    if (isValid) {
+        btn.classList.remove('btn-needs-input');
+    } else {
+        btn.classList.add('btn-needs-input');
+    }
 
     // Update prompt preview
     updatePromptPreview();
@@ -556,6 +583,100 @@ function showValidation(type) {
         const el = $(`validation${t}`);
         if (el) el.classList.toggle('hidden', t.toLowerCase() !== type);
     });
+}
+
+// ============================================
+// VALIDATION MODAL
+// ============================================
+
+function showValidationModal() {
+    const t = i18n[state.uiLang];
+    const appType = $('promptAppType').value.trim();
+    const mainFeature = $('promptMainFeature').value.trim();
+
+    const field1Filled = appType.length > 0;
+    const field3Filled = mainFeature.length > 0;
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'validation-modal-overlay';
+
+    overlay.innerHTML = `
+        <div class="validation-modal">
+            <div class="validation-modal-header">
+                <div class="validation-modal-icon">📝</div>
+                <div>
+                    <h3>${t.validationModalTitle}</h3>
+                    <p>${t.validationModalSubtitle}</p>
+                </div>
+            </div>
+            <div class="validation-modal-body">
+                <div class="validation-field-list">
+                    <div class="validation-field-item ${field1Filled ? 'filled' : 'missing'}">
+                        <div class="validation-field-icon">${field1Filled ? '✓' : '!'}</div>
+                        <div class="validation-field-content">
+                            <div class="validation-field-label">
+                                <span class="field-number">1</span>
+                                ${t.validationField1Label}
+                            </div>
+                            <div class="validation-field-hint">
+                                ${field1Filled ? t.validationField1Filled : t.validationField1Hint}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="validation-field-item ${field3Filled ? 'filled' : 'missing'}">
+                        <div class="validation-field-icon">${field3Filled ? '✓' : '!'}</div>
+                        <div class="validation-field-content">
+                            <div class="validation-field-label">
+                                <span class="field-number">3</span>
+                                ${t.validationField3Label}
+                            </div>
+                            <div class="validation-field-hint">
+                                ${field3Filled ? t.validationField3Filled : t.validationField3Hint}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="validation-modal-footer">
+                <button class="validation-modal-btn" id="validationModalCloseBtn">
+                    ${t.validationModalBtn}
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Focus on the first missing field when modal closes
+    const closeModal = () => {
+        overlay.remove();
+        // Focus on first missing field
+        if (!field1Filled) {
+            $('promptAppType').focus();
+            $('promptAppType').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (!field3Filled) {
+            $('promptMainFeature').focus();
+            $('promptMainFeature').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    };
+
+    // Close button handler
+    overlay.querySelector('#validationModalCloseBtn').addEventListener('click', closeModal);
+
+    // Click outside to close
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeModal();
+    });
+
+    // Escape key to close
+    const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+            closeModal();
+            document.removeEventListener('keydown', handleEscape);
+        }
+    };
+    document.addEventListener('keydown', handleEscape);
 }
 
 // ============================================
@@ -2796,6 +2917,20 @@ function initEventListeners() {
 
     // Step 2 Next (Generate) button
     $('step2NextBtn').addEventListener('click', async () => {
+        const appType = $('promptAppType').value.trim();
+        const mainFeature = $('promptMainFeature').value.trim();
+        const isValid = appType.length > 0 && mainFeature.length > 0;
+
+        if (!isValid) {
+            // Show validation modal
+            showValidationModal();
+            // Add shake animation to button
+            const btn = $('step2NextBtn');
+            btn.classList.add('shake');
+            setTimeout(() => btn.classList.remove('shake'), 500);
+            return;
+        }
+
         updatePromptPreview();
         goToStep(3);
         await callModel();
