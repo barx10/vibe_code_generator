@@ -734,12 +734,7 @@ function showProgress(show) {
 }
 
 function updateProgress(percent, text) {
-    $('progressFill').style.width = percent + '%';
     $('progressText').textContent = text;
-
-    const icons = ['⚡', '🔗', '📤', '🧠', '📥', '🔧', '✅'];
-    const iconIndex = Math.min(Math.floor(percent / 15), icons.length - 1);
-    $('progressIcon').textContent = icons[iconIndex];
 }
 
 function setApiState() {
@@ -1331,10 +1326,10 @@ function openPreview() {
         addMessage(message, 'user');
         chatInput.value = '';
 
-        // Show loading
+        // Show loading spinner
         chatSendBtn.disabled = true;
         const sendIcon = overlay.querySelector('#chatSendIcon');
-        sendIcon.textContent = '⏳';
+        sendIcon.innerHTML = '<span class="chat-spinner"></span>';
 
         const currentCode = editor.value;
 
@@ -1402,7 +1397,7 @@ IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
             addMessage(state.uiLang === 'no' ? '❌ Feil: ' + e.message : '❌ Error: ' + e.message, 'system');
         } finally {
             chatSendBtn.disabled = false;
-            sendIcon.textContent = '➤';
+            sendIcon.innerHTML = '➤';
         }
     };
 
