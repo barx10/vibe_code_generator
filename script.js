@@ -98,26 +98,21 @@ const providerConfig = {
     }
 };
 
-const modelConfig = {
-    // OpenAI
-    'gpt-4.1': 'https://api.openai.com/v1/chat/completions',
-    'gpt-5-mini': 'https://api.openai.com/v1/chat/completions',
-    'gpt-5.2': 'https://api.openai.com/v1/chat/completions',
-    'gpt-5.2-pro': 'https://api.openai.com/v1/chat/completions',
-    'gpt-5-nano': 'https://api.openai.com/v1/chat/completions',
-    // Anthropic (Claude) - direkte
-    'claude-sonnet-4-5-20250514': 'https://api.anthropic.com/v1/messages',
-    'claude-opus-4-5-20250514': 'https://api.anthropic.com/v1/messages',
-    'claude-haiku-4-5-20251001': 'https://api.anthropic.com/v1/messages',
-    // Google Gemini
-    'gemini-2.5-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-2.5-pro': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-2.0-flash': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-3-flash-preview': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    'gemini-3-pro-preview': 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    // Local
-    'local-model': 'http://localhost:1234/v1/chat/completions'
-};
+// Helper: Get endpoint for a model (derives from provider config to avoid duplication)
+function getEndpointForModel(model) {
+    // Check each provider's models
+    for (const [provider, config] of Object.entries(providerConfig)) {
+        if (config.models.includes(model)) {
+            return config.endpoint;
+        }
+    }
+    // Special case: local model
+    if (model === 'local-model') {
+        return 'http://localhost:1234/v1/chat/completions';
+    }
+    // Fallback to current endpoint field value
+    return $('endpoint').value;
+}
 
 // Helper: Detect if using Anthropic API
 function isAnthropicEndpoint(endpoint) {
@@ -364,20 +359,20 @@ function validateStep1() {
     if (!apiKey) {
         state.apiValidated = false;
         $('step1NextBtn').disabled = true;
-        hideAllValidation();
+        showValidation(null);
         return;
     }
 
     // Check prefix
     if (config.prefix && !apiKey.startsWith(config.prefix)) {
-        showValidationError();
+        showValidation('error');
         state.apiValidated = false;
         $('step1NextBtn').disabled = true;
         return;
     }
 
     // Show success (we'll do real validation on generate)
-    showValidationSuccess();
+    showValidation('success');
     state.apiValidated = true;
     $('step1NextBtn').disabled = false;
 }
@@ -393,25 +388,14 @@ function validateStep2() {
     updatePromptPreview();
 }
 
-function hideAllValidation() {
-    $('validationPending').classList.add('hidden');
-    $('validationSuccess').classList.add('hidden');
-    $('validationError').classList.add('hidden');
-}
-
-function showValidationPending() {
-    hideAllValidation();
-    $('validationPending').classList.remove('hidden');
-}
-
-function showValidationSuccess() {
-    hideAllValidation();
-    $('validationSuccess').classList.remove('hidden');
-}
-
-function showValidationError() {
-    hideAllValidation();
-    $('validationError').classList.remove('hidden');
+// Consolidated validation display function
+// type: 'pending' | 'success' | 'error' | null (null hides all)
+function showValidation(type) {
+    const types = ['Pending', 'Success', 'Error'];
+    types.forEach(t => {
+        const el = $(`validation${t}`);
+        if (el) el.classList.toggle('hidden', t.toLowerCase() !== type);
+    });
 }
 
 // ============================================
@@ -733,7 +717,9 @@ function showProgress(show) {
     }
 }
 
-function updateProgress(percent, text) {
+// Note: percent parameter kept for backwards compatibility but unused
+// (progress bar was replaced with spinner)
+function updateProgress(_percent, text) {
     $('progressText').textContent = text;
 }
 
@@ -1202,57 +1188,53 @@ function downloadIndex() {
     URL.revokeObjectURL(url);
 }
 
-function openPreview() {
-    const parsed = state.last.parsed;
-    const html = (parsed && parsed.index_html) ? parsed.index_html : ($('output').textContent || '');
-    const t = i18n[state.uiLang];
+// ============================================
+// PREVIEW MODAL - Helper Functions
+// ============================================
 
-    const overlay = document.createElement('div');
-    overlay.className = 'preview-overlay';
-    overlay.innerHTML = `
+function createPreviewModalHTML() {
+    const isNo = state.uiLang === 'no';
+    return `
         <div class="preview-modal preview-modal-editor">
             <div class="preview-header">
-                <span class="preview-title">✨ ${state.uiLang === 'no' ? 'Rediger & Forhåndsvis' : 'Edit & Preview'}</span>
+                <span class="preview-title">✨ ${isNo ? 'Rediger & Forhåndsvis' : 'Edit & Preview'}</span>
                 <div class="preview-actions">
-                    <button class="preview-btn preview-btn-save" id="previewSave" title="${state.uiLang === 'no' ? 'Lagre endringer' : 'Save changes'}">💾 ${state.uiLang === 'no' ? 'Lagre' : 'Save'}</button>
-                    <button class="preview-btn" id="previewNewTab" title="${state.uiLang === 'no' ? 'Åpne i ny fane' : 'Open in new tab'}">↗</button>
-                    <button class="preview-btn preview-close" id="previewClose" title="${state.uiLang === 'no' ? 'Lukk' : 'Close'}">✕</button>
+                    <button class="preview-btn preview-btn-save" id="previewSave" title="${isNo ? 'Lagre endringer' : 'Save changes'}">💾 ${isNo ? 'Lagre' : 'Save'}</button>
+                    <button class="preview-btn" id="previewNewTab" title="${isNo ? 'Åpne i ny fane' : 'Open in new tab'}">↗</button>
+                    <button class="preview-btn preview-close" id="previewClose" title="${isNo ? 'Lukk' : 'Close'}">✕</button>
                 </div>
             </div>
             <div class="preview-main">
                 <div class="preview-split">
                     <div class="preview-editor-pane">
                         <div class="preview-pane-header">
-                            <span>📝 ${state.uiLang === 'no' ? 'Kode' : 'Code'}</span>
-                            <span class="editor-hint">${state.uiLang === 'no' ? 'Endringer oppdateres live' : 'Changes update live'}</span>
+                            <span>📝 ${isNo ? 'Kode' : 'Code'}</span>
+                            <span class="editor-hint">${isNo ? 'Endringer oppdateres live' : 'Changes update live'}</span>
                         </div>
                         <textarea class="preview-editor" id="previewEditor" spellcheck="false"></textarea>
                     </div>
                     <div class="preview-divider" id="previewDivider"></div>
                     <div class="preview-iframe-pane">
                         <div class="preview-pane-header">
-                            <span>👁️ ${state.uiLang === 'no' ? 'Forhåndsvisning' : 'Preview'}</span>
-                            <button class="preview-btn-small" id="previewRefresh" title="${state.uiLang === 'no' ? 'Oppdater' : 'Refresh'}">🔄</button>
+                            <span>👁️ ${isNo ? 'Forhåndsvisning' : 'Preview'}</span>
+                            <button class="preview-btn-small" id="previewRefresh" title="${isNo ? 'Oppdater' : 'Refresh'}">🔄</button>
                         </div>
-                        <!-- Sandbox with allow-same-origin for localStorage, allow-scripts for JS, allow-modals for alerts -->
                         <iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts allow-same-origin allow-modals allow-forms allow-popups"></iframe>
                     </div>
                 </div>
                 <div class="preview-chat">
                     <div class="preview-chat-header">
-                        <span>🤖 ${state.uiLang === 'no' ? 'AI Assistent' : 'AI Assistant'}</span>
-                        <button class="preview-btn-small" id="chatToggle" title="${state.uiLang === 'no' ? 'Vis/skjul chat' : 'Show/hide chat'}">▼</button>
+                        <span>🤖 ${isNo ? 'AI Assistent' : 'AI Assistant'}</span>
+                        <button class="preview-btn-small" id="chatToggle" title="${isNo ? 'Vis/skjul chat' : 'Show/hide chat'}">▼</button>
                     </div>
                     <div class="preview-chat-messages" id="chatMessages">
                         <div class="chat-message chat-message-system">
-                            ${state.uiLang === 'no'
-                                ? '👋 Hei! Beskriv endringene du ønsker, så oppdaterer jeg koden for deg.'
-                                : '👋 Hi! Describe the changes you want, and I\'ll update the code for you.'}
+                            ${isNo ? '👋 Hei! Beskriv endringene du ønsker, så oppdaterer jeg koden for deg.' : '👋 Hi! Describe the changes you want, and I\'ll update the code for you.'}
                         </div>
                     </div>
                     <div class="preview-chat-input">
-                        <input type="text" id="chatInput" placeholder="${state.uiLang === 'no' ? 'Skriv hva du vil endre...' : 'Describe what you want to change...'}" />
-                        <button class="chat-send-btn" id="chatSend" title="${state.uiLang === 'no' ? 'Send' : 'Send'}">
+                        <input type="text" id="chatInput" placeholder="${isNo ? 'Skriv hva du vil endre...' : 'Describe what you want to change...'}" />
+                        <button class="chat-send-btn" id="chatSend" title="${isNo ? 'Send' : 'Send'}">
                             <span id="chatSendIcon">➤</span>
                         </button>
                     </div>
@@ -1260,46 +1242,43 @@ function openPreview() {
             </div>
         </div>
     `;
+}
 
-    document.body.appendChild(overlay);
-
+function setupPreviewEditor(overlay, html) {
     const editor = overlay.querySelector('#previewEditor');
     const iframe = overlay.querySelector('#previewIframe');
-    const chatMessages = overlay.querySelector('#chatMessages');
-    const chatInput = overlay.querySelector('#chatInput');
-    const chatSendBtn = overlay.querySelector('#chatSend');
-    const chatToggle = overlay.querySelector('#chatToggle');
-    const chatPanel = overlay.querySelector('.preview-chat');
-
-    // Set initial content
-    editor.value = html;
-
-    // Function to update preview using srcdoc
     let updateTimeout = null;
+
     const updatePreview = () => {
-        const content = editor.value;
-        iframe.srcdoc = content;
+        iframe.srcdoc = editor.value;
     };
 
-    // Initial preview
+    editor.value = html;
     updatePreview();
 
-    // Live update on input (debounced)
     editor.addEventListener('input', () => {
         clearTimeout(updateTimeout);
         updateTimeout = setTimeout(updatePreview, 300);
     });
 
-    // Manual refresh button
     overlay.querySelector('#previewRefresh').addEventListener('click', updatePreview);
 
-    // Chat toggle
+    return { editor, updatePreview };
+}
+
+function setupPreviewChat(overlay, editor, updatePreview) {
+    const chatMessages = overlay.querySelector('#chatMessages');
+    const chatInput = overlay.querySelector('#chatInput');
+    const chatSendBtn = overlay.querySelector('#chatSend');
+    const chatToggle = overlay.querySelector('#chatToggle');
+    const chatPanel = overlay.querySelector('.preview-chat');
+    const isNo = state.uiLang === 'no';
+
     chatToggle.addEventListener('click', () => {
         chatPanel.classList.toggle('collapsed');
         chatToggle.textContent = chatPanel.classList.contains('collapsed') ? '▲' : '▼';
     });
 
-    // Add message to chat
     const addMessage = (text, type) => {
         const msg = document.createElement('div');
         msg.className = `chat-message chat-message-${type}`;
@@ -1308,7 +1287,6 @@ function openPreview() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     };
 
-    // AI Chat functionality
     const sendChatMessage = async () => {
         const message = chatInput.value.trim();
         if (!message) return;
@@ -1318,22 +1296,18 @@ function openPreview() {
         const model = $('model').value.trim();
 
         if (!apiKey) {
-            addMessage(state.uiLang === 'no' ? '❌ Du må legge inn API-nøkkel først' : '❌ Please enter API key first', 'system');
+            addMessage(isNo ? '❌ Du må legge inn API-nøkkel først' : '❌ Please enter API key first', 'system');
             return;
         }
 
-        // Add user message
         addMessage(message, 'user');
         chatInput.value = '';
-
-        // Show loading spinner
         chatSendBtn.disabled = true;
+
         const sendIcon = overlay.querySelector('#chatSendIcon');
         sendIcon.innerHTML = '<span class="chat-spinner"></span>';
 
-        const currentCode = editor.value;
-
-        const systemPrompt = state.uiLang === 'no'
+        const systemPrompt = isNo
             ? `Du er en ekspert webutvikler som hjelper brukeren med å forbedre koden deres.
 Din oppgave er å implementere endringene brukeren ber om.
 
@@ -1355,15 +1329,15 @@ RULES:
 
 IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
 
-        const userPrompt = state.uiLang === 'no'
-            ? `Her er koden:\n\n${currentCode}\n\nEndring: ${message}`
-            : `Here is the code:\n\n${currentCode}\n\nChange: ${message}`;
+        const userPrompt = isNo
+            ? `Her er koden:\n\n${editor.value}\n\nEndring: ${message}`
+            : `Here is the code:\n\n${editor.value}\n\nChange: ${message}`;
 
         try {
             const res = await makeApiCall(endpoint, apiKey, model, systemPrompt, userPrompt, 0.7, 16000);
 
             if (!res.ok) {
-                addMessage(state.uiLang === 'no' ? '❌ Kunne ikke oppdatere koden. Prøv igjen.' : '❌ Could not update code. Please try again.', 'system');
+                addMessage(isNo ? '❌ Kunne ikke oppdatere koden. Prøv igjen.' : '❌ Could not update code. Please try again.', 'system');
                 return;
             }
 
@@ -1371,37 +1345,27 @@ IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
             let content = extractContent(json, endpoint);
 
             if (content) {
-                // Clean up markdown code blocks if present
-                content = content.trim();
-                if (content.startsWith('```html')) {
-                    content = content.slice(7);
-                }
-                if (content.startsWith('```')) {
-                    content = content.slice(3);
-                }
-                if (content.endsWith('```')) {
-                    content = content.slice(0, -3);
-                }
-                content = content.trim();
+                content = content.trim()
+                    .replace(/^```html\n?/, '')
+                    .replace(/^```\n?/, '')
+                    .replace(/\n?```$/, '')
+                    .trim();
 
-                // Update editor and preview
                 editor.value = content;
                 updatePreview();
-
-                addMessage(state.uiLang === 'no' ? '✅ Koden er oppdatert!' : '✅ Code updated!', 'system');
+                addMessage(isNo ? '✅ Koden er oppdatert!' : '✅ Code updated!', 'system');
             } else {
-                addMessage(state.uiLang === 'no' ? '❌ Fikk ikke gyldig respons' : '❌ Did not receive valid response', 'system');
+                addMessage(isNo ? '❌ Fikk ikke gyldig respons' : '❌ Did not receive valid response', 'system');
             }
         } catch (e) {
             safeLogError('Chat error:', e);
-            addMessage(state.uiLang === 'no' ? '❌ Feil: ' + e.message : '❌ Error: ' + e.message, 'system');
+            addMessage(isNo ? '❌ Feil: ' + e.message : '❌ Error: ' + e.message, 'system');
         } finally {
             chatSendBtn.disabled = false;
             sendIcon.innerHTML = '➤';
         }
     };
 
-    // Chat event listeners
     chatSendBtn.addEventListener('click', sendChatMessage);
     chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -1410,28 +1374,29 @@ IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
         }
     });
 
-    // Save button - updates the main output
-    overlay.querySelector('#previewSave').addEventListener('click', () => {
-        const newCode = editor.value;
+    return chatInput;
+}
 
-        // Update state
+function setupPreviewActions(overlay, editor) {
+    const isNo = state.uiLang === 'no';
+
+    // Save button
+    overlay.querySelector('#previewSave').addEventListener('click', () => {
         state.last.parsed = {
-            index_html: newCode,
+            index_html: editor.value,
             files: state.last.parsed?.files || [],
             notes: ''
         };
         state.last.raw = JSON.stringify(state.last.parsed);
         state.last.hasIndex = true;
 
-        // Update output display
-        $('output').textContent = newCode;
+        $('output').textContent = editor.value;
         updateMetaDisplay();
         enableOutputActions(true);
 
-        // Visual feedback
         const saveBtn = overlay.querySelector('#previewSave');
         const originalText = saveBtn.innerHTML;
-        saveBtn.innerHTML = `✅ ${state.uiLang === 'no' ? 'Lagret!' : 'Saved!'}`;
+        saveBtn.innerHTML = `✅ ${isNo ? 'Lagret!' : 'Saved!'}`;
         saveBtn.classList.add('saved');
         setTimeout(() => {
             saveBtn.innerHTML = originalText;
@@ -1439,28 +1404,16 @@ IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
         }, 1500);
     });
 
-    // Close button
-    overlay.querySelector('#previewClose').addEventListener('click', () => {
-        overlay.remove();
-    });
-
-    // Click outside to close
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-            overlay.remove();
-        }
-    });
-
     // Open in new tab
     overlay.querySelector('#previewNewTab').addEventListener('click', () => {
-        const content = editor.value;
-        const newBlob = new Blob([content], { type: 'text/html' });
-        const newBlobUrl = URL.createObjectURL(newBlob);
-        window.open(newBlobUrl, '_blank');
-        setTimeout(() => URL.revokeObjectURL(newBlobUrl), 60000);
+        const blob = new Blob([editor.value], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank');
+        setTimeout(() => URL.revokeObjectURL(url), 60000);
     });
+}
 
-    // Resizable divider
+function setupPreviewResizer(overlay) {
     const divider = overlay.querySelector('#previewDivider');
     const editorPane = overlay.querySelector('.preview-editor-pane');
     let isResizing = false;
@@ -1471,31 +1424,66 @@ IMPORTANT: Return ONLY the code, no \`\`\`html tags or other text.`;
         e.preventDefault();
     });
 
-    document.addEventListener('mousemove', (e) => {
+    const onMouseMove = (e) => {
         if (!isResizing) return;
         const container = overlay.querySelector('.preview-split');
-        const containerRect = container.getBoundingClientRect();
-        const newWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+        const rect = container.getBoundingClientRect();
+        const newWidth = ((e.clientX - rect.left) / rect.width) * 100;
         if (newWidth > 20 && newWidth < 80) {
             editorPane.style.width = newWidth + '%';
         }
-    });
+    };
 
-    document.addEventListener('mouseup', () => {
+    const onMouseUp = () => {
         isResizing = false;
         document.body.style.cursor = '';
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    };
+}
+
+function setupPreviewCloseHandlers(overlay, cleanupResizer) {
+    const closeOverlay = () => {
+        cleanupResizer();
+        overlay.remove();
+    };
+
+    overlay.querySelector('#previewClose').addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeOverlay();
     });
 
-    // Escape to close
     const escHandler = (e) => {
         if (e.key === 'Escape') {
-            overlay.remove();
+            closeOverlay();
             document.removeEventListener('keydown', escHandler);
         }
     };
     document.addEventListener('keydown', escHandler);
+}
 
-    // Focus chat input
+// Main preview function - now orchestrates smaller helpers
+function openPreview() {
+    const parsed = state.last.parsed;
+    const html = (parsed && parsed.index_html) ? parsed.index_html : ($('output').textContent || '');
+
+    const overlay = document.createElement('div');
+    overlay.className = 'preview-overlay';
+    overlay.innerHTML = createPreviewModalHTML();
+    document.body.appendChild(overlay);
+
+    const { editor, updatePreview } = setupPreviewEditor(overlay, html);
+    const chatInput = setupPreviewChat(overlay, editor, updatePreview);
+    setupPreviewActions(overlay, editor);
+    const cleanupResizer = setupPreviewResizer(overlay);
+    setupPreviewCloseHandlers(overlay, cleanupResizer);
+
     setTimeout(() => chatInput.focus(), 100);
 }
 
@@ -1935,9 +1923,9 @@ function initEventListeners() {
 
     // Model change updates endpoint
     $('model').addEventListener('change', (e) => {
-        const val = e.target.value;
-        if (modelConfig[val]) {
-            $('endpoint').value = modelConfig[val];
+        const endpoint = getEndpointForModel(e.target.value);
+        if (endpoint) {
+            $('endpoint').value = endpoint;
         }
     });
 
