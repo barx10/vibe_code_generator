@@ -1222,7 +1222,8 @@ function createPreviewModalHTML() {
                         <iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts allow-same-origin allow-modals allow-forms allow-popups"></iframe>
                     </div>
                 </div>
-                <div class="preview-chat">
+                <div class="preview-chat" id="previewChat">
+                    <div class="preview-chat-resizer" id="chatResizer" title="${isNo ? 'Dra for å endre størrelse' : 'Drag to resize'}"></div>
                     <div class="preview-chat-header">
                         <span>🤖 ${isNo ? 'AI Assistent' : 'AI Assistant'}</span>
                         <button class="preview-btn-small" id="chatToggle" title="${isNo ? 'Vis/skjul chat' : 'Show/hide chat'}">▼</button>
@@ -1448,9 +1449,46 @@ function setupPreviewResizer(overlay) {
     };
 }
 
-function setupPreviewCloseHandlers(overlay, cleanupResizer) {
+function setupChatResizer(overlay) {
+    const resizer = overlay.querySelector('#chatResizer');
+    const chatPanel = overlay.querySelector('#previewChat');
+    let isResizing = false;
+    let startY = 0;
+    let startHeight = 0;
+
+    resizer.addEventListener('mousedown', (e) => {
+        isResizing = true;
+        startY = e.clientY;
+        startHeight = chatPanel.offsetHeight;
+        document.body.style.cursor = 'row-resize';
+        e.preventDefault();
+    });
+
+    const onMouseMove = (e) => {
+        if (!isResizing) return;
+        const deltaY = startY - e.clientY;
+        const newHeight = Math.min(Math.max(startHeight + deltaY, 100), window.innerHeight * 0.6);
+        chatPanel.style.height = newHeight + 'px';
+    };
+
+    const onMouseUp = () => {
+        isResizing = false;
+        document.body.style.cursor = '';
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+
+    return () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    };
+}
+
+function setupPreviewCloseHandlers(overlay, cleanupResizer, cleanupChatResizer) {
     const closeOverlay = () => {
         cleanupResizer();
+        if (cleanupChatResizer) cleanupChatResizer();
         overlay.remove();
     };
 
@@ -1482,7 +1520,8 @@ function openPreview() {
     const chatInput = setupPreviewChat(overlay, editor, updatePreview);
     setupPreviewActions(overlay, editor);
     const cleanupResizer = setupPreviewResizer(overlay);
-    setupPreviewCloseHandlers(overlay, cleanupResizer);
+    const cleanupChatResizer = setupChatResizer(overlay);
+    setupPreviewCloseHandlers(overlay, cleanupResizer, cleanupChatResizer);
 
     setTimeout(() => chatInput.focus(), 100);
 }
