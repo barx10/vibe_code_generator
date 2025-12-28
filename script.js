@@ -197,7 +197,6 @@ const i18n = {
         heroFeature1: 'Klar på sekunder',
         heroFeature2: 'Én fil, fungerer overalt',
         heroFeature3: 'Din nøkkel, ditt innhold',
-        toggle: 'Bytt',
         generator: 'Generator',
         help: 'Hjelp',
         about: 'Om',
@@ -235,22 +234,103 @@ const i18n = {
         showPreview: 'Vis forhåndsvisning',
         hidePreview: 'Skjul forhåndsvisning',
         statusReady: 'klar',
-        statusNeedKey: 'mangler API key',
+        statusNeedKey: 'mangler API-nøkkel',
         statusCalling: 'kaller modell',
         statusDone: 'ferdig',
         statusFail: 'feil',
+        statusNotConfigured: 'ikke konfigurert',
+        statusConfigured: 'konfigurert',
         outNone: 'ingen',
-        preview: '👁️ Preview',
+        output: 'Resultat',
+        preview: '👁️ Forhåndsvis',
         copy: '📋 Kopier',
         download: '💾 Last ned',
         downloadZip: '📦 Last ned ZIP',
         showFiles: '📂 Vis filer',
-        noteKey: 'Tips: legg aldri API key i generert kode',
+        projectTips: '💡 Prosjekt-tips',
+        noteKey: 'Tips: legg aldri API-nøkkel i generert kode',
         refineTitle: 'Ikke helt fornøyd?',
         refineDesc: 'Beskriv hva du vil endre eller forbedre',
         refinePlaceholder: "F.eks. 'Gjør knappene større', 'Legg til en footer', 'Endre fargetema til blått', 'Fiks buggen med...'",
         refineBtn: '🔄 Forbedre koden',
-        refineLoading: 'AI forbedrer koden din...'
+        refineLoading: 'AI forbedrer koden din...',
+        // Provider instructions
+        providerGoogleTitle: '🚀 Slik får du Google API-nøkkel:',
+        providerGoogleStep1: 'Gå til',
+        providerGoogleStep2: 'Logg inn med Google-kontoen din',
+        providerGoogleStep3: 'Klikk "Create API Key"',
+        providerGoogleStep4: 'Kopier nøkkelen (starter med',
+        providerOpenAITitle: '🔐 Slik får du OpenAI API-nøkkel:',
+        providerOpenAIStep1: 'Gå til',
+        providerOpenAIStep2: 'Opprett konto eller logg inn',
+        providerOpenAIStep3: 'Klikk "Create new secret key"',
+        providerOpenAIStep4: 'Kopier nøkkelen (starter med',
+        providerAnthropicTitle: '🟣 Slik får du Anthropic API-nøkkel:',
+        providerAnthropicStep1: 'Gå til',
+        providerAnthropicStep2: 'Opprett konto eller logg inn',
+        providerAnthropicStep3: 'Klikk "Create Key"',
+        providerAnthropicStep4: 'Kopier nøkkelen (starter med',
+        // Labels and placeholders
+        apiKeyLabel: 'API-nøkkel',
+        apiKeyPlaceholder: 'Lim inn din API-nøkkel her...',
+        advancedSettings: '⚙️ Avanserte innstillinger',
+        endpointLabel: 'API-endepunkt',
+        modelLabel: 'Modell',
+        rememberKeyLabel: 'Lagre nøkkel',
+        rememberNo: 'Ikke lagre (anbefalt)',
+        rememberLocal: 'Lagre lokalt i nettleser',
+        rememberHint: '⚠️ Lagring anbefales ikke på delte maskiner',
+        technologyLabel: 'Teknologi',
+        techHtmlCssJs: 'Ren HTML/CSS/JS (anbefalt)',
+        techTailwind: 'HTML + Tailwind CSS',
+        techReact: 'React (ESM - ingen npm)',
+        techCustom: 'Egendefinert...',
+        techCustomPlaceholder: 'Skriv inn teknologi...',
+        // Model groups
+        modelGeminiGroup: 'Google Gemini (Anbefalt)',
+        modelGeminiFast: 'Rask',
+        modelGeminiPowerful: 'Kraftig',
+        modelGeminiNewest: 'Nyeste',
+        modelGeminiBest: 'Beste',
+        modelOpenAIGroup: 'OpenAI',
+        modelSmart: 'Smart',
+        modelFast: 'Rask',
+        modelCheapest: 'Billigst',
+        modelBest: 'Beste',
+        modelPremium: 'Premium',
+        modelClaudeGroup: 'Anthropic (Claude)',
+        modelOtherGroup: 'Annet',
+        modelLocal: 'Lokal modell (LM Studio/Ollama)',
+        modelCustom: 'Egendefinert...',
+        // Placeholders
+        placeholderAppType: 'F.eks. quiz-spill, todo-liste, kalkulator, portfolio, chatbot...',
+        placeholderAudience: 'F.eks. elever, lærere, meg selv, bedrifter...',
+        placeholderMainFeature: 'Skriv hva brukeren skal kunne gjøre, hva som skal skje når de klikker, hvilke resultater de skal se...',
+        placeholderData: 'F.eks. brukerpoeng, historikk, favoritter, innstillinger...',
+        placeholderInteractions: 'F.eks. animasjoner, lydeffekter, visuell feedback...',
+        placeholderOther: 'F.eks. dark mode toggle, mobilvennlig, tilgjengelighet, spesifikke farger...',
+        // Suggestion chips
+        chipQuiz: '🎮 Quiz-spill',
+        chipTodo: '📝 Todo-liste',
+        chipCalculator: '🔢 Kalkulator',
+        chipPortfolio: '💼 Portfolio',
+        chipBudget: '💰 Budsjett-sporer',
+        chipWeather: '🌤️ Vær-app',
+        // Design options
+        designModern: 'Moderne & Glassmorphic',
+        designGamer: 'Gamer/Neon',
+        designColorful: 'Fargerik & Leken',
+        designProfessional: 'Profesjonell',
+        designDark: 'Dark Mode',
+        designGradient: 'Gradient & 3D',
+        // AI section
+        aiImproveBtn: '✨ Forbedre',
+        aiVersion: '🤖 AI-forbedret versjon:',
+        aiDiscard: 'Forkast',
+        aiApply: '✅ Bruk denne',
+        // Progress
+        progressStarting: 'Starter...',
+        promptTip: '💡 <strong>Tips:</strong> Beskriv steg-for-steg hva brukeren skal kunne gjøre. Vær så detaljert som mulig!'
     },
     en: {
         heroBadge: '✨ AI-powered code generator',
@@ -259,7 +339,6 @@ const i18n = {
         heroFeature1: 'Ready in seconds',
         heroFeature2: 'One file, works everywhere',
         heroFeature3: 'Your key, your content',
-        toggle: 'Switch',
         generator: 'Generator',
         help: 'Help',
         about: 'About',
@@ -301,18 +380,99 @@ const i18n = {
         statusCalling: 'calling model',
         statusDone: 'done',
         statusFail: 'error',
+        statusNotConfigured: 'not configured',
+        statusConfigured: 'configured',
         outNone: 'none',
+        output: 'Output',
         preview: '👁️ Preview',
         copy: '📋 Copy',
         download: '💾 Download',
         downloadZip: '📦 Download ZIP',
         showFiles: '📂 Show files',
+        projectTips: '💡 Project tips',
         noteKey: 'Tip: never put API keys in generated code',
         refineTitle: 'Not quite satisfied?',
         refineDesc: 'Describe what you want to change or improve',
         refinePlaceholder: "E.g. 'Make the buttons larger', 'Add a footer', 'Change color theme to blue', 'Fix the bug with...'",
         refineBtn: '🔄 Refine code',
-        refineLoading: 'AI is refining your code...'
+        refineLoading: 'AI is refining your code...',
+        // Provider instructions
+        providerGoogleTitle: '🚀 How to get Google API key:',
+        providerGoogleStep1: 'Go to',
+        providerGoogleStep2: 'Sign in with your Google account',
+        providerGoogleStep3: 'Click "Create API Key"',
+        providerGoogleStep4: 'Copy the key (starts with',
+        providerOpenAITitle: '🔐 How to get OpenAI API key:',
+        providerOpenAIStep1: 'Go to',
+        providerOpenAIStep2: 'Create account or sign in',
+        providerOpenAIStep3: 'Click "Create new secret key"',
+        providerOpenAIStep4: 'Copy the key (starts with',
+        providerAnthropicTitle: '🟣 How to get Anthropic API key:',
+        providerAnthropicStep1: 'Go to',
+        providerAnthropicStep2: 'Create account or sign in',
+        providerAnthropicStep3: 'Click "Create Key"',
+        providerAnthropicStep4: 'Copy the key (starts with',
+        // Labels and placeholders
+        apiKeyLabel: 'API Key',
+        apiKeyPlaceholder: 'Paste your API key here...',
+        advancedSettings: '⚙️ Advanced settings',
+        endpointLabel: 'API endpoint',
+        modelLabel: 'Model',
+        rememberKeyLabel: 'Save key',
+        rememberNo: 'Don\'t save (recommended)',
+        rememberLocal: 'Save locally in browser',
+        rememberHint: '⚠️ Saving not recommended on shared machines',
+        technologyLabel: 'Technology',
+        techHtmlCssJs: 'Pure HTML/CSS/JS (recommended)',
+        techTailwind: 'HTML + Tailwind CSS',
+        techReact: 'React (ESM - no npm)',
+        techCustom: 'Custom...',
+        techCustomPlaceholder: 'Enter technology...',
+        // Model groups
+        modelGeminiGroup: 'Google Gemini (Recommended)',
+        modelGeminiFast: 'Fast',
+        modelGeminiPowerful: 'Powerful',
+        modelGeminiNewest: 'Newest',
+        modelGeminiBest: 'Best',
+        modelOpenAIGroup: 'OpenAI',
+        modelSmart: 'Smart',
+        modelFast: 'Fast',
+        modelCheapest: 'Cheapest',
+        modelBest: 'Best',
+        modelPremium: 'Premium',
+        modelClaudeGroup: 'Anthropic (Claude)',
+        modelOtherGroup: 'Other',
+        modelLocal: 'Local model (LM Studio/Ollama)',
+        modelCustom: 'Custom...',
+        // Placeholders
+        placeholderAppType: 'E.g. quiz game, todo list, calculator, portfolio, chatbot...',
+        placeholderAudience: 'E.g. students, teachers, myself, businesses...',
+        placeholderMainFeature: 'Describe what the user should be able to do, what happens when they click, what results they see...',
+        placeholderData: 'E.g. user scores, history, favorites, settings...',
+        placeholderInteractions: 'E.g. animations, sound effects, visual feedback...',
+        placeholderOther: 'E.g. dark mode toggle, mobile-friendly, accessibility, specific colors...',
+        // Suggestion chips
+        chipQuiz: '🎮 Quiz game',
+        chipTodo: '📝 Todo list',
+        chipCalculator: '🔢 Calculator',
+        chipPortfolio: '💼 Portfolio',
+        chipBudget: '💰 Budget tracker',
+        chipWeather: '🌤️ Weather app',
+        // Design options
+        designModern: 'Modern & Glassmorphic',
+        designGamer: 'Gamer/Neon',
+        designColorful: 'Colorful & Playful',
+        designProfessional: 'Professional',
+        designDark: 'Dark Mode',
+        designGradient: 'Gradient & 3D',
+        // AI section
+        aiImproveBtn: '✨ Improve',
+        aiVersion: '🤖 AI-improved version:',
+        aiDiscard: 'Discard',
+        aiApply: '✅ Use this',
+        // Progress
+        progressStarting: 'Starting...',
+        promptTip: '💡 <strong>Tip:</strong> Describe step-by-step what the user should be able to do. Be as detailed as possible!'
     }
 };
 
@@ -725,7 +885,8 @@ function updateProgress(_percent, text) {
 
 function setApiState() {
     const key = $('apiKey').value.trim();
-    $('apiState').textContent = key ? 'ok' : i18n[state.uiLang].statusNeedKey;
+    const t = i18n[state.uiLang];
+    $('apiState').textContent = key ? t.statusConfigured : t.statusNotConfigured;
     $('apiState').className = 'status-badge ' + (key ? 'success' : 'error');
 }
 
@@ -2175,29 +2336,30 @@ function loadRememberedKey() {
 function applyLang() {
     const t = i18n[state.uiLang];
 
+    // Hero section
     $('heroBadge').textContent = t.heroBadge;
-    // Safe: heroTitle contains only static trusted HTML from i18n
     $('heroTitle').innerHTML = t.heroTitle;
     $('heroSubtitle').textContent = t.heroSubtitle;
     $('heroFeature1').textContent = t.heroFeature1;
     $('heroFeature2').textContent = t.heroFeature2;
     $('heroFeature3').textContent = t.heroFeature3;
 
-    // Language toggle with flags
-    const isNorwegian = state.uiLang === 'no';
-    $('langFlag').textContent = isNorwegian ? '🇳🇴' : '🇬🇧';
-    $('langCode').textContent = state.uiLang.toUpperCase();
-    $('toggleLangFlag').textContent = isNorwegian ? '🇬🇧' : '🇳🇴';
-    $('toggleLangText').textContent = isNorwegian ? 'EN' : 'NO';
+    // Language toggle - update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === state.uiLang);
+    });
 
+    // Tabs
     $('tabGen').textContent = t.generator;
     $('tabHelp').textContent = t.help;
     $('tabAbout').textContent = t.about;
 
+    // Wizard steps
     $('wizardStep1Label').textContent = t.wizardStep1;
     $('wizardStep2Label').textContent = t.wizardStep2;
     $('wizardStep3Label').textContent = t.wizardStep3;
 
+    // Step titles
     $('step1Title').textContent = t.step1Title;
     $('step1Desc').textContent = t.step1Desc;
     $('step2Title').textContent = t.step2Title;
@@ -2205,13 +2367,76 @@ function applyLang() {
     $('step3Title').textContent = t.step3Title;
     $('step3Desc').textContent = t.step3Desc;
 
+    // Security section
     $('securityTitle').textContent = t.securityTitle;
     $('securityDesc').textContent = t.securityDesc;
 
+    // Validation messages
     $('validationPendingText').textContent = t.validating;
     $('validationSuccessText').textContent = t.validSuccess;
     $('validationErrorText').textContent = t.validError;
 
+    // API key label and placeholder
+    $('lKey').textContent = t.apiKeyLabel;
+    $('apiKey').placeholder = t.apiKeyPlaceholder;
+
+    // Advanced settings
+    $('advancedSettingsLabel').textContent = t.advancedSettings;
+    $('lEndpoint').textContent = t.endpointLabel;
+    $('lModel').textContent = t.modelLabel;
+    $('lRemember').textContent = t.rememberKeyLabel;
+    $('hRemember').textContent = t.rememberHint;
+    $('lStack').textContent = t.technologyLabel;
+    $('stackCustom').placeholder = t.techCustomPlaceholder;
+
+    // Remember key options
+    const rememberKeySelect = $('rememberKey');
+    rememberKeySelect.options[0].textContent = t.rememberNo;
+    rememberKeySelect.options[1].textContent = t.rememberLocal;
+
+    // Stack options
+    const stackSelect = $('stack');
+    stackSelect.options[0].textContent = t.techHtmlCssJs;
+    stackSelect.options[1].textContent = t.techTailwind;
+    stackSelect.options[2].textContent = t.techReact;
+    stackSelect.options[3].textContent = t.techCustom;
+
+    // Model select optgroups and options
+    const modelSelect = $('model');
+    const optgroups = modelSelect.querySelectorAll('optgroup');
+    if (optgroups[0]) optgroups[0].label = t.modelGeminiGroup;
+    if (optgroups[1]) optgroups[1].label = t.modelOpenAIGroup;
+    if (optgroups[2]) optgroups[2].label = t.modelClaudeGroup;
+    if (optgroups[3]) optgroups[3].label = t.modelOtherGroup;
+
+    // Update model option text
+    const modelOptions = modelSelect.querySelectorAll('option');
+    modelOptions.forEach(opt => {
+        const val = opt.value;
+        if (val === 'gemini-2.5-flash') opt.textContent = `Gemini 2.5 Flash (${t.modelGeminiFast})`;
+        if (val === 'gemini-2.5-pro') opt.textContent = `Gemini 2.5 Pro (${t.modelGeminiPowerful})`;
+        if (val === 'gemini-3-flash-preview') opt.textContent = `Gemini 3 Flash (${t.modelGeminiNewest})`;
+        if (val === 'gemini-3-pro-preview') opt.textContent = `Gemini 3 Pro (${t.modelGeminiBest})`;
+        if (val === 'gpt-4.1') opt.textContent = `GPT-4.1 (${t.modelSmart})`;
+        if (val === 'gpt-5-mini') opt.textContent = `GPT-5 Mini (${t.modelFast})`;
+        if (val === 'gpt-5-nano') opt.textContent = `GPT-5 Nano (${t.modelCheapest})`;
+        if (val === 'gpt-5.2') opt.textContent = `GPT-5.2 (${t.modelBest})`;
+        if (val === 'gpt-5.2-pro') opt.textContent = `GPT-5.2 Pro (${t.modelPremium})`;
+        if (val === 'claude-opus-4-5-20250514') opt.textContent = `Claude Opus 4.5 (${t.modelBest})`;
+        if (val === 'claude-haiku-4-5-20251001') opt.textContent = `Claude Haiku 4.5 (${t.modelFast})`;
+        if (val === 'local-model') opt.textContent = t.modelLocal;
+        if (val === 'custom') opt.textContent = t.modelCustom;
+    });
+
+    // Buttons
+    $('step1NextBtn').querySelector('span').textContent = t.continueBtn;
+    $('step2BackBtn').querySelector('span:last-child').textContent = t.backBtn;
+    $('step2NextBtn').querySelector('span').textContent = t.generateBtn;
+    $('step3BackBtn').querySelector('span:last-child').textContent = t.backBtn;
+    $('btnRegenerate').querySelector('span').textContent = t.regenerateBtn;
+    $('btnStartOver').querySelector('span').textContent = t.startOverBtn;
+
+    // Prompt questions
     $('promptQ1Label').textContent = t.promptQ1;
     $('promptQ2Label').textContent = t.promptQ2;
     $('promptQ3Label').textContent = t.promptQ3;
@@ -2220,13 +2445,54 @@ function applyLang() {
     $('promptQ6Label').textContent = t.promptQ6;
     $('promptQ7Label').textContent = t.promptQ7;
 
+    // Placeholders
+    $('promptAppType').placeholder = t.placeholderAppType;
+    $('promptAudience').placeholder = t.placeholderAudience;
+    $('promptMainFeature').placeholder = t.placeholderMainFeature;
+    $('promptData').placeholder = t.placeholderData;
+    $('promptInteractions').placeholder = t.placeholderInteractions;
+    $('promptOther').placeholder = t.placeholderOther;
+
+    // Suggestion chips
+    const chips = document.querySelectorAll('.suggestion-chip');
+    const chipTexts = [t.chipQuiz, t.chipTodo, t.chipCalculator, t.chipPortfolio, t.chipBudget, t.chipWeather];
+    chips.forEach((chip, i) => {
+        if (chipTexts[i]) chip.textContent = chipTexts[i];
+    });
+
+    // Design options
+    const designNames = document.querySelectorAll('.design-name');
+    const designTexts = [t.designModern, t.designGamer, t.designColorful, t.designProfessional, t.designDark, t.designGradient];
+    designNames.forEach((el, i) => {
+        if (designTexts[i]) el.textContent = designTexts[i];
+    });
+
+    // Prompt tip
+    $('promptQ3Hint').innerHTML = t.promptTip;
+
+    // AI improvement section
     $('aiImproveTitle').textContent = t.aiImproveTitle;
     $('aiImproveDesc').textContent = t.aiImproveDesc;
+    $('aiImproveBtn').querySelector('span').textContent = t.aiImproveBtn;
+    $('aiPreviewLoading').querySelector('span:last-child').textContent = t.aiImproving;
+    $('aiPreviewLabel').textContent = t.aiVersion;
+    $('aiDiscardBtn').textContent = t.aiDiscard;
+    $('aiApplyBtn').textContent = t.aiApply;
 
+    // Prompt preview
     $('promptPreviewTitle').textContent = t.promptPreviewTitle;
     $('togglePromptText').textContent = t.showPreview;
 
+    // Output section
+    $('tOut').textContent = t.output;
+    $('btnPreview').textContent = t.preview;
+    $('btnCopy').textContent = t.copy;
+    $('btnDownload').textContent = t.download;
+    $('btnDownloadAll').textContent = t.downloadZip;
+    $('btnShowFiles').textContent = t.showFiles;
+    $('btnProjectTips').textContent = t.projectTips;
     $('noteKey').textContent = t.noteKey;
+    $('progressText').textContent = t.progressStarting;
 
     // Refine section
     $('refineTitle').textContent = t.refineTitle;
@@ -2253,9 +2519,11 @@ function tabTo(which) {
 
 function initEventListeners() {
     // Language toggle
-    $('toggleLang').addEventListener('click', () => {
-        state.uiLang = state.uiLang === 'no' ? 'en' : 'no';
-        applyLang();
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            state.uiLang = btn.dataset.lang;
+            applyLang();
+        });
     });
 
     // Tabs
