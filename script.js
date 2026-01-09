@@ -2415,9 +2415,25 @@ state.projectFiles = {};
 function showProjectTips() {
     const parsed = state.last.parsed;
     const html = parsed?.index_html || '';
+    const files = parsed?.files || [];
 
-    const extractedCss = extractCssFromHtml(html);
-    const extractedJs = extractJsFromHtml(html);
+    // Prøv å ekstrahere fra inline kode først
+    let extractedCss = extractCssFromHtml(html);
+    let extractedJs = extractJsFromHtml(html);
+
+    // Hvis ingen inline kode, sjekk om filene finnes i parsed.files
+    if (!extractedCss) {
+        const cssFile = files.find(f => f.path && (f.path.endsWith('.css') || f.path.includes('style')));
+        if (cssFile) extractedCss = cssFile.content;
+    }
+    if (!extractedJs) {
+        const jsFile = files.find(f => f.path && f.path.endsWith('.js') && !f.path.includes('config'));
+        if (jsFile) extractedJs = jsFile.content;
+    }
+
+    // Sjekk om HTML har eksterne referanser uten innhold
+    const hasExternalCss = !extractedCss && (html.includes('<link') && html.includes('.css'));
+    const hasExternalJs = !extractedJs && (html.includes('<script') && html.includes('src='));
 
     const projectFiles = [
         {
@@ -2427,7 +2443,8 @@ function showProjectTips() {
             description: 'Separert CSS-fil for bedre vedlikehold',
             canGenerate: !!extractedCss,
             content: extractedCss,
-            previewLines: extractedCss ? extractedCss.split('\n').slice(0, 5).join('\n') + (extractedCss.split('\n').length > 5 ? '\n...' : '') : null
+            previewLines: extractedCss ? extractedCss.split('\n').slice(0, 5).join('\n') + (extractedCss.split('\n').length > 5 ? '\n...' : '') : null,
+            noContentReason: hasExternalCss ? 'HTML refererer til ekstern CSS-fil' : 'Ingen CSS funnet i koden'
         },
         {
             id: 'script',
@@ -2436,7 +2453,8 @@ function showProjectTips() {
             description: 'Separert JavaScript-fil for funksjonalitet',
             canGenerate: !!extractedJs,
             content: extractedJs,
-            previewLines: extractedJs ? extractedJs.split('\n').slice(0, 5).join('\n') + (extractedJs.split('\n').length > 5 ? '\n...' : '') : null
+            previewLines: extractedJs ? extractedJs.split('\n').slice(0, 5).join('\n') + (extractedJs.split('\n').length > 5 ? '\n...' : '') : null,
+            noContentReason: hasExternalJs ? 'HTML refererer til eksternt script' : 'Ingen JavaScript funnet i koden'
         },
         {
             id: 'readme',
@@ -2552,7 +2570,7 @@ function showProjectTips() {
         if (!file.canGenerate) {
             const noContent = document.createElement('p');
             noContent.className = 'project-tip-no-content';
-            noContent.textContent = '⚠️ Ingen innhold å ekstrahere';
+            noContent.textContent = '⚠️ ' + (file.noContentReason || 'Ingen innhold å ekstrahere');
             label.appendChild(noContent);
         }
 
